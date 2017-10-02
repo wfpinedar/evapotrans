@@ -1,0 +1,46 @@
+CREATE TABLE estacion(
+codigo INTEGER PRIMARY KEY NOT NULL,
+tipo character varying,
+clase character varying,
+cat character varying,
+nombre character varying,
+municipio character varying,
+corriente character varying,
+departamento character varying,
+altitud real,
+cod_dep character varying,
+cod_muni character varying,
+longitud real,
+latitud real,
+estado character varying
+);
+
+CREATE TABLE variable(
+    codigo integer,
+    variable character varying,
+    anio real,
+    decada real,
+    dia real,
+    enero real,
+    febrero real,
+    marzo real,
+    abril real,
+    mayo real,
+    junio real,
+    julio real,
+    agosto real,
+    septiembre real,
+    octubre real,
+    noviembre real,
+    diciembre real
+    );
+
+CREATE TABLE muchas_estaciones_tiene_muchas_variables(
+id_estacion integer,
+id_variable integer,
+   FOREIGN KEY(id_estacion) REFERENCES estacion(codigo) ON DELETE CASCADE,
+   FOREIGN KEY(id_variable) REFERENCES variable(codigo) ON DELETE CASCADE
+);
+
+CREATE INDEX estindex ON muchas_estaciones_tiene_muchas_variables(id_estacion);
+CREATE INDEX varindex ON muchas_estaciones_tiene_muchas_variables(id_variable);

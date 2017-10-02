@@ -1,0 +1,74 @@
+CREATE TABLE estacion(
+codigo int4,
+tipo character varying,
+clase character varying,
+cat character varying,
+nombre character varying,
+municipio character varying,
+corriente character varying,
+departamento character varying,
+altitud float8,
+cod_dep character varying,
+cod_muni character varying,
+longitud float8,
+latitud float8,
+estado character varying
+);
+
+CREATE TABLE variable(
+    codigo int4,
+    variable character varying,
+    anio int4,
+    decada int4,
+    dia int4,
+    enero float8,
+    febrero float8,
+    marzo float8,
+    abril float8,
+    mayo float8,
+    junio float8,
+    julio float8,
+    agosto float8,
+    septiembre float8,
+    octubre float8,
+    noviembre float8,
+    diciembre float8
+    );
+	
+CREATE TABLE tmp_estacion(
+codigo int4,
+tipo character varying,
+clase character varying,
+cat character varying,
+nombre character varying,
+municipio character varying,
+corriente character varying,
+departamento character varying,
+altitud float8,
+cod_dep character varying,
+cod_muni character varying,
+longitud float8,
+latitud float8,
+estado character varying
+);
+
+CREATE TABLE tmp_variable(
+    codigo int4,
+    variable character varying,
+    anio float8,
+    decada float8,
+    dia float8,
+    enero float8,
+    febrero float8,
+    marzo float8,
+    abril float8,
+    mayo float8,
+    junio float8,
+    julio float8,
+    agosto float8,
+    septiembre float8,
+    octubre float8,
+    noviembre float8,
+    diciembre float8
+    );
+

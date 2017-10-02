@@ -1,0 +1,4 @@
+SELECT AddGeometryColumn('estacion' , 'geom', 4326, 'POINT', 'XYZ' );
+UPDATE estacion SET
+geom = ST_GeomFromText('POINTZ (' || cast(longitud as text) || ' ' || cast(latitud as text)||' ' || cast(altitud as text)|| ')' ,4326)
+WHERE 1=1;
