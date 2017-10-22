@@ -1,4 +1,5 @@
-﻿CREATE FUNCTION evot_pm_pcsv(double precision) RETURNS double precision 
+
+CREATE FUNCTION evot_pm_pcsv(double precision) RETURNS double precision 
     AS 'select 4098*(0.6108*exp((17.27*$1)/($1+237.3)))/(power(($1+237.3),2));'
     LANGUAGE SQL
     IMMUTABLE
@@ -21,7 +22,6 @@ CREATE FUNCTION evot_pm_param_a(double precision) RETURNS double precision
     LANGUAGE SQL
     IMMUTABLE
     RETURNS NULL ON NULL INPUT;
-
     
 CREATE FUNCTION evot_pm_param_b(double precision,double precision,double precision) RETURNS double precision 
     AS 'select evot_pm_pcsv($2)/(evot_pm_cpsi($1)+evot_pm_pcsv($2)*evot_pm_param_a($3));'
