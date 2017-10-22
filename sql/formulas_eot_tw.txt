@@ -14,7 +14,7 @@ CREATE FUNCTION evot_th_a(double precision) RETURNS double precision
     RETURNS NULL ON NULL INPUT;
 
 ---ETP = Evapotranspiracion potencial media diaria sin ajustar, en mm. (tmed anual, tmed mensual)---
-CREATE FUNCTION evot_th_ica(double precision,double precision) RETURNS double precision 
+CREATE FUNCTION evot_th_evot(double precision,double precision) RETURNS double precision 
     AS 'select 0.53*(10*($2/evot_th_ica($1)))^(evot_th_a($1));'
     LANGUAGE SQL
     IMMUTABLE
