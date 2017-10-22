@@ -35,6 +35,13 @@ CREATE FUNCTION evot_cht_cst(double precision) RETURNS double precision
     RETURNS NULL ON NULL INPUT;
 
 
+---Ce (porcentaje de brillo solar medio, en decimales)Eo---
+CREATE FUNCTION evot_cht_ce(double precision) RETURNS double precision 
+    AS 'select 0.97+0.03*($1/305);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
 select evot_cht_cst(0.59)
 
 0.34+0.856*(N41/O41)-0.196*(N41/O41)^2
