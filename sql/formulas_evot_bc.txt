@@ -1,0 +1,6 @@
+--evapotranspiración potencial mensual, en mm. (k coef del cultivo,%brillo mensual con respecto al año ej 8,3, tmed mensual)
+CREATE FUNCTION evot_bc_evot(double precision,double precision,double precision) RETURNS double precision 
+    AS 'select $1*$2*(0.457*$3+8.12);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
