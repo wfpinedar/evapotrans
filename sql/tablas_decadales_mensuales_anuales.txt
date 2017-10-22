@@ -1,5 +1,5 @@
 --- promedios decadales
-insert into  prom_dec 
+insert into  prom_dec
 SELECT  codigo,variable,anio,decada ,AVG(enero) AS enero, AVG(febrero) AS febrero,
 AVG(marzo) AS marzo, AVG(abril) AS abril, AVG(mayo ) AS mayo,
 AVG(junio) AS junio, AVG(julio) AS julio,AVG(agosto) AS agosto,
@@ -8,9 +8,9 @@ AVG(noviembre) AS noviembre, AVG(diciembre) AS diciembre
 FROM variable
 ---WHERE variable<>'EV' OR variable<>'HR'
 GROUP BY 1,2,3,4;
- 
+
 --- promedios mensuales
-insert into   prom_men 
+insert into   prom_men
 SELECT  codigo,variable,anio,SUM(decada), AVG(enero) AS enero, AVG(febrero) AS febrero,
 AVG(marzo) AS marzo, AVG(abril) AS abril, AVG(mayo ) AS mayo,
 AVG(junio) AS junio, AVG(julio) AS julio,AVG(agosto) AS agosto,
@@ -19,4 +19,59 @@ AVG(noviembre) AS noviembre, AVG(diciembre) AS diciembre
 FROM prom_dec
 ---WHERE variable<>'EV' OR variable<>'HR'
 GROUP BY 1,2,3;
- 
+
+--- promedios anuales
+insert into prom_anio
+Select codigo,variable,anio, anual,factor,anual/factor as prom_anual
+from
+(SELECT  codigo,variable,anio,
+SUM(decada),
+AVG(enero) AS enero, AVG(febrero) AS febrero,
+AVG(marzo) AS marzo, AVG(abril) AS abril, AVG(mayo ) AS mayo,
+AVG(junio) AS junio, AVG(julio) AS julio,AVG(agosto) AS agosto,
+AVG(septiembre) AS septiembre, AVG(octubre) AS octubre,
+AVG(noviembre) AS noviembre, AVG(diciembre) AS diciembre,
+case when AVG(enero) IS NULL then 0 else AVG(enero) end +
+case when AVG(febrero)IS NULL then 0 else AVG(febrero) end +
+case when AVG(marzo)IS NULL then 0 else AVG(marzo) end  +
+case when AVG(abril)IS NULL then 0 else AVG(abril) end +
+case when AVG(mayo)IS NULL then 0 else AVG(mayo) end +
+case when AVG(junio)IS NULL then 0 else AVG(junio) end +
+case when AVG(julio) IS NULL then 0 else AVG(julio) end +
+case when AVG(agosto) IS NULL then 0 else AVG(agosto) end +
+case when AVG(septiembre) IS NULL then 0 else AVG(septiembre) end +
+case when AVG(octubre) IS NULL then 0 else AVG(octubre) end +
+case when AVG(noviembre) IS NULL then 0 else AVG(noviembre) end +
+case when AVG(diciembre)IS NULL then 0 else AVG(diciembre) end AS anual,
+
+case when (
+case when AVG(enero) is null then 0 else 1 end +
+case when AVG(febrero) is null then 0 else 1 end +
+case when AVG(marzo) is null then 0 else 1 end +
+case when AVG(abril) is null then 0 else 1 end +
+case when AVG(mayo) is null then 0 else 1 end +
+case when AVG(junio) is null then 0 else 1 end +
+case when AVG(julio) is null then 0 else 1 end +
+case when AVG(agosto) is null then 0 else 1 end +
+case when AVG(septiembre) is null then 0 else 1 end +
+case when AVG(octubre) is null then 0 else 1 end +
+case when AVG(noviembre) is null then 0 else 1 end +
+case when AVG(diciembre) is null then 0 else 1 end) = 0 then 1 else
+(
+case when AVG(enero) is null then 0 else 1 end +
+case when AVG(febrero) is null then 0 else 1 end +
+case when AVG(marzo) is null then 0 else 1 end +
+case when AVG(abril) is null then 0 else 1 end +
+case when AVG(mayo) is null then 0 else 1 end +
+case when AVG(junio) is null then 0 else 1 end +
+case when AVG(julio) is null then 0 else 1 end +
+case when AVG(agosto) is null then 0 else 1 end +
+case when AVG(septiembre) is null then 0 else 1 end +
+case when AVG(octubre) is null then 0 else 1 end +
+case when AVG(noviembre) is null then 0 else 1 end +
+case when AVG(diciembre) is null then 0 else 1 end
+) end ::float as factor
+
+FROM prom_dec
+---WHERE variable<>'EV' OR variable<>'HR'
+GROUP BY 1,2,3) as anu
