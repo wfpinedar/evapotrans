@@ -10,7 +10,6 @@ def main():
     build_db()
     load_station(r"C:\datos_demo\Estaciones\estaciones.csv",DB,"estacion")
     add_geoColum(DB,"estacion")
-    load_variable(r"C:\datos_demo\Variables\AJUSTADAS\BRILLO_SOLAR.csv",DB,"variable")
     load_variable(r"C:\datos_demo\Variables\AJUSTADAS\TEMPERATURA_MEDIA.csv",DB,"variable")
     load_variable(r"C:\datos_demo\Variables\AJUSTADAS\TEMPERATURA_MINIMA.csv",DB,"variable")
     load_variable(r"C:\datos_demo\Variables\AJUSTADAS\TEMPERATURA_MAXIMA.csv",DB,"variable")
