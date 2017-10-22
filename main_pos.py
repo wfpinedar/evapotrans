@@ -22,6 +22,6 @@ def main():
 ##    make_excel(DB, get_var(DB, "BS"))
 ##    add_formulas(r".\sql\formulas_eot_pm.txt")
 ##    add_formulas(r".\sql\formulas_eot_tw.txt")
-
+##    add_formulas(r".\sql\formulas_eot_cht.txt")
 if __name__ == '__main__':
     main()
