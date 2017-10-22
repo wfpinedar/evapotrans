@@ -1,0 +1,161 @@
+﻿CREATE FUNCTION evot_pm_pcsv(double precision) RETURNS double precision 
+    AS 'select 4098*(0.6108*exp((17.27*$1)/($1+237.3)))/(power(($1+237.3),2));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_pat(double precision) RETURNS double precision 
+    AS 'select 101.3*power(((293-0.0065*$1)/(293)),5.26);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+    
+CREATE FUNCTION evot_pm_cpsi(double precision) RETURNS double precision 
+    AS 'select 0.665*power(10,-3)*evot_pm_pat($1);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_param_a(double precision) RETURNS double precision 
+    AS 'select 1+0.34*$1;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+    
+CREATE FUNCTION evot_pm_param_b(double precision,double precision,double precision) RETURNS double precision 
+    AS 'select evot_pm_pcsv($2)/(evot_pm_cpsi($1)+evot_pm_pcsv($2)*evot_pm_param_a($3));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+CREATE FUNCTION evot_pm_param_c(double precision,double precision,double precision) RETURNS double precision 
+    AS 'select evot_pm_cpsi($1)/(evot_pm_cpsi($1)+evot_pm_pcsv($2)*evot_pm_param_a($3));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+CREATE FUNCTION evot_pm_param_d(double precision,double precision) RETURNS double precision 
+    AS 'select (900/($1+273))*$2;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+CREATE FUNCTION evot_pm_eoTmax(double precision) RETURNS double precision 
+    AS 'select 0.6108*exp((17.27*$1)/($1+237.3));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_eoTmin(double precision) RETURNS double precision 
+    AS 'select 0.6108*exp((17.27*$1)/($1+237.3));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_es(double precision,double precision) RETURNS double precision 
+    AS 'select (evot_pm_eoTmax($1)+evot_pm_eoTmin($2))/2;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_eoTmed(double precision) RETURNS double precision 
+    AS 'select 0.6108*exp((17.27*$1)/($1+237.3));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+CREATE FUNCTION evot_pm_ea(double precision,double precision) RETURNS double precision 
+    AS 'select ($1/100)*evot_pm_eoTmed($2);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_param_e(double precision,double precision,double precision,double precision) RETURNS double precision 
+    AS 'select evot_pm_es($1,$2)- evot_pm_ea($3,$4);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_dr(character varying) RETURNS double precision 
+    AS 'select (1+0.033*COS((2*pi()/365)*(select dia_juliano from dia_juliano_pm where mes =$1)));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_decli_solar(character varying) RETURNS double precision 
+    AS 'select sin (2*pi()/365*(select dia_juliano from dia_juliano_pm where mes =$1)-1.39)*0.4093;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_ang_puesta(double precision, character varying) RETURNS double precision 
+    AS 'select acos(-tan(radians($1))*tan(evot_pm_decli_solar($2)));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_rad(double precision, character varying) RETURNS double precision 
+    AS 'select (((24*60)/pi())*0.082)*evot_pm_dr($2)*((evot_pm_ang_puesta($1,$2)*sin(($1*pi())/(180))*sin(evot_pm_decli_solar($2)))
+    +(cos(($1*pi())/(180))*cos(evot_pm_decli_solar($2))*sin(evot_pm_ang_puesta($1,$2))));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_n(double precision, character varying) RETURNS double precision 
+    AS 'select(24/pi())*evot_pm_ang_puesta($1,$2);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+    
+CREATE FUNCTION evot_pm_rrs(double precision, character varying,double precision) RETURNS double precision 
+    AS 'select (0.25+0.50*(($3)/(evot_pm_n($1, $2))))*evot_pm_rad($1,$2);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+CREATE FUNCTION evot_pm_rns(double precision, character varying,double precision) RETURNS double precision 
+    AS 'select evot_pm_rrs($1,$2,$3)*0.77;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+CREATE FUNCTION evot_pm_rso(double precision,double precision,character varying ) RETURNS double precision 
+    AS 'select (0.75+((2*$1)/(100000)))* evot_pm_rad($2,$3);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+CREATE FUNCTION evot_pm_rnl(double precision,double precision,double precision,double precision,double precision,character varying,double precision,double precision) RETURNS double precision 
+    AS 'select (4.903*10^(-9))*(((($1+273.16)^4) + (($2+273.16)^4))/2)*(0.34-0.14*sqrt(evot_pm_ea($4,$3)))*(1.35*((evot_pm_rrs($5,$6,$7))/(evot_pm_rso($8,$5,$6)))-0.35);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_param_f(double precision,double precision,double precision,double precision,double precision,character varying,double precision,double precision) RETURNS double precision 
+    AS 'select evot_pm_rns($5,$6,$7)- evot_pm_rnl($1,$2,$3,$4,$5,$6,$7,$8);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+CREATE FUNCTION evot_pm_param_g(double precision,double precision) RETURNS double precision 
+    AS 'select 0.14*($1-$2);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+CREATE FUNCTION evot_pm_eto(double precision,double precision,double precision,double precision,double precision,double precision,double precision,double precision,character varying) RETURNS double precision 
+    AS 'select (0.408*evot_pm_pcsv($5)*(evot_pm_param_f ($3,$4,$5,$6,$1,$9,$7,$2)-0)+evot_pm_cpsi($2)*evot_pm_param_d($5,$8)*evot_pm_param_e($3,$4,$6,$5))/(evot_pm_pcsv($5)+evot_pm_cpsi($2)*evot_pm_param_a($8));'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
