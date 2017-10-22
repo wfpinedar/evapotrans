@@ -72,3 +72,43 @@ CREATE TABLE tmp_variable(
     diciembre float8
     );
 
+
+create table dia_juliano_pm (
+mes character varying,
+dia_juliano integer
+);
+
+insert into dia_juliano_pm values ('enero',15);
+insert into dia_juliano_pm values ('febrero',46);
+insert into dia_juliano_pm values ('marzo',76);
+insert into dia_juliano_pm values ('abril',107);
+insert into dia_juliano_pm values ('mayo',137);
+insert into dia_juliano_pm values ('junio',168);
+insert into dia_juliano_pm values ('julio',198);
+insert into dia_juliano_pm values ('agosto',229);
+insert into dia_juliano_pm values ('septiembre',259);
+insert into dia_juliano_pm values ('octubre',290);
+insert into dia_juliano_pm values ('noviembre',320);
+insert into dia_juliano_pm values ('diciembre',351);
+
+create table dias
+(
+mes character varying not null,
+total integer not null,
+d1 integer not null,
+d2 integer not null,
+d3 integer not null
+);
+
+insert into dias values ('enero',31,10,10,11);
+insert into dias values ('marzo',31,10,10,11);
+insert into dias values ('mayo',31,10,10,11);
+insert into dias values ('julio',31,10,10,11);
+insert into dias values ('agosto',31,10,10,11);
+insert into dias values ('octubre',31,10,10,11);
+insert into dias values ('diciembre',31,10,10,11);
+insert into dias values ('abril',30,10,10,10);
+insert into dias values ('junio',30,10,10,10);
+insert into dias values ('septiembre',30,10,10,10);
+insert into dias values ('noviembre',30,10,10,10);
+insert into dias values ('febrero',28,10,10,8);
