@@ -1,0 +1,62 @@
+-- se tienen en cuentas las siguientes constantes --
+-- RTe 14.398--
+-- Tco = 20--
+-- Wo = 6.7--
+-- Hmo = 0.60--
+-- So = 0.80 --
+-- Eo = 305 --
+-- la velocidad el viento debe estar en km/h y multiplicarese por 0.777*3.6 para tenerla a 2m de altura--
+
+
+---Rtt (mes )---
+CREATE FUNCTION evot_cht_rtt(character varying) RETURNS double precision 
+    AS 'select 14.398 * dias.total::double precision from dias where dias.mes=$1 ;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+---Ctt (tmed mes)Tco---
+CREATE FUNCTION evot_cht_ctt(double precision) RETURNS double precision 
+    AS 'select 0.43+0.425*($1/20)+0.122*($1/20)^2;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+---Cwt (velocidad media del viento mes a 2m de altura, en km/hora)Wo---
+CREATE FUNCTION evot_cht_cwt(double precision) RETURNS double precision 
+    AS 'select 0.672+0.406*($1/6.7)-0.078*($1/6.7)^2;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+---Cht (humedad relativa, en decimales (hr))Hmo---
+CREATE FUNCTION evot_cht_cht(double precision) RETURNS double precision 
+    AS 'select 1.035+0.24*(($1/0.6)^2)-0.275*($1/0.6)^3;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+---Cst (porcentaje de brillo solar medio, en decimales)So---
+CREATE FUNCTION evot_cht_cst(double precision) RETURNS double precision 
+    AS 'select 0.34+0.856*($1/0.8)-0.196*($1/0.8)^2;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+---Ce (porcentaje de brillo solar medio, en decimales)Eo---
+CREATE FUNCTION evot_cht_ce(double precision) RETURNS double precision 
+    AS 'select 0.97+0.03*($1/305);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
+---Etp (ETP= Evapotranspiración potencial, en mm/mes (mes,tmed mens,Vel viento 2m km/h,humedad realtiva,porcentaje de brillo solar medio,elevación de la estación en metros)) todo mensual---
+CREATE FUNCTION evot_cht_evot(character varying, double precision,double precision,double precision,double precision,double precision) RETURNS double precision 
+    AS 'select 0.324*evot_cht_rtt($1)*evot_cht_ctt($2)*evot_cht_cwt($3)*evot_cht_cht($4)*evot_cht_cst($5)*evot_cht_ce($6);'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
