@@ -34,7 +34,7 @@ CREATE TABLE variable(
     noviembre float8,
     diciembre float8
     );
-	
+
 CREATE TABLE tmp_estacion(
 codigo int4,
 tipo character varying,
@@ -80,9 +80,9 @@ CREATE TABLE tmp_variable(
     latitud double precision,
     estado character varying,
     CONSTRAINT pk_estacion PRIMARY KEY (codigo)
- 
+
 );
- 
+
 CREATE TABLE public.prom_dec(
     codigo integer,
     variable character varying,
@@ -102,9 +102,9 @@ CREATE TABLE public.prom_dec(
     diciembre double precision,
     codigo_estacion integer,
     CONSTRAINT pk_prom_dec PRIMARY KEY (codigo,variable,anio,decada)
- 
+
 );
- 
+
 CREATE TABLE public.prom_men(
     codigo integer,
     variable character varying,
@@ -124,53 +124,20 @@ CREATE TABLE public.prom_men(
     diciembre double precision,
     codigo_estacion integer,
     CONSTRAINT pk_prom_men PRIMARY KEY (codigo,variable,anio)
- 
+
 );
- 
-CREATE TABLE public.sum_dec(
+
+CREATE TABLE public.prom_anio(
     codigo integer,
     variable character varying,
     anio integer,
-    decada integer,
-    enero double precision,
-    febrero double precision,
-    marzo double precision,
-    abril double precision,
-    mayo double precision,
-    junio double precision,
-    julio double precision,
-    agosto double precision,
-    septiembre double precision,
-    octubre double precision,
-    noviembre double precision,
-    diciembre double precision,
-    codigo_estacion integer,
-    CONSTRAINT pk_sem_dec PRIMARY KEY (codigo,variable,anio,decada)
- 
+    anual double precision,
+    factor double precision,
+    prom_anual double precision,
+    CONSTRAINT pk_prom_men PRIMARY KEY (codigo,variable,anio)
+
 );
- 
-CREATE TABLE public.sum_men(
-    codigo integer,
-    variable character varying,
-    anio integer,
-    sum bigint,
-    enero double precision,
-    febrero double precision,
-    marzo double precision,
-    abril double precision,
-    mayo double precision,
-    junio double precision,
-    julio double precision,
-    agosto double precision,
-    septiembre double precision,
-    octubre double precision,
-    noviembre double precision,
-    diciembre double precision,
-    codigo_estacion integer,
-    CONSTRAINT pk_sum_men PRIMARY KEY (codigo,variable,anio)
- 
-);
- 
+
 CREATE TABLE public.variable(
     codigo integer,
     variable character varying,
@@ -191,21 +158,21 @@ CREATE TABLE public.variable(
     diciembre double precision,
     codigo_estacion integer,
     CONSTRAINT pk_variable PRIMARY KEY (codigo,variable,anio,decada,dia)
- 
+
 );
- 
+
 ALTER TABLE public.variable ADD CONSTRAINT estacion_fk FOREIGN KEY (codigo_estacion)
 REFERENCES public.estacion (codigo) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
- 
+
 ALTER TABLE public.prom_dec ADD CONSTRAINT estacion_fk FOREIGN KEY (codigo_estacion)
 REFERENCES public.estacion (codigo) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
- 
+
 ALTER TABLE public.prom_men ADD CONSTRAINT estacion_fk FOREIGN KEY (codigo_estacion)
 REFERENCES public.estacion (codigo) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
- 
+
 
 
 CREATE TABLE tmp_variable(
