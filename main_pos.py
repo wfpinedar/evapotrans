@@ -23,5 +23,7 @@ def main():
 ##    add_formulas(r".\sql\formulas_eot_pm.txt")
 ##    add_formulas(r".\sql\formulas_eot_tw.txt")
 ##    add_formulas(r".\sql\formulas_eot_cht.txt")
+##    add_formulas(r".\sql\formulas_evot_bc.txt")
+##    add_formulas(r".\sql\formulas_evot_gl.txt")
 if __name__ == '__main__':
     main()
