@@ -134,7 +134,7 @@ CREATE TABLE public.prom_anio(
     anual double precision,
     factor double precision,
     prom_anual double precision,
-    CONSTRAINT pk_prom_men PRIMARY KEY (codigo,variable,anio)
+    CONSTRAINT pk_prom_anio PRIMARY KEY (codigo,variable,anio)
 
 );
 
