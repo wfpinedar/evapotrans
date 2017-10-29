@@ -1,0 +1,57 @@
+select codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, estado, anio,
+evot_bc_evot(1, br_enero/anual,enero) as evt_enero,
+evot_bc_evot(1, br_febrero/anual,febrero) as evt_febrero,
+evot_bc_evot(1, br_marzo/anual,marzo) as evt_marzo,
+evot_bc_evot(1, br_abril/anual,abril) as evt_abril,
+evot_bc_evot(1, br_mayo/anual,mayo) as evt_mayo,
+evot_bc_evot(1, br_junio/anual,junio) as evt_junio,
+evot_bc_evot(1, br_julio/anual,julio) as evt_julio,
+evot_bc_evot(1, br_agosto/anual,agosto) as evt_agosto,
+evot_bc_evot(1, br_septiembre/anual,septiembre) as evt_septiembre,
+evot_bc_evot(1, br_octubre/anual,octubre) as evt_octubre,
+evot_bc_evot(1, br_noviembre/anual,noviembre) as evt_noviembre,
+evot_bc_evot(1, br_diciembre/anual,diciembre) as evt_diciembre
+from
+(
+Select  estacion.*,
+case when brillo.enero IS NULL then 0 else brillo.enero end +
+ case when brillo.febrero IS NULL then 0 else brillo.febrero end +
+ case when brillo.marzo IS NULL then 0 else brillo.marzo end +
+ case when brillo.abril IS NULL then 0 else brillo.abril  end +
+ case when brillo.mayo  IS NULL then 0 else brillo.mayo end +
+ case when brillo.junio IS NULL then 0 else brillo.junio end +
+ case when brillo.julio IS NULL then 0 else brillo.julio end +
+ case when brillo.agosto IS NULL then 0 else brillo.agosto end  +
+ case when brillo.septiembre IS NULL then 0 else brillo.septiembre end +
+ case when brillo.octubre IS NULL then 0 else brillo.octubre end +
+ case when brillo.noviembre IS NULL then 0 else brillo.noviembre end +
+ case when brillo.diciembre IS NULL then 0 else brillo.diciembre end as anual,  --Brillo anual
+tmedia.enero,tmedia.febrero,tmedia.marzo,tmedia.abril,tmedia.mayo,tmedia.junio,tmedia.julio,tmedia.agosto,tmedia.septiembre,tmedia.octubre,
+tmedia.noviembre,tmedia.diciembre,
+brillo.anio,brillo.enero as br_enero,brillo.febrero as br_febrero,brillo.marzo as br_marzo,brillo.abril as br_abril,brillo.mayo as br_mayo,
+brillo.junio as br_junio,brillo.julio as br_julio,brillo.agosto as br_agosto,brillo.septiembre as br_septiembre,
+brillo.octubre as br_octubre,brillo.noviembre as br_noviembre,brillo.diciembre as br_diciembre
+--select *
+from
+(SELECT
+  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado FROM estacion) AS estacion,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='BS') AS brillo
+WHERE
+estacion.codigo =  tmedia.codigo AND
+estacion.codigo =  brillo.codigo AND
+tmedia.codigo= brillo.codigo AND
+tmedia.anio =  brillo.anio) as tmp

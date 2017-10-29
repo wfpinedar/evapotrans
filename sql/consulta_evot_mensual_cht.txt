@@ -1,0 +1,44 @@
+Select  estacion.*, tmedia.anio,
+evot_cht_evot('enero',tmedia.enero,velocidad.enero*0.777*3.6,humedad.enero/100,brillo.enero,estacion.altitud) as evt_enero,
+evot_cht_evot('febrero',tmedia.febrero,velocidad.febrero*0.777*3.6,humedad.febrero/100,brillo.febrero,estacion.altitud) as evt_febrero,
+evot_cht_evot('marzo',tmedia.marzo,velocidad.marzo*0.777*3.6,humedad.marzo/100,brillo.marzo,estacion.altitud) as evt_marzo,
+evot_cht_evot('abril',tmedia.abril,velocidad.abril*0.777*3.6,humedad.abril/100,brillo.abril,estacion.altitud) as evt_abril,
+evot_cht_evot('mayo',tmedia.mayo,velocidad.mayo*0.777*3.6,humedad.mayo/100,brillo.mayo,estacion.altitud) as evt_mayo,
+evot_cht_evot('junio',tmedia.junio,velocidad.junio*0.777*3.6,humedad.junio/100,brillo.junio,estacion.altitud) as evt_junio,
+evot_cht_evot('julio',tmedia.julio,velocidad.julio*0.777*3.6,humedad.julio/100,brillo.julio,estacion.altitud) as evt_julio,
+evot_cht_evot('agosto',tmedia.agosto,velocidad.agosto*0.777*3.6,humedad.agosto/100,brillo.agosto,estacion.altitud) as evt_agosto,
+evot_cht_evot('septiembre',tmedia.septiembre,velocidad.septiembre*0.777*3.6,humedad.septiembre/100,brillo.septiembre,estacion.altitud) as evt_septiembre,
+evot_cht_evot('enero',tmedia.octubre,velocidad.octubre*0.777*3.6,humedad.octubre/100,brillo.octubre,estacion.altitud) as evt_octubre,
+evot_cht_evot('enero',tmedia.noviembre,velocidad.noviembre*0.777*3.6,humedad.noviembre/100,brillo.noviembre,estacion.altitud) as evt_noviembre,
+evot_cht_evot('enero',tmedia.diciembre,velocidad.diciembre*0.777*3.6,humedad.diciembre/100,brillo.diciembre,estacion.altitud) as evt_diciembre,
+evot_cht_evot('enero',28.4,1.6*0.777*3.6,0.69,0.59,400) as evt_enero
+--select *
+from
+(SELECT
+  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado FROM estacion) AS estacion,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='BS') AS brillo,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='HR') AS humedad,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='VD') AS velocidad
+WHERE
+estacion.codigo =  tmedia.codigo AND
+estacion.codigo =  brillo.codigo AND
+estacion.codigo =  humedad.codigo AND
+estacion.codigo =  velocidad.codigo AND
+velocidad.anio =  tmedia.anio AND
+tmedia.anio =  brillo.anio AND
+brillo.anio =  humedad.anio AND
+humedad.anio =  velocidad.anio
