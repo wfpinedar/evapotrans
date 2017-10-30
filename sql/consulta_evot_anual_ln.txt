@@ -1,0 +1,57 @@
+Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+etp_m_febrero,etp_m_marzo,etp_m_abril,etp_m_mayo,etp_m_junio,etp_m_julio,etp_m_agosto,etp_m_septiembre,etp_m_octubre,etp_m_noviembre,etp_m_diciembre,
+etp_m_febrero+etp_m_marzo+etp_m_abril+etp_m_mayo+etp_m_junio+etp_m_julio+etp_m_agosto+etp_m_septiembre+etp_m_octubre+etp_m_noviembre+etp_m_diciembre as anual
+from
+(
+select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,tmax,tmin,
+anio, (select total from dias where mes ='enero') * evot_ln_evot(enero,latitud,altitud,tmax,tmin) as etp_m_enero,
+ (select total from dias where mes ='febrero') * evot_ln_evot(febrero,latitud,altitud,tmax,tmin) as etp_m_febrero,
+ (select total from dias where mes ='marzo') * evot_ln_evot(marzo,latitud,altitud,tmax,tmin) as etp_m_marzo,
+ (select total from dias where mes ='abril') * evot_ln_evot(abril,latitud,altitud,tmax,tmin) as etp_m_abril,
+ (select total from dias where mes ='mayo') * evot_ln_evot(mayo,latitud,altitud,tmax,tmin) as etp_m_mayo,
+ (select total from dias where mes ='junio') * evot_ln_evot(junio,latitud,altitud,tmax,tmin) as etp_m_junio,
+ (select total from dias where mes ='julio') * evot_ln_evot(julio,latitud,altitud,tmax,tmin) as etp_m_julio,
+ (select total from dias where mes ='agosto') * evot_ln_evot(agosto,latitud,altitud,tmax,tmin) as etp_m_agosto,
+ (select total from dias where mes ='septiembre') * evot_ln_evot(septiembre,latitud,altitud,tmax,tmin) as etp_m_septiembre,
+ (select total from dias where mes ='octubre') * evot_ln_evot(octubre,latitud,altitud,tmax,tmin) as etp_m_octubre,
+ (select total from dias where mes ='noviembre') * evot_ln_evot(noviembre,latitud,altitud,tmax,tmin) as etp_m_noviembre,
+ (select total from dias where mes ='diciembre') * evot_ln_evot(diciembre,latitud,altitud,tmax,tmin) as etp_m_diciembre
+from
+(SELECT estacion.codigo, estacion.tipo,estacion.clase,estacion.cat, estacion.nombre, estacion.municipio, estacion.corriente,
+  estacion.departamento, estacion.altitud, estacion.cod_dep, estacion.cod_muni, estacion.longitud, estacion.latitud, estacion.estado,
+  estacion.geom,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre,
+case when enero IS NULL then 0 else enero end +
+ case when febrero IS NULL then 0 else febrero end +
+ case when marzo IS NULL then 0 else marzo end +
+ case when abril IS NULL then 0 else abril  end +
+ case when mayo  IS NULL then 0 else mayo end +
+ case when junio IS NULL then 0 else junio end +
+ case when julio IS NULL then 0 else julio end +
+ case when agosto IS NULL then 0 else agosto end  +
+ case when septiembre IS NULL then 0 else septiembre end +
+ case when octubre IS NULL then 0 else octubre end +
+ case when noviembre IS NULL then 0 else noviembre end +
+ case when diciembre IS NULL then 0 else diciembre end as anual,  --Tmedia anual
+ LEAST (enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre) as tmin,
+GREATEST (enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre) as tmax
+ FROM
+ (SELECT
+  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado,
+  estacion.geom FROM estacion) AS estacion,
+  (SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia
+ WHERE
+estacion.codigo = tmedia.codigo) as tmp
+) as tmp2
