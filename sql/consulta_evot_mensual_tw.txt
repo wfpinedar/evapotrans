@@ -1,5 +1,10 @@
-select codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre,anual/factor as p_anual,
- (select total from dias where mes ='enero') * evot_th_evot(enero,(anual/factor)) as etp_m_enero,
+Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
+etp_m_febrero,etp_m_marzo,etp_m_abril,etp_m_mayo,etp_m_junio,etp_m_julio,etp_m_agosto,etp_m_septiembre,etp_m_octubre,etp_m_noviembre,etp_m_diciembre,
+etp_m_febrero+etp_m_marzo+etp_m_abril+etp_m_mayo+etp_m_junio+etp_m_julio+etp_m_agosto+etp_m_septiembre+etp_m_octubre+etp_m_noviembre+etp_m_diciembre as anual
+from
+(
+select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
+anio, (select total from dias where mes ='enero') * evot_th_evot(enero,(anual/factor)) as etp_m_enero,
  (select total from dias where mes ='febrero') * evot_th_evot(febrero,(anual/factor)) as etp_m_febrero,
  (select total from dias where mes ='marzo') * evot_th_evot(marzo,(anual/factor)) as etp_m_marzo,
  (select total from dias where mes ='abril') * evot_th_evot(abril,(anual/factor)) as etp_m_abril,
@@ -12,7 +17,9 @@ select codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,
  (select total from dias where mes ='noviembre') * evot_th_evot(noviembre,(anual/factor)) as etp_m_noviembre,
  (select total from dias where mes ='diciembre') * evot_th_evot(diciembre,(anual/factor)) as etp_m_diciembre
 from
-(SELECT estacion.codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre,
+(SELECT estacion.codigo, estacion.tipo,estacion.clase,estacion.cat, estacion.nombre, estacion.municipio, estacion.corriente,
+  estacion.departamento, estacion.altitud, estacion.cod_dep, estacion.cod_muni, estacion.longitud, estacion.latitud, estacion.estado,
+  estacion.geom,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre,
 case when enero IS NULL then 0 else enero end +
  case when febrero IS NULL then 0 else febrero end +
  case when marzo IS NULL then 0 else marzo end +
@@ -65,7 +72,9 @@ case when enero IS NULL then 0 else enero end +
   estacion.cod_muni,
   estacion.longitud,
   estacion.latitud,
-  estacion.estado FROM estacion) AS estacion,
+  estacion.estado,
+  estacion.geom FROM estacion) AS estacion,
   (SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia
  WHERE
 estacion.codigo = tmedia.codigo) as tmp
+) as tmp2
