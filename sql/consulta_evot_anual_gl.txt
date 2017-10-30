@@ -1,0 +1,72 @@
+SELECT codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, estado, geom, anio,
+evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
+case when evt_enero IS NULL then 0 else evt_enero end +
+ case when evt_febrero IS NULL then 0 else evt_febrero end +
+ case when evt_marzo IS NULL then 0 else evt_marzo end +
+ case when evt_abril IS NULL then 0 else evt_abril  end +
+ case when evt_mayo  IS NULL then 0 else evt_mayo end +
+ case when evt_junio IS NULL then 0 else evt_junio end +
+ case when evt_julio IS NULL then 0 else evt_julio end +
+ case when evt_agosto IS NULL then 0 else evt_agosto end  +
+ case when evt_septiembre IS NULL then 0 else evt_septiembre end +
+ case when evt_octubre IS NULL then 0 else evt_octubre end +
+ case when evt_noviembre IS NULL then 0 else evt_noviembre end +
+ case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual
+FROM
+(select codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, estado, geom, anio,
+evot_gl_evot(hm_enero,enero) as evt_enero,
+evot_gl_evot( hm_febrero ,febrero) as evt_febrero,
+evot_gl_evot( hm_marzo ,marzo) as evt_marzo,
+evot_gl_evot( hm_abril ,abril) as evt_abril,
+evot_gl_evot( hm_mayo ,mayo) as evt_mayo,
+evot_gl_evot( hm_junio ,junio) as evt_junio,
+evot_gl_evot( hm_julio ,julio) as evt_julio,
+evot_gl_evot( hm_agosto ,agosto) as evt_agosto,
+evot_gl_evot( hm_septiembre ,septiembre) as evt_septiembre,
+evot_gl_evot( hm_octubre ,octubre) as evt_octubre,
+evot_gl_evot( hm_noviembre ,noviembre) as evt_noviembre,
+evot_gl_evot( hm_diciembre ,diciembre) as evt_diciembre
+from
+(
+Select  estacion.*,
+case when humedad.enero IS NULL then 0 else humedad.enero end +
+ case when humedad.febrero IS NULL then 0 else humedad.febrero end +
+ case when humedad.marzo IS NULL then 0 else humedad.marzo end +
+ case when humedad.abril IS NULL then 0 else humedad.abril  end +
+ case when humedad.mayo  IS NULL then 0 else humedad.mayo end +
+ case when humedad.junio IS NULL then 0 else humedad.junio end +
+ case when humedad.julio IS NULL then 0 else humedad.julio end +
+ case when humedad.agosto IS NULL then 0 else humedad.agosto end  +
+ case when humedad.septiembre IS NULL then 0 else humedad.septiembre end +
+ case when humedad.octubre IS NULL then 0 else humedad.octubre end +
+ case when humedad.noviembre IS NULL then 0 else humedad.noviembre end +
+ case when humedad.diciembre IS NULL then 0 else humedad.diciembre end as anual,  --Brillo anual
+tmedia.enero,tmedia.febrero,tmedia.marzo,tmedia.abril,tmedia.mayo,tmedia.junio,tmedia.julio,tmedia.agosto,tmedia.septiembre,tmedia.octubre,
+tmedia.noviembre,tmedia.diciembre,
+humedad.anio,humedad.enero as hm_enero,humedad.febrero as hm_febrero,humedad.marzo as hm_marzo,humedad.abril as hm_abril,humedad.mayo as hm_mayo,
+humedad.junio as hm_junio,humedad.julio as hm_julio,humedad.agosto as hm_agosto,humedad.septiembre as hm_septiembre,
+humedad.octubre as hm_octubre,humedad.noviembre as hm_noviembre,humedad.diciembre as hm_diciembre
+from
+(SELECT
+  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado,
+  estacion.geom FROM estacion) AS estacion,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='HR') AS humedad
+WHERE
+estacion.codigo =  tmedia.codigo AND
+estacion.codigo =  humedad.codigo AND
+tmedia.codigo= humedad.codigo AND
+tmedia.anio =  humedad.anio) as tmp ) as tmp2
