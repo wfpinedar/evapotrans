@@ -1,4 +1,19 @@
-select codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, estado, anio,
+SELECT codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, estado, geom, anio,
+evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
+case when evt_enero IS NULL then 0 else evt_enero end +
+ case when evt_febrero IS NULL then 0 else evt_febrero end +
+ case when evt_marzo IS NULL then 0 else evt_marzo end +
+ case when evt_abril IS NULL then 0 else evt_abril  end +
+ case when evt_mayo  IS NULL then 0 else evt_mayo end +
+ case when evt_junio IS NULL then 0 else evt_junio end +
+ case when evt_julio IS NULL then 0 else evt_julio end +
+ case when evt_agosto IS NULL then 0 else evt_agosto end  +
+ case when evt_septiembre IS NULL then 0 else evt_septiembre end +
+ case when evt_octubre IS NULL then 0 else evt_octubre end +
+ case when evt_noviembre IS NULL then 0 else evt_noviembre end +
+ case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual
+FROM
+(select codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, estado, geom, anio,
 evot_bc_evot(1, 100*br_enero/anual,enero) as evt_enero,
 evot_bc_evot(1, 100*br_febrero/anual,febrero) as evt_febrero,
 evot_bc_evot(1, 100*br_marzo/anual,marzo) as evt_marzo,
@@ -31,7 +46,6 @@ tmedia.noviembre,tmedia.diciembre,
 brillo.anio,brillo.enero as br_enero,brillo.febrero as br_febrero,brillo.marzo as br_marzo,brillo.abril as br_abril,brillo.mayo as br_mayo,
 brillo.junio as br_junio,brillo.julio as br_julio,brillo.agosto as br_agosto,brillo.septiembre as br_septiembre,
 brillo.octubre as br_octubre,brillo.noviembre as br_noviembre,brillo.diciembre as br_diciembre
---select *
 from
 (SELECT
   estacion.codigo,
@@ -47,11 +61,12 @@ from
   estacion.cod_muni,
   estacion.longitud,
   estacion.latitud,
-  estacion.estado FROM estacion) AS estacion,
+  estacion.estado,
+  estacion.geom FROM estacion) AS estacion,
 (SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia,
 (SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='BS') AS brillo
 WHERE
 estacion.codigo =  tmedia.codigo AND
 estacion.codigo =  brillo.codigo AND
 tmedia.codigo= brillo.codigo AND
-tmedia.anio =  brillo.anio) as tmp
+tmedia.anio =  brillo.anio) as tmp ) as tmp2
