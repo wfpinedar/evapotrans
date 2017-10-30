@@ -1,0 +1,119 @@
+SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
+evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
+case when evt_enero IS NULL then 0 else evt_enero end +
+ case when evt_febrero IS NULL then 0 else evt_febrero end +
+ case when evt_marzo IS NULL then 0 else evt_marzo end +
+ case when evt_abril IS NULL then 0 else evt_abril  end +
+ case when evt_mayo  IS NULL then 0 else evt_mayo end +
+ case when evt_junio IS NULL then 0 else evt_junio end +
+ case when evt_julio IS NULL then 0 else evt_julio end +
+ case when evt_agosto IS NULL then 0 else evt_agosto end  +
+ case when evt_septiembre IS NULL then 0 else evt_septiembre end +
+ case when evt_octubre IS NULL then 0 else evt_octubre end +
+ case when evt_noviembre IS NULL then 0 else evt_noviembre end +
+ case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual
+FROM
+(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anual,
+case when hm_enero <= 50 then evot_turc_etp_inf50(latitud,'enero',enero,br_enero,0.5,hm_enero) else evot_turc_etp_sup50(latitud,'enero',enero,br_enero,0.5) end as evt_enero,
+case when hm_febrero <= 50 then evot_turc_etp_inf50(latitud,'febrero',febrero,br_febrero,0.5,hm_febrero) else evot_turc_etp_sup50(latitud,'febrero',febrero,br_febrero,0.5) end as evt_febrero,
+case when hm_marzo <= 50 then evot_turc_etp_inf50(latitud,'marzo',marzo,br_marzo,0.5,hm_marzo) else evot_turc_etp_sup50(latitud,'marzo',marzo,br_marzo,0.5) end as evt_marzo,
+case when hm_abril <= 50 then evot_turc_etp_inf50(latitud,'abril',abril,br_abril,0.5,hm_abril) else evot_turc_etp_sup50(latitud,'abril',abril,br_abril,0.5) end as evt_abril,
+case when hm_mayo <= 50 then evot_turc_etp_inf50(latitud,'mayo',mayo,br_mayo,0.5,hm_mayo) else evot_turc_etp_sup50(latitud,'mayo',mayo,br_mayo,0.5) end as evt_mayo,
+case when hm_junio <= 50 then evot_turc_etp_inf50(latitud,'junio',junio,br_junio,0.5,hm_junio) else evot_turc_etp_sup50(latitud,'junio',junio,br_junio,0.5) end as evt_junio,
+case when hm_julio <= 50 then evot_turc_etp_inf50(latitud,'julio',julio,br_julio,0.5,hm_julio) else evot_turc_etp_sup50(latitud,'julio',julio,br_julio,0.5) end as evt_julio,
+case when hm_agosto <= 50 then evot_turc_etp_inf50(latitud,'agosto',agosto,br_agosto,0.5,hm_agosto) else evot_turc_etp_sup50(latitud,'agosto',agosto,br_agosto,0.5) end as evt_agosto,
+case when hm_septiembre <= 50 then evot_turc_etp_inf50(latitud,'septiembre',septiembre,br_septiembre,0.5,hm_septiembre) else evot_turc_etp_sup50(latitud,'septiembre',septiembre,br_septiembre,0.5) end as evt_septiembre,
+case when hm_octubre <= 50 then evot_turc_etp_inf50(latitud,'octubre',octubre,br_octubre,0.5,hm_octubre) else evot_turc_etp_sup50(latitud,'octubre',octubre,br_octubre,0.5) end as evt_octubre,
+case when hm_noviembre <= 50 then evot_turc_etp_inf50(latitud,'noviembre',noviembre,br_noviembre,0.5,hm_noviembre) else evot_turc_etp_sup50(latitud,'noviembre',noviembre,br_noviembre,0.5) end as evt_noviembre,
+case when hm_diciembre <= 50 then evot_turc_etp_inf50(latitud,'diciembre',diciembre,br_diciembre,0.5,hm_diciembre) else evot_turc_etp_sup50(latitud,'diciembre',diciembre,br_diciembre,0.5) end as evt_diciembre
+FROM
+(Select  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado,
+  estacion.geom,
+case when brillo.enero IS NULL then 0 else brillo.enero end +
+ case when brillo.febrero IS NULL then 0 else brillo.febrero end +
+ case when brillo.marzo IS NULL then 0 else brillo.marzo end +
+ case when brillo.abril IS NULL then 0 else brillo.abril  end +
+ case when brillo.mayo  IS NULL then 0 else brillo.mayo end +
+ case when brillo.junio IS NULL then 0 else brillo.junio end +
+ case when brillo.julio IS NULL then 0 else brillo.julio end +
+ case when brillo.agosto IS NULL then 0 else brillo.agosto end  +
+ case when brillo.septiembre IS NULL then 0 else brillo.septiembre end +
+ case when brillo.octubre IS NULL then 0 else brillo.octubre end +
+ case when brillo.noviembre IS NULL then 0 else brillo.noviembre end +
+ case when brillo.diciembre IS NULL then 0 else brillo.diciembre end as anual,  --Brillo anual
+ tmedia.enero,
+ tmedia.febrero,
+ tmedia.marzo,
+ tmedia.abril,
+ tmedia.mayo,
+ tmedia.junio,
+ tmedia.julio,
+ tmedia.agosto,
+ tmedia.septiembre,
+ tmedia.octubre,
+ tmedia.noviembre,
+ tmedia.diciembre,
+ brillo.anio,
+ brillo.enero as br_enero,
+ brillo.febrero as br_febrero,
+ brillo.marzo as br_marzo,
+ brillo.abril as br_abril,
+ brillo.mayo as br_mayo,
+ brillo.junio as br_junio,
+ brillo.julio as br_julio,
+ brillo.agosto as br_agosto,
+ brillo.septiembre as br_septiembre,
+ brillo.octubre as br_octubre,
+ brillo.noviembre as br_noviembre,
+ brillo.diciembre as br_diciembre,
+ humedad.enero as hm_enero,
+ humedad.febrero as hm_febrero,
+ humedad.marzo as hm_marzo,
+ humedad.abril as hm_abril,
+ humedad.mayo as hm_mayo,
+ humedad.junio as hm_junio,
+ humedad.julio as hm_julio,
+ humedad.agosto as hm_agosto,
+ humedad.septiembre as hm_septiembre,
+ humedad.octubre as hm_octubre,
+ humedad.noviembre as hm_noviembre,
+ humedad.diciembre as hm_diciembre
+from
+(SELECT
+  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado,
+  estacion.geom FROM estacion) AS estacion,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='BS') AS brillo,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='HR') AS humedad
+WHERE
+estacion.codigo =  tmedia.codigo AND
+estacion.codigo =  brillo.codigo AND
+estacion.codigo =  humedad.codigo AND
+tmedia.anio =  brillo.anio AND
+brillo.anio =  humedad.anio ) as tmp ) as tmp2
