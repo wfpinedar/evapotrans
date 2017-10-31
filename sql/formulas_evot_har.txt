@@ -38,6 +38,7 @@ CREATE FUNCTION  evot_har_fe(double precision) RETURNS double precision
     IMMUTABLE
     RETURNS NULL ON NULL INPUT;
 
+ drop function evot_har_fe(double precision)
     
 --ETP (porcentaje de horas de brillo solar mensual con respecto al año), temp media mensual,(humedad relativa mensual/100),(velocidad m/s (tal como viene),brillo solar mensual (tal como viene es decir eje 50.12
 --- elevación en metros (tal como viene es decir eje 300m, k coeficiente de cultivo)
