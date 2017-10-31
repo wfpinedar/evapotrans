@@ -9,8 +9,6 @@ CREATE FUNCTION evot_turc_rg(double precision,character varying,double precision
     IMMUTABLE
     RETURNS NULL ON NULL INPUT;
 
- drop function evot_turc_rg(double precision,character varying,double precision)
-
 -- ETP (latitud,mes,tmed, brillo solar medio ,k del cultivo) se usa cuando hr > 50 o 0.5
 CREATE FUNCTION evot_turc_etp_sup50(double precision,character varying,double precision,double precision,double precision) RETURNS double precision 
     AS 'select $5*(($3)/($3+15))*(evot_turc_rg($1,$2,$4)+50);'
