@@ -1,5 +1,5 @@
-Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
-etp_m_febrero,etp_m_marzo,etp_m_abril,etp_m_mayo,etp_m_junio,etp_m_julio,etp_m_agosto,etp_m_septiembre,etp_m_octubre,etp_m_noviembre,etp_m_diciembre,
+Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
+etp_m_enero,etp_m_febrero,etp_m_marzo,etp_m_abril,etp_m_mayo,etp_m_junio,etp_m_julio,etp_m_agosto,etp_m_septiembre,etp_m_octubre,etp_m_noviembre,etp_m_diciembre,
 etp_m_febrero+etp_m_marzo+etp_m_abril+etp_m_mayo+etp_m_junio+etp_m_julio+etp_m_agosto+etp_m_septiembre+etp_m_octubre+etp_m_noviembre+etp_m_diciembre as anual
 from
 (
