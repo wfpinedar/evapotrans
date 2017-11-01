@@ -1,4 +1,4 @@
-SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
+SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
 evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
 case when evt_enero IS NULL then 0 else evt_enero end +
  case when evt_febrero IS NULL then 0 else evt_febrero end +
@@ -13,7 +13,7 @@ case when evt_enero IS NULL then 0 else evt_enero end +
  case when evt_noviembre IS NULL then 0 else evt_noviembre end +
  case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual
 FROM
-(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anual,
+(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anual,anio,
 case when hm_enero <= 50 then evot_turc_etp_inf50(latitud,'enero',enero,br_enero/anual,0.4,hm_enero/100) else evot_turc_etp_sup50(latitud,'enero',enero,br_enero/anual,0.4) end as evt_enero,
 case when hm_febrero <= 50 then evot_turc_etp_inf50(latitud,'febrero',febrero,br_febrero/anual,0.37,hm_febrero/100) else evot_turc_etp_sup50(latitud,'febrero',febrero,br_febrero/anual,0.37) end as evt_febrero,
 case when hm_marzo <= 50 then evot_turc_etp_inf50(latitud,'marzo',marzo,br_marzo/anual,0.4,hm_marzo/100) else evot_turc_etp_sup50(latitud,'marzo',marzo,br_marzo/anual,0.4) end as evt_marzo,
