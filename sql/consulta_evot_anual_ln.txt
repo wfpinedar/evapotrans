@@ -1,6 +1,17 @@
-Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
+Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio
 etp_m_enero,etp_m_febrero,etp_m_marzo,etp_m_abril,etp_m_mayo,etp_m_junio,etp_m_julio,etp_m_agosto,etp_m_septiembre,etp_m_octubre,etp_m_noviembre,etp_m_diciembre,
-etp_m_febrero+etp_m_marzo+etp_m_abril+etp_m_mayo+etp_m_junio+etp_m_julio+etp_m_agosto+etp_m_septiembre+etp_m_octubre+etp_m_noviembre+etp_m_diciembre as anual
+case when etp_m_enero IS NULL then 0 else etp_m_enero end +
+ case when etp_m_febrero IS NULL then 0 else etp_m_febrero end +
+ case when etp_m_marzo IS NULL then 0 else etp_m_marzo end +
+ case when etp_m_abril IS NULL then 0 else etp_m_abril  end +
+ case when etp_m_mayo  IS NULL then 0 else etp_m_mayo end +
+ case when etp_m_junio IS NULL then 0 else etp_m_junio end +
+ case when etp_m_julio IS NULL then 0 else etp_m_julio end +
+ case when etp_m_agosto IS NULL then 0 else etp_m_agosto end  +
+ case when etp_m_septiembre IS NULL then 0 else etp_m_septiembre end +
+ case when etp_m_octubre IS NULL then 0 else etp_m_octubre end +
+ case when etp_m_noviembre IS NULL then 0 else etp_m_noviembre end +
+ case when etp_m_diciembre IS NULL then 0 else etp_m_diciembre end as anual
 from
 (
 select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,tmax,tmin,

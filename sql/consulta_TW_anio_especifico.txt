@@ -1,0 +1,92 @@
+Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
+etp_m_febrero,etp_m_marzo,etp_m_abril,etp_m_mayo,etp_m_junio,etp_m_julio,etp_m_agosto,etp_m_septiembre,etp_m_octubre,etp_m_noviembre,etp_m_diciembre,
+case when etp_m_enero IS NULL then 0 else etp_m_enero end +
+ case when etp_m_febrero IS NULL then 0 else etp_m_febrero end +
+ case when etp_m_marzo IS NULL then 0 else etp_m_marzo end +
+ case when etp_m_abril IS NULL then 0 else etp_m_abril  end +
+ case when etp_m_mayo  IS NULL then 0 else etp_m_mayo end +
+ case when etp_m_junio IS NULL then 0 else etp_m_junio end +
+ case when etp_m_julio IS NULL then 0 else etp_m_julio end +
+ case when etp_m_agosto IS NULL then 0 else etp_m_agosto end  +
+ case when etp_m_septiembre IS NULL then 0 else etp_m_septiembre end +
+ case when etp_m_octubre IS NULL then 0 else etp_m_octubre end +
+ case when etp_m_noviembre IS NULL then 0 else etp_m_noviembre end +
+ case when etp_m_diciembre IS NULL then 0 else etp_m_diciembre end as anual
+from
+(
+select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
+anio, (select total from dias where mes ='enero') * evot_th_evot(enero,(anual/factor)) as etp_m_enero,
+ (select total from dias where mes ='febrero') * evot_th_evot(febrero,(anual/factor)) as etp_m_febrero,
+ (select total from dias where mes ='marzo') * evot_th_evot(marzo,(anual/factor)) as etp_m_marzo,
+ (select total from dias where mes ='abril') * evot_th_evot(abril,(anual/factor)) as etp_m_abril,
+ (select total from dias where mes ='mayo') * evot_th_evot(mayo,(anual/factor)) as etp_m_mayo,
+ (select total from dias where mes ='junio') * evot_th_evot(junio,(anual/factor)) as etp_m_junio,
+ (select total from dias where mes ='julio') * evot_th_evot(julio,(anual/factor)) as etp_m_julio,
+ (select total from dias where mes ='agosto') * evot_th_evot(agosto,(anual/factor)) as etp_m_agosto,
+ (select total from dias where mes ='septiembre') * evot_th_evot(septiembre,(anual/factor)) as etp_m_septiembre,
+ (select total from dias where mes ='octubre') * evot_th_evot(octubre,(anual/factor)) as etp_m_octubre,
+ (select total from dias where mes ='noviembre') * evot_th_evot(noviembre,(anual/factor)) as etp_m_noviembre,
+ (select total from dias where mes ='diciembre') * evot_th_evot(diciembre,(anual/factor)) as etp_m_diciembre
+from
+(SELECT estacion.codigo, estacion.tipo,estacion.clase,estacion.cat, estacion.nombre, estacion.municipio, estacion.corriente,
+  estacion.departamento, estacion.altitud, estacion.cod_dep, estacion.cod_muni, estacion.longitud, estacion.latitud, estacion.estado,
+  estacion.geom,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre,
+case when enero IS NULL then 0 else enero end +
+ case when febrero IS NULL then 0 else febrero end +
+ case when marzo IS NULL then 0 else marzo end +
+ case when abril IS NULL then 0 else abril  end +
+ case when mayo  IS NULL then 0 else mayo end +
+ case when junio IS NULL then 0 else junio end +
+ case when julio IS NULL then 0 else julio end +
+ case when agosto IS NULL then 0 else agosto end  +
+ case when septiembre IS NULL then 0 else septiembre end +
+ case when octubre IS NULL then 0 else octubre end +
+ case when noviembre IS NULL then 0 else noviembre end +
+ case when diciembre IS NULL then 0 else diciembre end as anual,  --Tmedia anual
+ case when (
+ case when enero is null then 0 else 1 end +
+ case when febrero is null then 0 else 1 end +
+ case when marzo is null then 0 else 1 end +
+ case when abril is null then 0 else 1 end +
+ case when mayo is null then 0 else 1 end +
+ case when junio is null then 0 else 1 end +
+ case when julio is null then 0 else 1 end +
+ case when agosto is null then 0 else 1 end +
+ case when septiembre is null then 0 else 1 end +
+ case when octubre is null then 0 else 1 end +
+ case when noviembre is null then 0 else 1 end +
+ case when diciembre is null then 0 else 1 end) = 0 then 1 else
+ (case when enero is null then 0 else 1 end +
+ case when febrero is null then 0 else 1 end +
+ case when marzo is null then 0 else 1 end +
+ case when abril is null then 0 else 1 end +
+ case when mayo is null then 0 else 1 end +
+ case when junio is null then 0 else 1 end +
+ case when julio is null then 0 else 1 end +
+ case when agosto is null then 0 else 1 end +
+ case when septiembre is null then 0 else 1 end +
+ case when octubre is null then 0 else 1 end +
+ case when noviembre is null then 0 else 1 end +
+ case when diciembre is null then 0 else 1 end) end ::float as factor
+ FROM
+ (SELECT
+  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado,
+  estacion.geom FROM estacion) AS estacion,
+  (SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia
+ WHERE
+estacion.codigo = tmedia.codigo
+AND anio=1981) as tmp
+) as tmp2
