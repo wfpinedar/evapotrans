@@ -15,7 +15,6 @@ codigo,
   latitud, 
   estado, 
   geom, 
-  anio,
 avg(d1) as d1,
 avg(d2) as d2,
 avg(d3) as d3,
@@ -74,7 +73,6 @@ SELECT
   d1.latitud, 
   d1.estado, 
   d1.geom, 
-  d1.anio,
 d1.evot_enero as d1,
 d1.evot_febrero as d2,
 d1.evot_marzo as d3,
@@ -139,6 +137,5 @@ WHERE
   longitud, 
   latitud, 
   estado, 
-  geom, 
-  anio
+  geom
 
