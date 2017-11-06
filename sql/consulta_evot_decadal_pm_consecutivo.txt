@@ -1,0 +1,67 @@
+SELECT 
+  d1.codigo, 
+  d1.tipo, 
+  d1.clase, 
+  d1.cat, 
+  d1.nombre, 
+  d1.municipio, 
+  d1.corriente, 
+  d1.departamento, 
+  d1.altitud, 
+  d1.cod_dep, 
+  d1.cod_muni, 
+  d1.longitud, 
+  d1.latitud, 
+  d1.estado, 
+  d1.geom, 
+  d1.anio,
+d1.evot_enero as d1,
+d1.evot_febrero as d2,
+d1.evot_marzo as d3,
+d1.evot_abril as d4,
+d1.evot_mayo as d5,
+d1.evot_junio as d6,
+d1.evot_julio as d7,
+d1.evot_agosto as d8,
+d1.evot_septiembre as d9,
+d1.evot_octubre as d10,
+d1.evot_noviembre as d11,
+d1.evot_diciembre as d12,
+d2.evot_enero as d13,
+d2.evot_febrero as d14,
+d2.evot_marzo as d15,
+d2.evot_abril as d16,
+d2.evot_mayo as d17,
+d2.evot_junio as d18,
+d2.evot_julio as d19,
+d2.evot_agosto as d20,
+d2.evot_septiembre as d21,
+d2.evot_octubre as d22,
+d2.evot_noviembre as d23,
+d2.evot_diciembre as d24,
+d3.evot_enero as d25,
+d3.evot_febrero as d26,
+d3.evot_marzo as d27,
+d3.evot_abril as d28,
+d3.evot_mayo as d29,
+d3.evot_junio as d30,
+d3.evot_julio as d31,
+d3.evot_agosto as d32,
+d3.evot_septiembre as d33,
+d3.evot_octubre as d34,
+d3.evot_noviembre as d35,
+d3.evot_diciembre as d36
+
+
+FROM 
+  public.tmp_dec_pm d1, 
+  public.tmp_dec_pm d2, 
+  public.tmp_dec_pm d3
+WHERE 
+  d1.codigo = d2.codigo AND
+  d2.codigo = d3.codigo AND
+  d1.decada = 1 AND 
+  d2.decada = 2 AND 
+  d3.decada = 3 AND
+  d1.anio = d2.anio AND
+  d2.anio = d3.anio 

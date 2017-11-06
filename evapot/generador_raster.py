@@ -2,7 +2,7 @@ import processing
 import os
 def export_raster(mtd):
     ruta_shp=r"E:\Escritorio\Rater_generados\mensuales\%s_magna.shp"%(mtd)
-    ruta_raster=r"E:\Escritorio\Rater_generados\raster\%s"%(mtd)
+    ruta_raster=r"E:\Escritorio\Raster_generados\raster\%s"%(mtd)
     try:
         os.stat(ruta_raster)
     except:
