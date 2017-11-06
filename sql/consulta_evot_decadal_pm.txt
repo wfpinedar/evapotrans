@@ -1,4 +1,5 @@
-﻿SELECT
+﻿
+SELECT
  estacion.*,
  tmin.decada AS Decada,
  tmin.anio,
@@ -100,20 +101,7 @@ else
 end AS evot_diciembre
 
 FROM
-(SELECT   estacion.tipo, 
-  estacion.codigo, 
-  estacion.clase, 
-  estacion.cat, 
-  estacion.nombre, 
-  estacion.municipio, 
-  estacion.corriente, 
-  estacion.departamento, 
-  estacion.altitud, 
-  estacion.cod_dep, 
-  estacion.cod_muni, 
-  estacion.longitud, 
-  estacion.latitud, 
-  estacion.estado FROM estacion) AS estacion,
+(SELECT   estacion.* FROM estacion) AS estacion,
 (SELECT codigo,anio,decada,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_dec WHERE variable='TMN') AS tmin,  
 (SELECT codigo,anio,decada,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_dec WHERE variable='TMX') AS tmax,
 (SELECT codigo,anio,decada,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_dec WHERE variable='TMD') AS tmedia,

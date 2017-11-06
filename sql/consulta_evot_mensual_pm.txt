@@ -1,5 +1,6 @@
 SELECT
  estacion.*,
+  tmin.anio,
 (select total from dias where mes ='enero') * evot_pm_eto(latitud, altitud,tmax.enero,tmin.enero,tmedia.enero,humedad.enero,brillo.enero,velocidad.enero,'enero') as enero,
 (select total from dias where mes ='febrero') * evot_pm_eto(latitud, altitud,tmax.febrero,tmin.febrero,tmedia.febrero,humedad.febrero,brillo.febrero,velocidad.febrero,'febrero') as febrero,
 (select total from dias where mes ='marzo') * evot_pm_eto(latitud, altitud,tmax.marzo,tmin.marzo,tmedia.marzo,humedad.marzo,brillo.marzo,velocidad.marzo,'marzo') as marzo,
@@ -35,8 +36,8 @@ SELECT
  case when (select total from dias where mes ='noviembre') * evot_pm_eto(latitud, altitud,tmax.noviembre,tmin.noviembre,tmedia.noviembre,humedad.noviembre,brillo.noviembre,velocidad.noviembre,'noviembre')  IS NULL then 0
  else (select total from dias where mes ='noviembre') * evot_pm_eto(latitud, altitud,tmax.noviembre,tmin.noviembre,tmedia.noviembre,humedad.noviembre,brillo.noviembre,velocidad.noviembre,'noviembre')  end +
  case when (select total from dias where mes ='diciembre') * evot_pm_eto(latitud, altitud,tmax.diciembre,tmin.diciembre,tmedia.diciembre,humedad.diciembre,brillo.diciembre,velocidad.diciembre,'diciembre') IS NULL then 0
- else (select total from dias where mes ='diciembre') * evot_pm_eto(latitud, altitud,tmax.diciembre,tmin.diciembre,tmedia.diciembre,humedad.diciembre,brillo.diciembre,velocidad.diciembre,'diciembre') end as anual,
- tmin.anio
+ else (select total from dias where mes ='diciembre') * evot_pm_eto(latitud, altitud,tmax.diciembre,tmin.diciembre,tmedia.diciembre,humedad.diciembre,brillo.diciembre,velocidad.diciembre,'diciembre') end as anual
+
 FROM
 (SELECT
   estacion.codigo,
