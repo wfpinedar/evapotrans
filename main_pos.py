@@ -9,7 +9,7 @@ from evapot.load_formulas import add_formulas
 def main():
     DB="evot"
 ##    build_db()
-##    load_station(r"C:\datos_demo\Estaciones\estaciones.csv",DB,"estacion")
+    load_station(r"E:\DOCUMENTOS\TRABAJOS INDEPENDIENTES\PROYECTO_EVAPOTRANS\datos_demo\Estaciones\estaciones.csv",DB,"estacion_fix")
 ##    add_geoColum(DB,"estacion")
 ##    load_variable(r"C:\datos_demo\Variables\AJUSTADAS\TEMPERATURA_MEDIA.csv",DB,"variable")
 ##    load_variable(r"C:\datos_demo\Variables\AJUSTADAS\TEMPERATURA_MINIMA.csv",DB,"variable")
