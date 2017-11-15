@@ -1,31 +1,20 @@
 SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
-evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
-case when evt_enero IS NULL then 0 else evt_enero end +
- case when evt_febrero IS NULL then 0 else evt_febrero end +
- case when evt_marzo IS NULL then 0 else evt_marzo end +
- case when evt_abril IS NULL then 0 else evt_abril  end +
- case when evt_mayo  IS NULL then 0 else evt_mayo end +
- case when evt_junio IS NULL then 0 else evt_junio end +
- case when evt_julio IS NULL then 0 else evt_julio end +
- case when evt_agosto IS NULL then 0 else evt_agosto end  +
- case when evt_septiembre IS NULL then 0 else evt_septiembre end +
- case when evt_octubre IS NULL then 0 else evt_octubre end +
- case when evt_noviembre IS NULL then 0 else evt_noviembre end +
- case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual
+evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre
 FROM
-(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anual,anio,
-case when hm_enero <= 50 then evot_turc_etp_inf50(latitud,'enero',enero,br_enero/anual,0.4,hm_enero/100) else evot_turc_etp_sup50(latitud,'enero',enero,br_enero/anual,0.4) end as evt_enero,
-case when hm_febrero <= 50 then evot_turc_etp_inf50(latitud,'febrero',febrero,br_febrero/anual,0.37,hm_febrero/100) else evot_turc_etp_sup50(latitud,'febrero',febrero,br_febrero/anual,0.37) end as evt_febrero,
-case when hm_marzo <= 50 then evot_turc_etp_inf50(latitud,'marzo',marzo,br_marzo/anual,0.4,hm_marzo/100) else evot_turc_etp_sup50(latitud,'marzo',marzo,br_marzo/anual,0.4) end as evt_marzo,
-case when hm_abril <= 50 then evot_turc_etp_inf50(latitud,'abril',abril,br_abril/anual,0.4,hm_abril/100) else evot_turc_etp_sup50(latitud,'abril',abril,br_abril/anual,0.4) end as evt_abril,
-case when hm_mayo <= 50 then evot_turc_etp_inf50(latitud,'mayo',mayo,br_mayo/anual,0.4,hm_mayo/100) else evot_turc_etp_sup50(latitud,'mayo',mayo,br_mayo/anual,0.4) end as evt_mayo,
-case when hm_junio <= 50 then evot_turc_etp_inf50(latitud,'junio',junio,br_junio/anual,0.4,hm_junio/100) else evot_turc_etp_sup50(latitud,'junio',junio,br_junio/anual,0.4) end as evt_junio,
-case when hm_julio <= 50 then evot_turc_etp_inf50(latitud,'julio',julio,br_julio/anual,0.4,hm_julio/100) else evot_turc_etp_sup50(latitud,'julio',julio,br_julio/anual,0.4) end as evt_julio,
-case when hm_agosto <= 50 then evot_turc_etp_inf50(latitud,'agosto',agosto,br_agosto/anual,0.4,hm_agosto/100) else evot_turc_etp_sup50(latitud,'agosto',agosto,br_agosto/anual,0.4) end as evt_agosto,
-case when hm_septiembre <= 50 then evot_turc_etp_inf50(latitud,'septiembre',septiembre,br_septiembre/anual,1,hm_septiembre/100) else evot_turc_etp_sup50(latitud,'septiembre',septiembre,br_septiembre/anual,0.4) end as evt_septiembre,
-case when hm_octubre <= 50 then evot_turc_etp_inf50(latitud,'octubre',octubre,br_octubre/anual,0.4,hm_octubre/100) else evot_turc_etp_sup50(latitud,'octubre',octubre,br_octubre/anual,0.4) end as evt_octubre,
-case when hm_noviembre <= 50 then evot_turc_etp_inf50(latitud,'noviembre',noviembre,br_noviembre/anual,0.4,hm_noviembre/100) else evot_turc_etp_sup50(latitud,'noviembre',noviembre,br_noviembre/anual,0.4) end as evt_noviembre,
-case when hm_diciembre <= 50 then evot_turc_etp_inf50(latitud,'diciembre',diciembre,br_diciembre/anual,0.4,hm_diciembre/100) else evot_turc_etp_sup50(latitud,'diciembre',diciembre,br_diciembre/anual,0.4) end as evt_diciembre
+(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
+case when hm_enero <= 50 then evot_turc_etp_inf50(latitud,'enero',enero,br_enero,0.4,hm_enero/100) else evot_turc_etp_sup50(latitud,'enero',enero,br_enero,0.4) end as evt_enero,
+case when hm_febrero <= 50 then evot_turc_etp_inf50(latitud,'febrero',febrero,br_febrero,0.37,hm_febrero/100) else evot_turc_etp_sup50(latitud,'febrero',febrero,br_febrero,0.37) end as evt_febrero,
+case when hm_marzo <= 50 then evot_turc_etp_inf50(latitud,'marzo',marzo,br_marzo,0.4,hm_marzo/100) else evot_turc_etp_sup50(latitud,'marzo',marzo,br_marzo,0.4) end as evt_marzo,
+case when hm_abril <= 50 then evot_turc_etp_inf50(latitud,'abril',abril,br_abril,0.4,hm_abril/100) else evot_turc_etp_sup50(latitud,'abril',abril,br_abril,0.4) end as evt_abril,
+case when hm_mayo <= 50 then evot_turc_etp_inf50(latitud,'mayo',mayo,br_mayo,0.4,hm_mayo/100) else evot_turc_etp_sup50(latitud,'mayo',mayo,br_mayo,0.4) end as evt_mayo,
+case when hm_junio <= 50 then evot_turc_etp_inf50(latitud,'junio',junio,br_junio,0.4,hm_junio/100) else evot_turc_etp_sup50(latitud,'junio',junio,br_junio,0.4) end as evt_junio,
+case when hm_julio <= 50 then evot_turc_etp_inf50(latitud,'julio',julio,br_julio,0.4,hm_julio/100) else evot_turc_etp_sup50(latitud,'julio',julio,br_julio,0.4) end as evt_julio,
+case when hm_agosto <= 50 then evot_turc_etp_inf50(latitud,'agosto',agosto,br_agosto,0.4,hm_agosto/100) else evot_turc_etp_sup50(latitud,'agosto',agosto,br_agosto,0.4) end as evt_agosto,
+case when hm_septiembre <= 50 then evot_turc_etp_inf50(latitud,'septiembre',septiembre,br_septiembre,1,hm_septiembre/100) else evot_turc_etp_sup50(latitud,'septiembre',septiembre,br_septiembre,0.4) end as evt_septiembre,
+case when hm_octubre <= 50 then evot_turc_etp_inf50(latitud,'octubre',octubre,br_octubre,0.4,hm_octubre/100) else evot_turc_etp_sup50(latitud,'octubre',octubre,br_octubre,0.4) end as evt_octubre,
+case when hm_noviembre <= 50 then evot_turc_etp_inf50(latitud,'noviembre',noviembre,br_noviembre,0.4,hm_noviembre/100) else evot_turc_etp_sup50(latitud,'noviembre',noviembre,br_noviembre,0.4) end as evt_noviembre,
+case when hm_diciembre <= 50 then evot_turc_etp_inf50(latitud,'diciembre',diciembre,br_diciembre,0.4,hm_diciembre/100) else evot_turc_etp_sup50(latitud,'diciembre',diciembre,br_diciembre,0.4) end as evt_diciembre
+
 FROM
 (Select  estacion.codigo,
   estacion.tipo,
@@ -42,18 +31,6 @@ FROM
   estacion.latitud,
   estacion.estado,
   estacion.geom,
-case when brillo.enero IS NULL then 0 else brillo.enero end +
- case when brillo.febrero IS NULL then 0 else brillo.febrero end +
- case when brillo.marzo IS NULL then 0 else brillo.marzo end +
- case when brillo.abril IS NULL then 0 else brillo.abril  end +
- case when brillo.mayo  IS NULL then 0 else brillo.mayo end +
- case when brillo.junio IS NULL then 0 else brillo.junio end +
- case when brillo.julio IS NULL then 0 else brillo.julio end +
- case when brillo.agosto IS NULL then 0 else brillo.agosto end  +
- case when brillo.septiembre IS NULL then 0 else brillo.septiembre end +
- case when brillo.octubre IS NULL then 0 else brillo.octubre end +
- case when brillo.noviembre IS NULL then 0 else brillo.noviembre end +
- case when brillo.diciembre IS NULL then 0 else brillo.diciembre end as anual,  --Brillo anual
  tmedia.enero,
  tmedia.febrero,
  tmedia.marzo,
