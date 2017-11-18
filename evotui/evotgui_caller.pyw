@@ -24,11 +24,16 @@ class MyForm(QtGui.QMainWindow):
         self.connect(self.ui.eporttab, QtCore.SIGNAL('triggered()'), self.displayPrevious)
         self.connect(self.ui.conex, QtCore.SIGNAL('triggered()'), self.displayPrevious)
         QtCore.QObject.connect(self.ui.bTest, QtCore.SIGNAL('clicked()'), self.testConnect)
+        self.ui.lDb.setText("evot")
+        self.ui.lUsr.setText("postgres")
+        self.ui.lPass.setText("postgres")
+        self.ui.lHost.setText("localhost")
+        self.ui.lPort.setText("5432")
 
     def testConnect(self):
         try:
             con = psycopg2.connect(database=self.ui.lDb.text(),
-                                   user='postgres',
+                                   user=self.ui.lUsr.text(),
                                    password=self.ui.lPass.text(),
                                    host=self.ui.lHost.text(),
                                    port=self.ui.lPort.text())

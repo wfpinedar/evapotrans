@@ -71,10 +71,10 @@
      <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>70</y>
-        <width>281</width>
-        <height>231</height>
+        <x>230</x>
+        <y>60</y>
+        <width>301</width>
+        <height>281</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayout">
@@ -128,6 +128,26 @@
           </widget>
          </item>
          <item>
+          <spacer name="verticalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>28</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>User:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer_7">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -155,12 +175,12 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>28</height>
+             <height>18</height>
             </size>
            </property>
           </spacer>
          </item>
-         <item>
+         <item alignment="Qt::AlignTop">
           <widget class="QPushButton" name="bTest">
            <property name="enabled">
             <bool>true</bool>
@@ -184,7 +204,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>20</width>
+             <width>136</width>
              <height>13</height>
             </size>
            </property>
@@ -208,6 +228,22 @@
          </item>
          <item>
           <widget class="QLineEdit" name="lPort"/>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_10">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>18</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lUsr"/>
          </item>
          <item>
           <spacer name="verticalSpacer_2">
@@ -239,8 +275,8 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>20</width>
-             <height>40</height>
+             <width>191</width>
+             <height>18</height>
             </size>
            </property>
           </spacer>
