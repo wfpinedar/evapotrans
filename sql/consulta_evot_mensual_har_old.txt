@@ -1,0 +1,126 @@
+
+SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
+evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
+case when evt_enero IS NULL then 0 else evt_enero end +
+ case when evt_febrero IS NULL then 0 else evt_febrero end +
+ case when evt_marzo IS NULL then 0 else evt_marzo end +
+ case when evt_abril IS NULL then 0 else evt_abril  end +
+ case when evt_mayo  IS NULL then 0 else evt_mayo end +
+ case when evt_junio IS NULL then 0 else evt_junio end +
+ case when evt_julio IS NULL then 0 else evt_julio end +
+ case when evt_agosto IS NULL then 0 else evt_agosto end  +
+ case when evt_septiembre IS NULL then 0 else evt_septiembre end +
+ case when evt_octubre IS NULL then 0 else evt_octubre end +
+ case when evt_noviembre IS NULL then 0 else evt_noviembre end +
+ case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual
+FROM
+(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
+evot_har_evot(8.4167,enero,hm_enero/100,vd_enero,100*br_enero/evot_pm_n(latitud,'enero'),altitud,1)  as evt_enero,
+evot_har_evot(8.4167,febrero,hm_febrero/100,vd_febrero,100*br_febrero/evot_pm_n(latitud,'febrero'),altitud,1) as evt_febrero,
+evot_har_evot(8.4167,marzo,hm_marzo/100,vd_marzo,100*br_marzo/evot_pm_n(latitud,'marzo'),altitud,1) as evt_marzo,
+evot_har_evot(8.4167,abril,hm_abril/100,vd_abril,100*br_abril/evot_pm_n(latitud,'abril'),altitud,1) as evt_abril,
+evot_har_evot(8.4167,mayo,hm_mayo/100,vd_mayo,100*br_mayo/evot_pm_n(latitud,'mayo'),altitud,1)  as evt_mayo,
+evot_har_evot(8.4167,junio,hm_junio/100,vd_junio,100*br_junio/evot_pm_n(latitud,'junio'),altitud,1) as evt_junio,
+evot_har_evot(8.4167,julio,hm_julio/100,vd_julio,100*br_julio/evot_pm_n(latitud,'julio'),altitud,1) as evt_julio,
+evot_har_evot(8.4167,agosto,hm_agosto/100,vd_agosto,100*br_agosto/evot_pm_n(latitud,'agosto'),altitud,1) as evt_agosto,
+evot_har_evot(8.4167,septiembre,hm_septiembre/100,vd_septiembre,100*br_septiembre/evot_pm_n(latitud,'septiembre'),altitud,1) as evt_septiembre,
+evot_har_evot(8.4167,octubre,hm_octubre/100,vd_octubre,100*br_octubre/evot_pm_n(latitud,'octubre'),altitud,1)  as evt_octubre,
+evot_har_evot(8.4167,noviembre,hm_noviembre/100,vd_noviembre,100*br_noviembre/evot_pm_n(latitud,'noviembre'),altitud,1)  as evt_noviembre,
+evot_har_evot(8.4167,diciembre,hm_diciembre/100,vd_diciembre,100*br_diciembre/evot_pm_n(latitud,'diciembre'),altitud,1) as evt_diciembre
+
+FROM
+(Select  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado,
+  estacion.geom,
+ tmedia.enero,
+ tmedia.febrero,
+ tmedia.marzo,
+ tmedia.abril,
+ tmedia.mayo,
+ tmedia.junio,
+ tmedia.julio,
+ tmedia.agosto,
+ tmedia.septiembre,
+ tmedia.octubre,
+ tmedia.noviembre,
+ tmedia.diciembre,
+ brillo.anio,
+ brillo.enero as br_enero,
+ brillo.febrero as br_febrero,
+ brillo.marzo as br_marzo,
+ brillo.abril as br_abril,
+ brillo.mayo as br_mayo,
+ brillo.junio as br_junio,
+ brillo.julio as br_julio,
+ brillo.agosto as br_agosto,
+ brillo.septiembre as br_septiembre,
+ brillo.octubre as br_octubre,
+ brillo.noviembre as br_noviembre,
+ brillo.diciembre as br_diciembre,
+ humedad.enero as hm_enero,
+ humedad.febrero as hm_febrero,
+ humedad.marzo as hm_marzo,
+ humedad.abril as hm_abril,
+ humedad.mayo as hm_mayo,
+ humedad.junio as hm_junio,
+ humedad.julio as hm_julio,
+ humedad.agosto as hm_agosto,
+ humedad.septiembre as hm_septiembre,
+ humedad.octubre as hm_octubre,
+ humedad.noviembre as hm_noviembre,
+ humedad.diciembre as hm_diciembre,
+ velocidad.enero as vd_enero,
+ velocidad.febrero as vd_febrero,
+ velocidad.marzo as vd_marzo,
+ velocidad.abril as vd_abril,
+ velocidad.mayo as vd_mayo,
+ velocidad.junio as vd_junio,
+ velocidad.julio as vd_julio,
+ velocidad.agosto as vd_agosto,
+ velocidad.septiembre as vd_septiembre,
+ velocidad.octubre as vd_octubre,
+ velocidad.noviembre as vd_noviembre,
+ velocidad.diciembre as vd_diciembre
+from
+(SELECT
+  estacion.codigo,
+  estacion.tipo,
+  estacion.clase,
+  estacion.cat,
+  estacion.nombre,
+  estacion.municipio,
+  estacion.corriente,
+  estacion.departamento,
+  estacion.altitud,
+  estacion.cod_dep,
+  estacion.cod_muni,
+  estacion.longitud,
+  estacion.latitud,
+  estacion.estado,
+  estacion.geom FROM estacion) AS estacion,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='BS') AS brillo,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='HR') AS humedad,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='VD') AS velocidad
+WHERE
+estacion.codigo =  tmedia.codigo AND
+estacion.codigo =  brillo.codigo AND
+estacion.codigo =  humedad.codigo AND
+estacion.codigo =  velocidad.codigo AND
+tmedia.anio =  brillo.anio AND
+tmedia.anio =  brillo.anio AND
+brillo.anio =  humedad.anio AND
+humedad.anio =  velocidad.anio AND
+brillo.anio =  humedad.anio ) as tmp ) as tmp2

@@ -1,5 +1,4 @@
-
-SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
+SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,emis
 evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
 case when evt_enero IS NULL then 0 else evt_enero end +
  case when evt_febrero IS NULL then 0 else evt_febrero end +
@@ -14,19 +13,21 @@ case when evt_enero IS NULL then 0 else evt_enero end +
  case when evt_noviembre IS NULL then 0 else evt_noviembre end +
  case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual
 FROM
-(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,
-evot_har_evot(8.4167,enero,hm_enero/100,vd_enero,100*br_enero/evot_pm_n(latitud,'enero'),altitud,1)  as evt_enero,
-evot_har_evot(8.4167,febrero,hm_febrero/100,vd_febrero,100*br_febrero/evot_pm_n(latitud,'febrero'),altitud,1) as evt_febrero,
-evot_har_evot(8.4167,marzo,hm_marzo/100,vd_marzo,100*br_marzo/evot_pm_n(latitud,'marzo'),altitud,1) as evt_marzo,
-evot_har_evot(8.4167,abril,hm_abril/100,vd_abril,100*br_abril/evot_pm_n(latitud,'abril'),altitud,1) as evt_abril,
-evot_har_evot(8.4167,mayo,hm_mayo/100,vd_mayo,100*br_mayo/evot_pm_n(latitud,'mayo'),altitud,1)  as evt_mayo,
-evot_har_evot(8.4167,junio,hm_junio/100,vd_junio,100*br_junio/evot_pm_n(latitud,'junio'),altitud,1) as evt_junio,
-evot_har_evot(8.4167,julio,hm_julio/100,vd_julio,100*br_julio/evot_pm_n(latitud,'julio'),altitud,1) as evt_julio,
-evot_har_evot(8.4167,agosto,hm_agosto/100,vd_agosto,100*br_agosto/evot_pm_n(latitud,'agosto'),altitud,1) as evt_agosto,
-evot_har_evot(8.4167,septiembre,hm_septiembre/100,vd_septiembre,100*br_septiembre/evot_pm_n(latitud,'septiembre'),altitud,1) as evt_septiembre,
-evot_har_evot(8.4167,octubre,hm_octubre/100,vd_octubre,100*br_octubre/evot_pm_n(latitud,'octubre'),altitud,1)  as evt_octubre,
-evot_har_evot(8.4167,noviembre,hm_noviembre/100,vd_noviembre,100*br_noviembre/evot_pm_n(latitud,'noviembre'),altitud,1)  as evt_noviembre,
-evot_har_evot(8.4167,diciembre,hm_diciembre/100,vd_diciembre,100*br_diciembre/evot_pm_n(latitud,'diciembre'),altitud,1) as evt_diciembre
+(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,emis,
+
+--ETP (Radiación solar extraterrestre,0.162,tmax,tmin,tmed)
+(select total from dias where mes ='enero') * evot_har_evot((select enero from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_enero, tn_enero, enero) as evt_enero,
+(select total from dias where mes ='enero') * evot_har_evot((select febrero from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_febrero, tn_febrero, marzo) as evt_febrero,
+(select total from dias where mes ='enero') * evot_har_evot((select marzo from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_marzo, tn_marzo, febrero) as evt_marzo,
+(select total from dias where mes ='enero') * evot_har_evot((select abril from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_abril, tn_abril, abril) as evt_abril,
+(select total from dias where mes ='enero') * evot_har_evot((select mayo from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_mayo,tn_mayo, mayo) as evt_mayo,
+(select total from dias where mes ='enero') * evot_har_evot((select junio from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_junio, tn_junio, junio) as evt_junio,
+(select total from dias where mes ='enero') * evot_har_evot((select julio from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_julio, tn_julio, julio) as evt_julio,
+(select total from dias where mes ='enero') * evot_har_evot((select agosto from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_agosto, tn_agosto, agosto) as evt_agosto,
+(select total from dias where mes ='enero') * evot_har_evot((select septiembre from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_septiembre, tn_septiembre, septiembre) as evt_septiembre,
+(select total from dias where mes ='enero') * evot_har_evot((select octubre from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_octubre, tn_octubre, octubre) as evt_octubre,
+(select total from dias where mes ='enero') * evot_har_evot((select noviembre from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_noviembre, tn_noviembre, noviembre) as evt_noviembre,
+(select total from dias where mes ='enero') * evot_har_evot((select diciembre from rad_extra_har where latitud <= floor(4.6163611)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_diciembre, tn_diciembre, diciembre) as evt_diciembre
 
 FROM
 (Select  estacion.codigo,
@@ -56,43 +57,32 @@ FROM
  tmedia.octubre,
  tmedia.noviembre,
  tmedia.diciembre,
- brillo.anio,
- brillo.enero as br_enero,
- brillo.febrero as br_febrero,
- brillo.marzo as br_marzo,
- brillo.abril as br_abril,
- brillo.mayo as br_mayo,
- brillo.junio as br_junio,
- brillo.julio as br_julio,
- brillo.agosto as br_agosto,
- brillo.septiembre as br_septiembre,
- brillo.octubre as br_octubre,
- brillo.noviembre as br_noviembre,
- brillo.diciembre as br_diciembre,
- humedad.enero as hm_enero,
- humedad.febrero as hm_febrero,
- humedad.marzo as hm_marzo,
- humedad.abril as hm_abril,
- humedad.mayo as hm_mayo,
- humedad.junio as hm_junio,
- humedad.julio as hm_julio,
- humedad.agosto as hm_agosto,
- humedad.septiembre as hm_septiembre,
- humedad.octubre as hm_octubre,
- humedad.noviembre as hm_noviembre,
- humedad.diciembre as hm_diciembre,
- velocidad.enero as vd_enero,
- velocidad.febrero as vd_febrero,
- velocidad.marzo as vd_marzo,
- velocidad.abril as vd_abril,
- velocidad.mayo as vd_mayo,
- velocidad.junio as vd_junio,
- velocidad.julio as vd_julio,
- velocidad.agosto as vd_agosto,
- velocidad.septiembre as vd_septiembre,
- velocidad.octubre as vd_octubre,
- velocidad.noviembre as vd_noviembre,
- velocidad.diciembre as vd_diciembre
+ tmin.enero tn_enero,
+tmin.febrero tn_febrero,
+tmin.marzo tn_marzo,
+tmin.abril tn_abril,
+tmin.mayo tn_mayo,
+tmin.junio tn_junio,
+tmin.julio tn_julio,
+tmin.agosto tn_agosto,
+tmin.septiembre tn_septiembre,
+tmin.octubre tn_octubre,
+tmin.noviembre tn_noviembre,
+tmin.diciembre tn_diciembre,
+tmax.enero tx_enero,
+tmax.febrero tx_febrero,
+tmax.marzo tx_marzo,
+tmax.abril tx_abril,
+tmax.mayo tx_mayo,
+tmax.junio tx_junio,
+tmax.julio tx_julio,
+tmax.agosto tx_agosto,
+tmax.septiembre tx_septiembre,
+tmax.octubre tx_octubre,
+tmax.noviembre tx_noviembre,
+tmax.diciembre tx_diciembre,
+tmax.anio,
+case when latitud<0 then 'S' else 'N' end as emis
 from
 (SELECT
   estacion.codigo,
@@ -110,17 +100,13 @@ from
   estacion.latitud,
   estacion.estado,
   estacion.geom FROM estacion) AS estacion,
-(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia,
-(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='BS') AS brillo,
-(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='HR') AS humedad,
-(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='VD') AS velocidad
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMN') AS tmin,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMX') AS tmax,
+(SELECT codigo,anio,enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre FROM prom_men WHERE variable='TMD') AS tmedia
 WHERE
+estacion.codigo =  tmin.codigo AND
+estacion.codigo =  tmax.codigo AND
 estacion.codigo =  tmedia.codigo AND
-estacion.codigo =  brillo.codigo AND
-estacion.codigo =  humedad.codigo AND
-estacion.codigo =  velocidad.codigo AND
-tmedia.anio =  brillo.anio AND
-tmedia.anio =  brillo.anio AND
-brillo.anio =  humedad.anio AND
-humedad.anio =  velocidad.anio AND
-brillo.anio =  humedad.anio ) as tmp ) as tmp2
+tmin.anio =  tmax.anio AND
+tmax.anio =  tmedia.anio AND
+tmedia.anio = tmin.anio ) as tmp ) as tmp2
