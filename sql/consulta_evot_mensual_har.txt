@@ -1,5 +1,5 @@
-﻿select * from (
-SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,emis,
+﻿select * from 
+(SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,emis,
 evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
 case when evt_enero IS NULL then 0 else evt_enero end +
  case when evt_febrero IS NULL then 0 else evt_febrero end +
@@ -17,18 +17,18 @@ FROM
 (SELECT codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,anio,emis,
 
 --ETP (Radiación solar extraterrestre,0.162,tmax,tmin,tmed)
-(select total from dias where mes ='enero') * evot_har_evot((select enero from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_enero, tn_enero, enero) as evt_enero,
-(select total from dias where mes ='febrero') * evot_har_evot((select febrero from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_febrero, tn_febrero, marzo) as evt_febrero,
-(select total from dias where mes ='marzo') * evot_har_evot((select marzo from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_marzo, tn_marzo, febrero) as evt_marzo,
-(select total from dias where mes ='abril') * evot_har_evot((select abril from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_abril, tn_abril, abril) as evt_abril,
-(select total from dias where mes ='mayo') * evot_har_evot((select mayo from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_mayo,tn_mayo, mayo) as evt_mayo,
-(select total from dias where mes ='junio') * evot_har_evot((select junio from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_junio, tn_junio, junio) as evt_junio,
-(select total from dias where mes ='julio') * evot_har_evot((select julio from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_julio, tn_julio, julio) as evt_julio,
-(select total from dias where mes ='agosto') * evot_har_evot((select agosto from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_agosto, tn_agosto, agosto) as evt_agosto,
-(select total from dias where mes ='septiembre') * evot_har_evot((select septiembre from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_septiembre, tn_septiembre, septiembre) as evt_septiembre,
-(select total from dias where mes ='octubre') * evot_har_evot((select octubre from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_octubre, tn_octubre, octubre) as evt_octubre,
-(select total from dias where mes ='noviembre') * evot_har_evot((select noviembre from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_noviembre, tn_noviembre, noviembre) as evt_noviembre,
-(select total from dias where mes ='diciembre') * evot_har_evot((select diciembre from rad_extra_har where rad_extra_har.latitud <= floor(latitud)+1 and hemisferio=emis order by 1 desc limit 1),0.162,tx_diciembre, tn_diciembre, diciembre) as evt_diciembre
+(select total from dias where mes ='enero') * evot_har_evot(evot_har_ra('enero',latitud,emis),0.162,tx_enero, tn_enero, enero) as evt_enero,
+(select total from dias where mes ='febrero') * evot_har_evot(evot_har_ra('febrero',latitud,emis),0.162,tx_febrero, tn_febrero, marzo) as evt_febrero,
+(select total from dias where mes ='marzo') * evot_har_evot(evot_har_ra('marzo',latitud,emis),0.162,tx_marzo, tn_marzo, febrero) as evt_marzo,
+(select total from dias where mes ='abril') * evot_har_evot(evot_har_ra('abril',latitud,emis),0.162,tx_abril, tn_abril, abril) as evt_abril,
+(select total from dias where mes ='mayo') * evot_har_evot(evot_har_ra('mayo',latitud,emis),0.162,tx_mayo,tn_mayo, mayo) as evt_mayo,
+(select total from dias where mes ='junio') * evot_har_evot(evot_har_ra('junio',latitud,emis),0.162,tx_junio, tn_junio, junio) as evt_junio,
+(select total from dias where mes ='julio') * evot_har_evot(evot_har_ra('julio',latitud,emis),0.162,tx_julio, tn_julio, julio) as evt_julio,
+(select total from dias where mes ='agosto') * evot_har_evot(evot_har_ra('agosto',latitud,emis),0.162,tx_agosto, tn_agosto, agosto) as evt_agosto,
+(select total from dias where mes ='septiembre') * evot_har_evot(evot_har_ra('septiembre',latitud,emis),0.162,tx_septiembre, tn_septiembre, septiembre) as evt_septiembre,
+(select total from dias where mes ='octubre') * evot_har_evot(evot_har_ra('octubre',latitud,emis),0.162,tx_octubre, tn_octubre, octubre) as evt_octubre,
+(select total from dias where mes ='noviembre') * evot_har_evot(evot_har_ra('noviembre',latitud,emis),0.162,tx_noviembre, tn_noviembre, noviembre) as evt_noviembre,
+(select total from dias where mes ='diciembre') * evot_har_evot(evot_har_ra('diciembre',latitud,emis),0.162,tx_diciembre, tn_diciembre, diciembre) as evt_diciembre
 
 FROM
 (Select  estacion.codigo,
@@ -111,4 +111,4 @@ estacion.codigo =  tmedia.codigo AND
 tmin.anio =  tmax.anio AND
 tmax.anio =  tmedia.anio AND
 tmedia.anio = tmin.anio ) as tmp ) as tmp2) as tmp3
-where anual >0
+where anual > 0

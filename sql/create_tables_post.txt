@@ -256,8 +256,8 @@ insert into dias values ('febrero',28,10,10,8);
 
 create table rad_extra_har (
 Hemisferio character varying,
+latitud float8,
 ra float8,
-enero float8,
 mes character varying
 );
 

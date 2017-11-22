@@ -1,8 +1,8 @@
 import processing
 import os
 def export_raster(mtd):
-    ruta_shp=r"E:\Escritorio\Raster_generados\mensuales\%s_magna.shp"%(mtd)
-    ruta_raster=r"E:\Escritorio\Raster_generados\raster\%s"%(mtd)
+    ruta_shp=r"C:\Users\Fercho\Desktop\Evapo_16112017\Shapes\%s.shp"%(mtd)
+    ruta_raster=r"C:\Users\Fercho\Desktop\Evapo_16112017\Rasters\%s"%(mtd)
     try:
         os.stat(ruta_raster)
     except:
@@ -47,5 +47,5 @@ def export_raster(mtd):
     processing.runalg("grass7:v.surf.idw",r"%s"%(ruta_shp),25,4,"avg_diciem",True,"169069.267714,1683910.62887,26811.0059215,1979818.19343",500,-1,0.0001,r"%s//avg_dici_%s.tif"%(ruta_raster,mtd))
     processing.runalg("grass7:v.surf.idw",r"%s"%(ruta_shp),25,4,"avg_anual",True,"169069.267714,1683910.62887,26811.0059215,1979818.19343",500,-1,0.0001,r"%s//avg_anual_%s.tif"%(ruta_raster,mtd))
 
-for i in ["pm","bc","cht","gl","har","ln","turc","tw"]:
+for i in ["har"]:
     export_raster(i)

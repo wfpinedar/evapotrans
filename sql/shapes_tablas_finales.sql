@@ -1,4 +1,5 @@
 ﻿-- Shape gl
+select * from (
 
 Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
 max(evt_enero) max_enero,max(evt_febrero) max_febrero,max(evt_marzo) max_marzo,max(evt_abril) max_abril,max(evt_mayo) max_mayo,max(evt_junio) max_junio,max(evt_julio) max_julio,max(evt_agosto) max_agosto,max(evt_septiembre) max_septiembre,max(evt_octubre) max_octubre,max(evt_noviembre) max_noviembre,max(evt_diciembre) max_diciembre,
@@ -19,9 +20,11 @@ case when avg(evt_octubre) IS NULL then 0 else avg(evt_octubre) end +
 case when avg(evt_noviembre) IS NULL then 0 else avg(evt_noviembre) end +
 case when avg(evt_diciembre) IS NULL then 0 else avg(evt_diciembre) end as anual
 from tmp_evot_gl
-group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
+where anual > 0
 
 -- Shape ln
+select * from (
 
 Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
 max(evt_enero) max_enero,max(evt_febrero) max_febrero,max(evt_marzo) max_marzo,max(evt_abril) max_abril,max(evt_mayo) max_mayo,max(evt_junio) max_junio,max(evt_julio) max_julio,max(evt_agosto) max_agosto,max(evt_septiembre) max_septiembre,max(evt_octubre) max_octubre,max(evt_noviembre) max_noviembre,max(evt_diciembre) max_diciembre,
@@ -42,9 +45,11 @@ case when avg(evt_octubre) IS NULL then 0 else avg(evt_octubre) end +
 case when avg(evt_noviembre) IS NULL then 0 else avg(evt_noviembre) end +
 case when avg(evt_diciembre) IS NULL then 0 else avg(evt_diciembre) end as anual
 from tmp_evot_ln
-group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
+where anual > 0
 
 -- Shape turc
+select * from (
 
 Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
 max(evt_enero) max_enero,max(evt_febrero) max_febrero,max(evt_marzo) max_marzo,max(evt_abril) max_abril,max(evt_mayo) max_mayo,max(evt_junio) max_junio,max(evt_julio) max_julio,max(evt_agosto) max_agosto,max(evt_septiembre) max_septiembre,max(evt_octubre) max_octubre,max(evt_noviembre) max_noviembre,max(evt_diciembre) max_diciembre,
@@ -65,9 +70,11 @@ case when avg(evt_octubre) IS NULL then 0 else avg(evt_octubre) end +
 case when avg(evt_noviembre) IS NULL then 0 else avg(evt_noviembre) end +
 case when avg(evt_diciembre) IS NULL then 0 else avg(evt_diciembre) end as anual
 from tmp_evot_turc
-group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
+where anual > 0
 
 -- Shape bc
+select * from (
 
 Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
 max(evt_enero) max_enero,max(evt_febrero) max_febrero,max(evt_marzo) max_marzo,max(evt_abril) max_abril,max(evt_mayo) max_mayo,max(evt_junio) max_junio,max(evt_julio) max_julio,max(evt_agosto) max_agosto,max(evt_septiembre) max_septiembre,max(evt_octubre) max_octubre,max(evt_noviembre) max_noviembre,max(evt_diciembre) max_diciembre,
@@ -88,9 +95,11 @@ case when avg(evt_octubre) IS NULL then 0 else avg(evt_octubre) end +
 case when avg(evt_noviembre) IS NULL then 0 else avg(evt_noviembre) end +
 case when avg(evt_diciembre) IS NULL then 0 else avg(evt_diciembre) end as anual
 from tmp_evot_bc
-group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
+where anual > 0
 
 -- Shape cht
+select * from (
 
 Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
 max(evt_enero) max_enero,max(evt_febrero) max_febrero,max(evt_marzo) max_marzo,max(evt_abril) max_abril,max(evt_mayo) max_mayo,max(evt_junio) max_junio,max(evt_julio) max_julio,max(evt_agosto) max_agosto,max(evt_septiembre) max_septiembre,max(evt_octubre) max_octubre,max(evt_noviembre) max_noviembre,max(evt_diciembre) max_diciembre,
@@ -111,10 +120,11 @@ case when avg(evt_octubre) IS NULL then 0 else avg(evt_octubre) end +
 case when avg(evt_noviembre) IS NULL then 0 else avg(evt_noviembre) end +
 case when avg(evt_diciembre) IS NULL then 0 else avg(evt_diciembre) end as anual
 from tmp_evot_cht
-group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
+where anual > 0
 
 -- Shape har
-
+select * from (
 Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
 max(evt_enero) max_enero,max(evt_febrero) max_febrero,max(evt_marzo) max_marzo,max(evt_abril) max_abril,max(evt_mayo) max_mayo,max(evt_junio) max_junio,max(evt_julio) max_julio,max(evt_agosto) max_agosto,max(evt_septiembre) max_septiembre,max(evt_octubre) max_octubre,max(evt_noviembre) max_noviembre,max(evt_diciembre) max_diciembre,
 GREATEST(max(evt_enero),max(evt_febrero),max(evt_marzo),max(evt_abril),max(evt_mayo),max(evt_junio),max(evt_julio),max(evt_agosto),max(evt_septiembre),max(evt_octubre),max(evt_noviembre),max(evt_diciembre)) max_anual,
@@ -134,9 +144,11 @@ case when avg(evt_octubre) IS NULL then 0 else avg(evt_octubre) end +
 case when avg(evt_noviembre) IS NULL then 0 else avg(evt_noviembre) end +
 case when avg(evt_diciembre) IS NULL then 0 else avg(evt_diciembre) end as anual
 from tmp_evot_har
-group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
+where anual > 0
 
 -- Shape pm
+select * from (
 
 Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
 max(enero) max_enero,max(febrero) max_febrero,max(marzo) max_marzo,max(abril) max_abril,max(mayo) max_mayo,max(junio) max_junio,max(julio) max_julio,max(agosto) max_agosto,max(septiembre) max_septiembre,max(octubre) max_octubre,max(noviembre) max_noviembre,max(diciembre) max_diciembre,
@@ -157,9 +169,11 @@ case when avg(octubre) IS NULL then 0 else avg(octubre) end +
 case when avg(noviembre) IS NULL then 0 else avg(noviembre) end +
 case when avg(diciembre) IS NULL then 0 else avg(diciembre) end as anual
 from tmp_evot_pm
-group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
+where anual > 0
 
 -- Shape tw
+select * from (
 
 Select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,
 max(evt_enero) max_enero,max(evt_febrero) max_febrero,max(evt_marzo) max_marzo,max(evt_abril) max_abril,max(evt_mayo) max_mayo,max(evt_junio) max_junio,max(evt_julio) max_julio,max(evt_agosto) max_agosto,max(evt_septiembre) max_septiembre,max(evt_octubre) max_octubre,max(evt_noviembre) max_noviembre,max(evt_diciembre) max_diciembre,
@@ -180,4 +194,5 @@ case when avg(evt_octubre) IS NULL then 0 else avg(evt_octubre) end +
 case when avg(evt_noviembre) IS NULL then 0 else avg(evt_noviembre) end +
 case when avg(evt_diciembre) IS NULL then 0 else avg(evt_diciembre) end as anual
 from tmp_evot_tw
-group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom
+group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
+where anual > 0

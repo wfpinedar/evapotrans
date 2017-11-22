@@ -5,3 +5,10 @@ CREATE FUNCTION  evot_har_evot(double precision,double precision,double precisio
     LANGUAGE SQL
     IMMUTABLE
     RETURNS NULL ON NULL INPUT;
+
+-- rad extraterrestre (mes, latitud, hemisferio (N o S)
+CREATE FUNCTION  evot_har_ra(character varying,double precision,character varying) RETURNS double precision 
+    AS 'select ra from rad_extra_har where latitud <= floor($2)+1 and hemisferio=$3 and mes= $1 order by 1 desc limit 1;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT
