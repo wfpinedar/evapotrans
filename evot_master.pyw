@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 from evotui.evotgui import *
+from evapot.query_maker import *
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -29,6 +30,15 @@ class MyForm(QtGui.QMainWindow):
         self.ui.lPass.setText("postgres")
         self.ui.lHost.setText("localhost")
         self.ui.lPort.setText("5432")
+        self.connect(self.ui.bRuta, QtCore.SIGNAL('clicked()'), self.onInputFileButtonClicked)
+        QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.shpExport)
+
+    def shpExport(self):
+        export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
+                        self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(), gl.format(2000))
+
+    def onInputFileButtonClicked(self):
+        self.ui.lRuta.setText(QtGui.QFileDialog.getExistingDirectory(None, 'Open Folder'))
 
     def testConnect(self):
         try:
