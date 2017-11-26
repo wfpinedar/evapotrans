@@ -14,6 +14,10 @@ dict_metodos_mensuales={
 "Penman Monteith":"consulta_evot_mensual_%s.txt"%("pm")
 }
 
+gl2=""" select * from ( \
+tmp_evot_bc )  \
+where anual >0 """
+
 def load_query (metodo,tipo,anio1,anio2):
     if tipo =="mensual":
         if anio1 == anio2 and anio1!="":
@@ -28,10 +32,14 @@ def load_query (metodo,tipo,anio1,anio2):
             txt  = open(".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
             ctable_expresion='''%s'''%(txt.read())
             ctable_expresion=ctable_expresion + """ and anio >= {} and anio <=  {}""".format(anio1,anio2)
-        txt.close()
+
     if tipo =="decadal":
         # aqui viene el decadal
         pass
+    #txt1=open(".\sql\%s"%("hey.txt"),"w")
+    #txt1.write(ctable_expresion)
+    txt.close()
+    #txt1.close()
     return ctable_expresion
 
 
