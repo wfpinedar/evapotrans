@@ -1,15 +1,13 @@
--- Punto de rocio Temperatura media, R=rango medio diario (Tmedia, tmed mes max y tmed mes min)),R año=diferencia entre las temperaturas medias del mes más cálido--
-CREATE FUNCTION evot_ln_td(double precision,double precision,double precision) RETURNS double precision 
-    AS 'select 0.0023 + 0.37*$1 + 0.53*$2 + 0.35*$3 - 10.9;'
+-- Punto de rocio codigo, mes --
+CREATE FUNCTION evot_ln_td(integer,character varying) RETURNS double precision 
+    AS 'select p_rocio from p_rocio_ln where codigo =$1 and mes = $2;'
     LANGUAGE SQL
     IMMUTABLE
     RETURNS NULL ON NULL INPUT;
 
---evapotranspiración con un buen suministro de agua y un albedo (tmedia,latitud,altura,tmed mes max, tmed mes min)--
-CREATE FUNCTION evot_ln_evot(double precision,double precision,double precision,double precision,double precision) RETURNS double precision 
-    AS 'select (500*($1+0.006*$3)/(100-$2)+15*($1-evot_ln_td($1,$4,$5)))/(80-$1);'
+--evapotranspiración con un buen suministro de agua y un albedo (tmedia,latitud,altura,codigo, mes)--
+CREATE FUNCTION evot_ln_evot(double precision,double precision,double precision,integer,character varying) RETURNS double precision 
+    AS 'select (500*($1+0.006*$3)/(100-$2)+15*($1-evot_ln_td($4,$5)))/(80-$1);'
     LANGUAGE SQL
     IMMUTABLE
     RETURNS NULL ON NULL INPUT;
-
-

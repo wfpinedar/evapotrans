@@ -261,3 +261,10 @@ ra float8,
 mes character varying
 );
 
+create table p_rocio_ln (
+codigo int4,
+mes character varying,
+p_rocio float8
+);
+
+

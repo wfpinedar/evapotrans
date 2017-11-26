@@ -16,18 +16,18 @@ case when evt_enero IS NULL then 0 else evt_enero end +
 from
 (
 select codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom,tmax,tmin,
-anio, (select total from dias where mes ='enero') * evot_ln_evot(enero,latitud,altitud,tmax,tmin) as evt_enero,
- (select total from dias where mes ='febrero') * evot_ln_evot(febrero,latitud,altitud,tmax,tmin) as evt_febrero,
- (select total from dias where mes ='marzo') * evot_ln_evot(marzo,latitud,altitud,tmax,tmin) as evt_marzo,
- (select total from dias where mes ='abril') * evot_ln_evot(abril,latitud,altitud,tmax,tmin) as evt_abril,
- (select total from dias where mes ='mayo') * evot_ln_evot(mayo,latitud,altitud,tmax,tmin) as evt_mayo,
- (select total from dias where mes ='junio') * evot_ln_evot(junio,latitud,altitud,tmax,tmin) as evt_junio,
- (select total from dias where mes ='julio') * evot_ln_evot(julio,latitud,altitud,tmax,tmin) as evt_julio,
- (select total from dias where mes ='agosto') * evot_ln_evot(agosto,latitud,altitud,tmax,tmin) as evt_agosto,
- (select total from dias where mes ='septiembre') * evot_ln_evot(septiembre,latitud,altitud,tmax,tmin) as evt_septiembre,
- (select total from dias where mes ='octubre') * evot_ln_evot(octubre,latitud,altitud,tmax,tmin) as evt_octubre,
- (select total from dias where mes ='noviembre') * evot_ln_evot(noviembre,latitud,altitud,tmax,tmin) as evt_noviembre,
- (select total from dias where mes ='diciembre') * evot_ln_evot(diciembre,latitud,altitud,tmax,tmin) as evt_diciembre
+anio, (select total from dias where mes ='enero') * evot_ln_evot(enero,latitud,altitud,codigo,'enero') as evt_enero,
+ (select total from dias where mes ='febrero') * evot_ln_evot(febrero,latitud,altitud,codigo,'febrero') as evt_febrero,
+ (select total from dias where mes ='marzo') * evot_ln_evot(marzo,latitud,altitud,codigo,'marzo') as evt_marzo,
+ (select total from dias where mes ='abril') * evot_ln_evot(abril,latitud,altitud,codigo,'abril') as evt_abril,
+ (select total from dias where mes ='mayo') * evot_ln_evot(mayo,latitud,altitud,codigo,'mayo') as evt_mayo,
+ (select total from dias where mes ='junio') * evot_ln_evot(junio,latitud,altitud,codigo,'junio') as evt_junio,
+ (select total from dias where mes ='julio') * evot_ln_evot(julio,latitud,altitud,codigo,'julio') as evt_julio,
+ (select total from dias where mes ='agosto') * evot_ln_evot(agosto,latitud,altitud,codigo,'agosto') as evt_agosto,
+ (select total from dias where mes ='septiembre') * evot_ln_evot(septiembre,latitud,altitud,codigo,'septiembre') as evt_septiembre,
+ (select total from dias where mes ='octubre') * evot_ln_evot(octubre,latitud,altitud,codigo,'octubre') as evt_octubre,
+ (select total from dias where mes ='noviembre') * evot_ln_evot(noviembre,latitud,altitud,codigo,'noviembre') as evt_noviembre,
+ (select total from dias where mes ='diciembre') * evot_ln_evot(diciembre,latitud,altitud,codigo,'diciembre') as evt_diciembre
 from
 (SELECT estacion.codigo, estacion.tipo,estacion.clase,estacion.cat, estacion.nombre, estacion.municipio, estacion.corriente,
   estacion.departamento, estacion.altitud, estacion.cod_dep, estacion.cod_muni, estacion.longitud, estacion.latitud, estacion.estado,
