@@ -21,7 +21,7 @@ class MyForm(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.bMos, QtCore.SIGNAL('clicked()'), self.tileArrage)
         QtCore.QObject.connect(self.ui.bSub, QtCore.SIGNAL('clicked()'), self.SubWindowView)
         QtCore.QObject.connect(self.ui.bPes, QtCore.SIGNAL('clicked()'), self.TabbedView)
-        self.connect(self.ui.importtab, QtCore.SIGNAL('triggered()'),self.displayNext)
+        self.connect(self.ui.importtab, QtCore.SIGNAL('triggered()'), self.displayNext)
         self.connect(self.ui.eporttab, QtCore.SIGNAL('triggered()'), self.displayPrevious)
         self.connect(self.ui.conex, QtCore.SIGNAL('triggered()'), self.displayPrevious)
         QtCore.QObject.connect(self.ui.bTest, QtCore.SIGNAL('clicked()'), self.testConnect)
@@ -31,7 +31,34 @@ class MyForm(QtGui.QMainWindow):
         self.ui.lHost.setText("localhost")
         self.ui.lPort.setText("5432")
         self.connect(self.ui.bRuta, QtCore.SIGNAL('clicked()'), self.onInputFileButtonClicked)
-        QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.shpExport)
+        QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.dataExport)
+        self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman", "Monteith",
+                                 "Thornthwaite", "Turc"])
+
+    def methodText(self):
+        print "hello"
+        self.alert(self.ui.cMetho.currentIndexChanged())
+        if self.ui.cMetho.currentText() == "gl":
+            self.ui.lMetho.setText("Garcia y Lopez")
+        elif self.ui.cMetho.currentText() == "pm":
+            self.ui.lMetho.setText("Penman-Monteith.")
+        else:
+            self.ui.lMetho.setText("")
+
+    def alert(self, msg, icon=QtGui.QMessageBox.Warning):
+        d = QtGui.QMessageBox()
+        d.setWindowTitle('Warning valid options')
+        d.setText(msg)
+        d.setIcon(icon)
+        d.exec_()
+
+    def dataExport(self):
+        if self.ui.cShp.isChecked():
+            self.shpExport()
+            self.ui.lRuta.clear()
+            self.ui.lShpName.clear()
+        else:
+            self.alert("Ninguna opcion de exportacion seleccionada")
 
     def shpExport(self):
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
