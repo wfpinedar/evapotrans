@@ -2,6 +2,7 @@
 import sys
 from evotui.evotgui import *
 from evapot.query_maker import *
+from evapot.query_maker_all import *
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -62,7 +63,8 @@ class MyForm(QtGui.QMainWindow):
 
     def shpExport(self):
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
-                        self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(), gl.format(2000))
+                        self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
+                        load_query (self.ui.cMetho.currentText(),"mensual",1981,2004))
 
     def onInputFileButtonClicked(self):
         self.ui.lRuta.setText(QtGui.QFileDialog.getExistingDirectory(None, 'Open Folder'))

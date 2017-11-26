@@ -1,3 +1,4 @@
+select * from (
 SELECT codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, estado, geom, anio,
 evt_enero,evt_febrero,evt_marzo,evt_abril,evt_mayo,evt_junio,evt_julio,evt_agosto,evt_septiembre,evt_octubre,evt_noviembre,evt_diciembre,
 case when evt_enero IS NULL then 0 else evt_enero end +

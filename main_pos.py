@@ -11,7 +11,7 @@ def main():
     DB="evot"
 ##    build_db()
 ##    load_station(r"E:\DOCUMENTOS\TRABAJOS INDEPENDIENTES\PROYECTO_EVAPOTRANS\datos_demo\Estaciones\estaciones.csv",DB,"estacion_fix")
-##    load_rad_har(r'C:\datos_demo\ra_har.csv', DB, 'rad_extra_har')
+##    load_rad_har(r'E:\DOCUMENTOS\TRABAJOS INDEPENDIENTES\PROYECTO_EVAPOTRANS\datos_demo\ra_har.csv', DB, 'rad_extra_har')
     load_rad_har(r'E:\DOCUMENTOS\GitHub\evapotrans\datos_iniciales\punto_rocio_linacre.csv', DB, 'p_rocio_ln')
 ##    add_geoColum(DB,"estacion")
 ##    load_variable(r"C:\datos_demo\Variables\AJUSTADAS\TEMPERATURA_MEDIA.csv",DB,"variable")
