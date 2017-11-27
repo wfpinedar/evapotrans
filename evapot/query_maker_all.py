@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import psycopg2
-
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 ctable_expresion=""
 
 dict_metodos_mensuales={
@@ -17,20 +17,30 @@ dict_metodos_mensuales={
 def load_query (metodo,tipo,anio1,anio2):
     if tipo =="mensual":
         if anio1 == anio2 and anio1!="":
-            txt = open(".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
+            txt = open(r".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
             array_txt = (" ").join([x.replace("\n", "") for x in txt.readlines()])
             ctable_expresion = '''%s''' % (array_txt)
             ctable_expresion=ctable_expresion + """ and anio = {}""".format(anio1)
         elif anio1 != anio2:
-            txt  = open(".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
-            array_txt = (" ").join([x.replace("\n", "") for x in txt.readlines()])
-            ctable_expresion = '''%s''' % (array_txt)
-            ctable_expresion=ctable_expresion + """ and anio >= {} and anio <=  {}""".format(anio1,anio2)
+            con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                    port="5432")
+            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            cursor1 = con1.cursor()
+            try :
+                cursor1.execute("DROP table tmp_query_mensual")
+            except:
+                pass
+            txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
+            ce='''CREATE table tmp_query_mensual as ('''
+            ctable_e= '''%s''' % (txt.read())
+            print ce+ctable_e
+            cursor1.execute(ce+ctable_e+")")
+            ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+            ctable_expresion=ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1,anio2)
         elif anio1 == anio2 and anio1=="":
-            txt = open(".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
+            txt = open(r".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
             array_txt = (" ").join([x.replace("\n", "") for x in txt.readlines()])
             ctable_expresion = '''%s''' % (array_txt)
-            ctable_expresion=ctable_expresion + """ and anio >= {} and anio <=  {}""".format(anio1,anio2)
 
     if tipo =="decadal":
         # aqui viene el decadal
@@ -40,18 +50,12 @@ def load_query (metodo,tipo,anio1,anio2):
     return ctable_expresion
 
 
-def query(anio, db="evot"):
+def query(db="evot"):
     con = psycopg2.connect (database=db, user="postgres", password="postgres", host="localhost", port="5432")
     val = []
     with con:
         cursor = con.cursor()
-        cursor.execute(ctable_expresion)
-        rows = cursor.fetchall()
-        for row in rows:
-            val.append(list(row))
-        for i in val:
-            print i
-    return val
+        cursor.execute("create table evot1_temp from "+ ctable_expresion)
 
 def export_pg_table(export_path, pgtable_name, host, username, password, db, pg_sql_select):
     print "Exporting shapefile ..."
