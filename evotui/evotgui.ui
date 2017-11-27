@@ -5,6 +5,9 @@
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,8 +20,8 @@
    <string>Evapot Master</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>img/tux.png</normaloff>img/tux.png</iconset>
+   <iconset resource="ofolder.qrc">
+    <normaloff>:/img/tux.png</normaloff>:/img/tux.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QMdiArea" name="mdiArea">
@@ -41,9 +44,6 @@
     </property>
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="activationOrder">
-     <enum>QMdiArea::CreationOrder</enum>
     </property>
     <property name="viewMode">
      <enum>QMdiArea::TabbedView</enum>
@@ -150,8 +150,8 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>img/open_folder.png</normaloff>img/open_folder.png</iconset>
+              <iconset resource="ofolder.qrc">
+               <normaloff>:/img/open_folder.png</normaloff>:/img/open_folder.png</iconset>
              </property>
              <property name="autoDefault">
               <bool>false</bool>
@@ -336,6 +336,108 @@
         </layout>
        </item>
       </layout>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>190</y>
+        <width>46</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Año 1:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>230</y>
+        <width>46</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Año 2:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="anio1">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>190</y>
+        <width>113</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>60</y>
+        <width>121</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Teporalidad</string>
+      </property>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>101</width>
+         <height>88</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QRadioButton" name="rMen">
+          <property name="text">
+           <string>Mensual</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="rAnio">
+          <property name="text">
+           <string>Anual</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="rPer">
+          <property name="text">
+           <string>Periodo</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="rHis">
+          <property name="text">
+           <string>Historico</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QLineEdit" name="anio2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>230</y>
+        <width>113</width>
+        <height>20</height>
+       </rect>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="conex">
@@ -678,6 +780,57 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
- <connections/>
+ <resources>
+  <include location="ofolder.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>rPer</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>anio2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>524</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>544</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rHis</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>anio1</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>536</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>547</x>
+     <y>242</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rHis</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>anio2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>512</x>
+     <y>205</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>543</x>
+     <y>282</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

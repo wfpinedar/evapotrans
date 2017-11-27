@@ -3,6 +3,7 @@ import sys
 from evotui.evotgui import *
 from evapot.query_maker import *
 from evapot.query_maker_all import *
+from evapot.export_2_excel import *
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -36,16 +37,6 @@ class MyForm(QtGui.QMainWindow):
         self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman-Monteith",
                                  "Thornthwaite", "Turc"])
 
-    def methodText(self):
-        print "hello"
-        self.alert(self.ui.cMetho.currentIndexChanged())
-        if self.ui.cMetho.currentText() == "gl":
-            self.ui.lMetho.setText("Garcia y Lopez")
-        elif self.ui.cMetho.currentText() == "pm":
-            self.ui.lMetho.setText("Penman-Monteith.")
-        else:
-            self.ui.lMetho.setText("")
-
     def alert(self, msg, icon=QtGui.QMessageBox.Warning):
         d = QtGui.QMessageBox()
         d.setWindowTitle('Warning valid options')
@@ -53,19 +44,26 @@ class MyForm(QtGui.QMainWindow):
         d.setIcon(icon)
         d.exec_()
 
-    def dataExport(self):
-        if self.ui.cShp.isChecked():
-            self.shpExport()
-            self.ui.lRuta.clear()
-            self.ui.lShpName.clear()
-        else:
-            self.alert("Ninguna opcion de exportacion seleccionada")
-
     def shpExport(self):
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
-                        load_query (self.ui.cMetho.currentText(),"mensual",1981,2004))
+                        load_query(self.ui.cMetho.currentText(),"mensual", self.ui.anio1.text(), self.ui.anio2.text()))
 
+    def excExport(self):
+        make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cMetho.currentText(),"mensual",
+                   self.ui.anio1.text(), self.ui.anio2.text())), self.ui.lRuta.text(), self.ui.lShpName.text())
+
+    def dataExport(self):
+        if self.ui.cShp.isChecked():
+            self.shpExport()
+        else:
+            self.alert("Ninguna opcion de exportacion seleccionada")
+        if self.ui.cExcl.isChecked():
+            self.excExport()
+        else:
+            self.alert("Ninguna opcion de exportacion seleccionada")
+        self.ui.lRuta.clear()
+        self.ui.lShpName.clear()
 
     def onInputFileButtonClicked(self):
         self.ui.lRuta.setText(QtGui.QFileDialog.getExistingDirectory(None, 'Open Folder'))
