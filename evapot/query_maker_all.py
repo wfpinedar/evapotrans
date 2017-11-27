@@ -11,7 +11,7 @@ dict_metodos_mensuales={
 "Linacre":"consulta_evot_mensual_%s.txt"%("ln"),
 "Turc":"consulta_evot_mensual_%s.txt"%("turc"),
 "Hargreaves":"consulta_evot_mensual_%s.txt"%("har"),
-"Penman Monteith":"consulta_evot_mensual_%s.txt"%("pm")
+"Penman-Monteith":"consulta_evot_mensual_%s.txt"%("pm")
 }
 
 def load_query (metodo,tipo,anio1,anio2):
@@ -33,7 +33,7 @@ def load_query (metodo,tipo,anio1,anio2):
             txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
             ce='''CREATE table tmp_query_mensual as ('''
             ctable_e= '''%s''' % (txt.read())
-            print ce+ctable_e
+            print ce+ctable_e+")"
             cursor1.execute(ce+ctable_e+")")
             ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
             ctable_expresion=ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1,anio2)
