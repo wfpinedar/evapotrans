@@ -33,7 +33,7 @@ class MyForm(QtGui.QMainWindow):
         self.ui.lPort.setText("5432")
         self.connect(self.ui.bRuta, QtCore.SIGNAL('clicked()'), self.onInputFileButtonClicked)
         QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.dataExport)
-        self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman", "Monteith",
+        self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman-Monteith",
                                  "Thornthwaite", "Turc"])
 
     def methodText(self):
