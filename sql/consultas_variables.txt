@@ -1,0 +1,14 @@
+﻿-- Consulta detallada (solicita decada y hasta dia)
+select e.codigo, v.codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, 
+estado, geom, variable, anio, enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, diciembre, decada, dia 
+ from estacion e,variable v
+Where e.codigo=v.codigo AND variable = 'BS' and anio = 2000 AND decada=1 AND dia = 1 
+
+-- Anual  (solo requiere anio)
+select e.codigo, v.codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, 
+estado, geom, variable, anio, avg(enero) enero, avg(febrero) febrero, avg(marzo) marzo, avg(abril) abril, avg(mayo) mayo, avg(junio) junio, 
+avg(julio) julio, avg(agosto) agosto, avg(septiembre) septiembre, avg(octubre) octubre, avg(diciembre) diciembre--, decada, dia 
+ from estacion e,variable v
+Where e.codigo=v.codigo AND variable = 'BS' and anio = 2000 --AND decada=1 AND dia = 1 
+GROUP BY e.codigo, v.codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, 
+estado, geom, variable, anio
