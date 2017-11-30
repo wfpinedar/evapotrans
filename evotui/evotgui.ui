@@ -302,12 +302,12 @@
       </property>
       <item>
        <property name="text">
-        <string>Variable</string>
+        <string>Resultado</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Resultado</string>
+        <string>Variable</string>
        </property>
       </item>
      </widget>

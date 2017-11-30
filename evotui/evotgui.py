@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'E:\DOCUMENTOS\GitHub\evapotrans\evotui\evotgui.ui'
 #
-# Created: Thu Nov 30 05:12:01 2017
+# Created: Thu Nov 30 05:25:16 2017
 #      by: PyQt4 UI code generator 4.11
 #
 # WARNING! All changes made in this file will be lost!
@@ -301,8 +301,8 @@ class Ui_MainWindow(object):
         self.cPeriodicidad.setItemText(1, _translate("MainWindow", "Decadal", None))
         self.cAgrup.setItemText(0, _translate("MainWindow", "Normal", None))
         self.cAgrup.setItemText(1, _translate("MainWindow", "Promedio", None))
-        self.cTipo.setItemText(0, _translate("MainWindow", "Variable", None))
-        self.cTipo.setItemText(1, _translate("MainWindow", "Resultado", None))
+        self.cTipo.setItemText(0, _translate("MainWindow", "Resultado", None))
+        self.cTipo.setItemText(1, _translate("MainWindow", "Variable", None))
         self.label_2.setText(_translate("MainWindow", "Ruta", None))
         self.label_7.setText(_translate("MainWindow", "Nombre", None))
         self.label_8.setText(_translate("MainWindow", "Metodo", None))
