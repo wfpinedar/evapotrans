@@ -90,6 +90,9 @@
       </property>
      </widget>
      <widget class="QLineEdit" name="anio1">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>540</x>
@@ -122,23 +125,26 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
+         <widget class="QRadioButton" name="rAnio">
+          <property name="text">
+           <string>Año Específico</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QRadioButton" name="rPer">
           <property name="text">
-           <string>Año Especìfico</string>
+           <string>Período</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QRadioButton" name="rHis">
           <property name="text">
-           <string>Perìodo</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="rHis_2">
-          <property name="text">
            <string>Toda la Serie</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -184,7 +190,7 @@
        <string>Periodicidad</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox_3">
+     <widget class="QComboBox" name="cPeriodicidad">
       <property name="geometry">
        <rect>
         <x>144</x>
@@ -204,7 +210,7 @@
        </property>
       </item>
      </widget>
-     <widget class="QComboBox" name="comboBox_2">
+     <widget class="QComboBox" name="cAgrup">
       <property name="geometry">
        <rect>
         <x>143</x>
@@ -250,7 +256,7 @@
        </sizepolicy>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>143</x>
@@ -285,7 +291,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="cTipo">
       <property name="geometry">
        <rect>
         <x>143</x>
@@ -367,7 +373,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Agrupaciòn</string>
+       <string>Agrupación</string>
       </property>
      </widget>
      <widget class="QPushButton" name="bExport">
@@ -755,7 +761,7 @@
  </resources>
  <connections>
   <connection>
-   <sender>rPer</sender>
+   <sender>rAnio</sender>
    <signal>toggled(bool)</signal>
    <receiver>anio2</receiver>
    <slot>setEnabled(bool)</slot>
@@ -771,7 +777,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>rHis</sender>
+   <sender>rPer</sender>
    <signal>toggled(bool)</signal>
    <receiver>anio1</receiver>
    <slot>setDisabled(bool)</slot>
@@ -787,7 +793,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>rHis</sender>
+   <sender>rPer</sender>
    <signal>toggled(bool)</signal>
    <receiver>anio2</receiver>
    <slot>setDisabled(bool)</slot>
@@ -803,7 +809,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>rHis_2</sender>
+   <sender>rHis</sender>
    <signal>toggled(bool)</signal>
    <receiver>anio1</receiver>
    <slot>setDisabled(bool)</slot>
@@ -819,7 +825,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>rHis_2</sender>
+   <sender>rHis</sender>
    <signal>toggled(bool)</signal>
    <receiver>anio2</receiver>
    <slot>setDisabled(bool)</slot>
@@ -835,7 +841,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>rPer</sender>
+   <sender>rAnio</sender>
    <signal>toggled(bool)</signal>
    <receiver>anio2</receiver>
    <slot>setDisabled(bool)</slot>
@@ -851,7 +857,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>rHis</sender>
+   <sender>rPer</sender>
    <signal>toggled(bool)</signal>
    <receiver>anio1</receiver>
    <slot>setEnabled(bool)</slot>
@@ -867,7 +873,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>rHis</sender>
+   <sender>rPer</sender>
    <signal>toggled(bool)</signal>
    <receiver>anio2</receiver>
    <slot>setEnabled(bool)</slot>
@@ -895,6 +901,118 @@
     <hint type="destinationlabel">
      <x>167</x>
      <y>320</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rAnio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>anio1</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>497</x>
+     <y>147</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>636</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rAnio</sender>
+   <signal>clicked()</signal>
+   <receiver>anio1</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>492</x>
+     <y>144</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>538</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rAnio</sender>
+   <signal>clicked()</signal>
+   <receiver>anio2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>483</x>
+     <y>145</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>533</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rPer</sender>
+   <signal>clicked()</signal>
+   <receiver>anio1</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>498</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>533</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>groupBox</sender>
+   <signal>clicked()</signal>
+   <receiver>anio2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>504</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>540</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rHis</sender>
+   <signal>clicked()</signal>
+   <receiver>anio1</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>572</x>
+     <y>221</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>546</x>
+     <y>301</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rHis</sender>
+   <signal>clicked()</signal>
+   <receiver>anio2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>557</x>
+     <y>219</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>565</x>
+     <y>343</y>
     </hint>
    </hints>
   </connection>

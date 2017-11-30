@@ -45,6 +45,8 @@ class MyForm(QtGui.QMainWindow):
         d.exec_()
 
     def shpExport(self):
+        if self.ui.rAnio.isChecked():
+            pass
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
                         load_query(self.ui.cMetho.currentText(),"mensual", self.ui.anio1.text(), self.ui.anio2.text()))
@@ -54,16 +56,18 @@ class MyForm(QtGui.QMainWindow):
                    self.ui.anio1.text(), self.ui.anio2.text())), self.ui.lRuta.text(), self.ui.lShpName.text())
 
     def dataExport(self):
-        if self.ui.cShp.isChecked():
+        if self.ui.cShp.isChecked() and self.ui.cExcl.isChecked():
             self.shpExport()
-        else:
-            self.alert("Ninguna opcion de exportacion seleccionada")
-        if self.ui.cExcl.isChecked():
+            self.excExport()
+        elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked()is not True:
+            self.shpExport()
+        elif self.ui.cShp.isChecked() is not True and self.ui.cExcl.isChecked():
             self.excExport()
         else:
-            self.alert("Ninguna opcion de exportacion seleccionada")
-        self.ui.lRuta.clear()
-        self.ui.lShpName.clear()
+            self.alert("Seleccione el formato de salida del Archivo")
+
+        #self.ui.lRuta.clear()
+        #self.ui.lShpName.clear()
 
     def onInputFileButtonClicked(self):
         self.ui.lRuta.setText(QtGui.QFileDialog.getExistingDirectory(None, 'Open Folder'))
