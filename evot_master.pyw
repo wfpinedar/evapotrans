@@ -16,6 +16,7 @@ class MyForm(QtGui.QMainWindow):
         self.ui.mdiArea.addSubWindow(self.ui.importtab)
         self.ui.mdiArea.addSubWindow(self.ui.eporttab)
         self.ui.mdiArea.addSubWindow(self.ui.conex)
+        print self.ui.mdiArea.subWindowList()[0].windowTitle()
         QtCore.QObject.connect(self.ui.bNext, QtCore.SIGNAL('clicked()'), self.displayNext)
         QtCore.QObject.connect(self.ui.bPrev, QtCore.SIGNAL('clicked()'),self.displayPrevious)
         QtCore.QObject.connect(self.ui.bClose, QtCore.SIGNAL('clicked()'), self.closeAll)
@@ -36,6 +37,7 @@ class MyForm(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.dataExport)
         self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman-Monteith",
                                  "Thornthwaite", "Turc"])
+        self.ui.mdiArea.setActiveSubWindow(self.ui.mdiArea.subWindowList()[1])
 
     def alert(self, msg, icon=QtGui.QMessageBox.Warning):
         d = QtGui.QMessageBox()
