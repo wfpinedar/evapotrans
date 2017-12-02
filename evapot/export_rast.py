@@ -2,7 +2,7 @@ import os
 import sys
 import subprocess
 
-grass7bin = r'C:\OSGeo4W64\bin\grass70.bat'
+grass7bin = r'C:\OSGeo4W64\bin\grass72.bat'
 startcmd = [grass7bin, '--config', 'path']
 try:
     p = subprocess.Popen(startcmd, shell=False,

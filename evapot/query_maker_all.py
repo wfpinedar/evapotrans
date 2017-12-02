@@ -14,64 +14,134 @@ dict_metodos_mensuales={
 "Penman-Monteith":"consulta_evot_mensual_%s.txt"%("pm")
 }
 
-def load_query (metodo,tipo,anio1,anio2):
-    if tipo =="mensual":
-        if anio1!="" and anio2=="":
-            con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
-                                    port="5432")
-            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-            cursor1 = con1.cursor()
-            try :
-                cursor1.execute("DROP table tmp_query_mensual")
-            except:
-                pass
-            txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
-            ce='''CREATE table tmp_query_mensual as ('''
-            ctable_e= '''%s''' % (txt.read())
-            #print ce+ctable_e+")"
-            cursor1.execute(ce+ctable_e+")")
-            ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
-            ctable_expresion=ctable_expresion + """ where anio = {}""".format(anio1,anio2)
+dict_metodos_mensuales_promedio={
+"Thornthwaite":"consulta_evot_mensual_%s.txt"%("tw"),
+"Christiansen":"consulta_evot_mensual_%s.txt"%("cht"),
+"Blaney-Criddle":"consulta_evot_mensual_%s.txt"%("bc"),
+"Linacre":"consulta_evot_mensual_%s.txt"%("ln"),
+"Turc":"consulta_evot_mensual_%s.txt"%("turc"),
+"Hargreaves":"consulta_evot_mensual_%s.txt"%("har"),
+"Penman-Monteith":"consulta_evot_mensual_%s.txt"%("pm")
+}
+dict_metodos_decadales={
+"Penman-Monteith P.M":"consulta_evot_decadal_pm_consecutivo.txt",
+}
+dict_metodos_decadales_promedio={
+"Penman-Monteith P.M.M":"consulta_evot_decadal_pm_consecutivo_prom.txt"
+}
 
-        elif anio2!="" and anio1!="":
-            con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
-                                    port="5432")
-            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-            cursor1 = con1.cursor()
-            try :
-                cursor1.execute("DROP table tmp_query_mensual")
-            except:
-                pass
-            txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
-            ce='''CREATE table tmp_query_mensual as ('''
-            ctable_e= '''%s''' % (txt.read())
-            #print ce+ctable_e+")"
-            cursor1.execute(ce+ctable_e+")")
-            ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
-            ctable_expresion=ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1,anio2)
 
-        elif anio2 == "" and anio1 == "":
-            con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
-                                    port="5432")
-            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-            cursor1 = con1.cursor()
-            try:
-                cursor1.execute("DROP table tmp_query_mensual")
-            except:
-                pass
-            txt = open(r".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
-            ce = '''CREATE table tmp_query_mensual as ('''
-            ctable_e = '''%s''' % (txt.read())
-            #print ce + ctable_e + ")"
-            cursor1.execute(ce + ctable_e + ")")
-            ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
-            ctable_expresion = ctable_expresion
+def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
+    if tipo=="Resultado":
+        if agrupacion=="Normal":
+            if periodo =="Mensual":
+                if anio1!="" and anio2=="":
+                    con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                            port="5432")
+                    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+                    cursor1 = con1.cursor()
+                    try :
+                        cursor1.execute("DROP table tmp_query_mensual")
+                    except:
+                        pass
+                    txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
+                    ce='''CREATE table tmp_query_mensual as ('''
+                    ctable_e= '''%s''' % (txt.read())
+                    #print ce+ctable_e+")"
+                    cursor1.execute(ce+ctable_e+")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion=ctable_expresion + """ where anio = {}""".format(anio1,anio2)
 
-    if tipo =="decadal":
-        # aqui viene el decadal
+                elif anio2!="" and anio1!="":
+                    con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                            port="5432")
+                    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+                    cursor1 = con1.cursor()
+                    try :
+                        cursor1.execute("DROP table tmp_query_mensual")
+                    except:
+                        pass
+                    txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
+                    ce='''CREATE table tmp_query_mensual as ('''
+                    ctable_e= '''%s''' % (txt.read())
+                    #print ce+ctable_e+")"
+                    cursor1.execute(ce+ctable_e+")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion=ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1,anio2)
+
+                elif anio2 == "" and anio1 == "":
+                    con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                            port="5432")
+                    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+                    cursor1 = con1.cursor()
+                    try:
+                        cursor1.execute("DROP table tmp_query_mensual")
+                    except:
+                        pass
+                    txt = open(r".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    #print ce + ctable_e + ")"
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion
+            if periodo =="Decadal":
+                if anio1 != "" and anio2 == "":
+                    con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                            port="5432")
+                    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+                    cursor1 = con1.cursor()
+                    try:
+                        cursor1.execute("DROP table tmp_query_decadal")
+                    except:
+                        pass
+                    txt = open(r".\sql\%s" % (dict_metodos_decadales[str(metodo)]), "r")
+                    ce = '''CREATE table tmp_query_decadal as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    # print ce+ctable_e+")"
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_decadal ")
+                    ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1, anio2)
+
+                elif anio2 != "" and anio1 != "":
+                    con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                            port="5432")
+                    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+                    cursor1 = con1.cursor()
+                    try:
+                        cursor1.execute("DROP table tmp_query_decadal")
+                    except:
+                        pass
+                    txt = open(r".\sql\%s" % (dict_metodos_decadales[str(metodo)]), "r")
+                    ce = '''CREATE table tmp_query_decadal as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    # print ce+ctable_e+")"
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_decadal ")
+                    ctable_expresion = ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1, anio2)
+
+                elif anio2 == "" and anio1 == "":
+                    con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                            port="5432")
+                    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+                    cursor1 = con1.cursor()
+                    try:
+                        cursor1.execute("DROP table tmp_query_decadal")
+                    except:
+                        pass
+                    txt = open(r".\sql\%s" % (dict_metodos_decadales[str(metodo)]), "r")
+                    ce = '''CREATE table tmp_query_decadal as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    # print ce + ctable_e + ")"
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_decadal ")
+                    ctable_expresion = ctable_expresion
+        else:
+            pass # pass del tipo de agrupacion
+    else:
+        #aqui viene si es variable incial
         pass
     txt.close()
-    #txt1.close()
     return ctable_expresion
 
 
