@@ -28,7 +28,7 @@ def load_query (metodo,tipo,anio1,anio2):
             txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
             ce='''CREATE table tmp_query_mensual as ('''
             ctable_e= '''%s''' % (txt.read())
-            print ce+ctable_e+")"
+            #print ce+ctable_e+")"
             cursor1.execute(ce+ctable_e+")")
             ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
             ctable_expresion=ctable_expresion + """ where anio = {}""".format(anio1,anio2)
@@ -45,7 +45,7 @@ def load_query (metodo,tipo,anio1,anio2):
             txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
             ce='''CREATE table tmp_query_mensual as ('''
             ctable_e= '''%s''' % (txt.read())
-            print ce+ctable_e+")"
+            #print ce+ctable_e+")"
             cursor1.execute(ce+ctable_e+")")
             ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
             ctable_expresion=ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1,anio2)
@@ -62,7 +62,7 @@ def load_query (metodo,tipo,anio1,anio2):
             txt = open(r".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
             ce = '''CREATE table tmp_query_mensual as ('''
             ctable_e = '''%s''' % (txt.read())
-            print ce + ctable_e + ")"
+            #print ce + ctable_e + ")"
             cursor1.execute(ce + ctable_e + ")")
             ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
             ctable_expresion = ctable_expresion
@@ -87,7 +87,7 @@ def export_pg_table(export_path, pgtable_name, host, username, password, db, pg_
     cmd = '''pgsql2shp -f {export_path}\{pgtable_name}.shp -h {host} -u {username} -P {password} {db} "{pg_sql_select}"'''.format(
         pgtable_name=pgtable_name, export_path=export_path, host=host, username=username, db=db, password=password,
         pg_sql_select=pg_sql_select)
-    print cmd
+    #print cmd
     process = os.system(cmd)
 
 #load_query("Thornthwaite","")

@@ -26,9 +26,16 @@ def get_table(db, query):
         cur = con.cursor()
         cur.execute(str(query))
         rows = cur.fetchall()
-        val.append([n.name for n in cur.description])
+        p = [n.name for n in cur.description].index("geom")
+        ro = [n.name for n in cur.description]
+        del ro[p]
+        val.append(ro)
         for row in rows:
-            val.append(list(row))
+            ri = list(row)
+            del ri[p]
+            nrow = ri
+            val.append(nrow)
+    print "Excel export OK!"
     return val
 
 
@@ -38,7 +45,6 @@ def make_excel(table,export_path,pgtable_name):
     save_file = "{export_path}\{pgtable_name}.xlsx".format(pgtable_name=pgtable_name, export_path=export_path)
     workbook = xlsxwriter.Workbook(r''+save_file)
     worksheet = workbook.add_worksheet()
-    print
     for row,data in enumerate(table):
         worksheet.write_row(row,0,data)
     workbook.close()
