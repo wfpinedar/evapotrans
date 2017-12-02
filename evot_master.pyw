@@ -4,6 +4,7 @@ from evotui.evotgui import *
 from evapot.query_maker import *
 from evapot.query_maker_all import *
 from evapot.export_2_excel import *
+from evapot.export_rast import *
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -57,10 +58,14 @@ class MyForm(QtGui.QMainWindow):
         make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cMetho.currentText(),"mensual",
                    self.ui.anio1.text(), self.ui.anio2.text())), self.ui.lRuta.text(), self.ui.lShpName.text())
 
+    def rasExport(self):
+        make_rast(self.ui.lShpName.text(), self.ui.lRuta.text())
+
     def dataExport(self):
         if self.ui.cShp.isChecked() and self.ui.cExcl.isChecked():
             self.shpExport()
             self.excExport()
+            self.rasExport()
         elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked()is not True:
             self.shpExport()
         elif self.ui.cShp.isChecked() is not True and self.ui.cExcl.isChecked():
