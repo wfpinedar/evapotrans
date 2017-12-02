@@ -12,7 +12,19 @@ case when evt_enero IS NULL then 0 else evt_enero end +
  case when evt_septiembre IS NULL then 0 else evt_septiembre end +
  case when evt_octubre IS NULL then 0 else evt_octubre end +
  case when evt_noviembre IS NULL then 0 else evt_noviembre end +
- case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual
+ case when evt_diciembre IS NULL then 0 else evt_diciembre end as anual,
+ case when evt_enero IS NULL then 0 else 1 end +
+  case when evt_febrero IS NULL then 0 else 1 end +
+  case when evt_marzo IS NULL then 0 else 1 end +
+  case when evt_abril IS NULL then 0 else 1 end +
+  case when evt_mayo  IS NULL then 0 else 1 end +
+  case when evt_junio IS NULL then 0 else 1 end +
+  case when evt_julio IS NULL then 0 else 1 end +
+  case when evt_agosto IS NULL then 0 else 1 end  +
+  case when evt_septiembre IS NULL then 0 else 1 end +
+  case when evt_octubre IS NULL then 0 else 1 end +
+  case when evt_noviembre IS NULL then 0 else 1 end +
+  case when evt_diciembre IS NULL then 0 else 1 end as factor
 FROM
 (select codigo, tipo, clase, cat, nombre, municipio, corriente, departamento, altitud, cod_dep, cod_muni, longitud, latitud, estado, geom, anio,
 evot_bc_evot(1, 0.28,enero)*(select total from dias where mes='enero' ) as evt_enero,
@@ -59,4 +71,4 @@ estacion.codigo =  tmedia.codigo AND
 estacion.codigo =  brillo.codigo AND
 tmedia.codigo= brillo.codigo AND
 tmedia.anio =  brillo.anio) as tmp ) as tmp2 ) as tmp3
-where anual >0
+where anual >0 AND factor >=10
