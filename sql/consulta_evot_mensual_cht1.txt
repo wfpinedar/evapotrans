@@ -1,3 +1,0 @@
-select * from 
-tmp_evot_cht
-where anual >0

@@ -70,17 +70,9 @@ class MyForm(QtGui.QMainWindow):
         d.exec_()
 
     def shpExport(self):
-        if self.ui.cTipo.currentText()=='Resultado':
-            if self.ui.cAgrup.currentText()=='Normal':
-                if self.ui.cPeriodicidad.currentText() == 'Mensual':
-                    export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
-                                    self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
-                                    load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),"Mensual", self.ui.anio1.text(), self.ui.anio2.text()))
-                else:
-                    export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
-                                    self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
-                                    load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(), "Decadal", self.ui.anio1.text(),
-                                               self.ui.anio2.text()))
+        export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
+                        self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
+                        load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text()))
 
 
     def excExport(self):
