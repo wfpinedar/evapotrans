@@ -84,7 +84,7 @@ class MyForm(QtGui.QMainWindow):
                                    self.ui.lRuta.text(), self.ui.lShpName.text())
 
     def rasExport(self):
-        make_rast(self.ui.lShpName.text(), self.ui.lRuta.text())
+        make_rast(self.ui.lShpName.text(), self.ui.lRuta.text(), self.ui.cPeriodicidad.currentText())
 
     def dataExport(self):
         if self.ui.cShp.isChecked() and self.ui.cExcl.isChecked() and self.ui.cExcl_2.isChecked():
