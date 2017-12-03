@@ -19,6 +19,6 @@ case when avg(evt_septiembre) IS NULL then 0 else avg(evt_septiembre) end +
 case when avg(evt_octubre) IS NULL then 0 else avg(evt_octubre) end +
 case when avg(evt_noviembre) IS NULL then 0 else avg(evt_noviembre) end +
 case when avg(evt_diciembre) IS NULL then 0 else avg(evt_diciembre) end as anual
-from tmp_evot_bc
+from tmp_query_prom
 group by codigo,tipo,clase,cat,nombre,municipio,corriente,departamento,altitud,cod_dep,cod_muni,longitud,latitud,estado,geom) as tmp
 where anual > 0

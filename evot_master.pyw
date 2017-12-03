@@ -36,7 +36,8 @@ class MyForm(QtGui.QMainWindow):
         self.ui.lPort.setText("5432")
         self.connect(self.ui.bRuta, QtCore.SIGNAL('clicked()'), self.onInputFileButtonClicked)
         QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.dataExport)
-        self.ui.cTipo.currentIndexChanged.connect(self.change_type_method)
+        self.ui.cTipo.currentIndexChanged.connect(self.change_type_period)
+        self.ui.cAgrup.currentIndexChanged.connect(self.change_type_period)
         self.ui.cPeriodicidad.currentIndexChanged.connect(self.change_type_period)
         self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman-Monteith",
                                  "Thornthwaite", "Turc"])
@@ -44,23 +45,24 @@ class MyForm(QtGui.QMainWindow):
 
     def change_type_period(self):
         self.ui.cMetho.clear()
-        if self.ui.cPeriodicidad.currentText() == 'Mensual':
-            self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman-Monteith",
-                                     "Thornthwaite", "Turc"])
-        else:
-            self.ui.cMetho.addItems(["Penman-Monteith"])
 
-
-    def change_type_method(self):
-        self.ui.cMetho.clear()
-        if self.ui.cTipo.currentText()=='Resultado':
+        if self.ui.cPeriodicidad.currentText() == 'Mensual'and self.ui.cTipo.currentText()=='Resultado':
             self.ui.label_8.setText("Metodo")
             self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman-Monteith",
                                      "Thornthwaite", "Turc"])
-        else:
+        elif self.ui.cPeriodicidad.currentText() == 'Mensual'and self.ui.cTipo.currentText()=='Variable':
             self.ui.label_8.setText("Variable")
             self.ui.cMetho.addItems(["Brillo Solar", "Evaporacion", "Humedad Relativa", "Temp.Max", "Temp.Media",
                                      "Temp.Min", "Velocidad"])
+        elif self.ui.cPeriodicidad.currentText() == 'Decadal'and self.ui.cTipo.currentText()=='Resultado':
+            self.ui.label_8.setText("Metodo")
+            self.ui.cMetho.addItems(["Penman-Monteith"])
+
+        elif self.ui.cPeriodicidad.currentText() == 'Decadal'and self.ui.cTipo.currentText()=='Variable':
+            self.ui.label_8.setText("Variable")
+            self.ui.cMetho.addItems(["Brillo Solar", "Evaporacion", "Humedad Relativa", "Temp.Max", "Temp.Media",
+                                     "Temp.Min", "Velocidad"])
+
 
     def alert(self, msg, icon=QtGui.QMessageBox.Warning):
         d = QtGui.QMessageBox()
@@ -72,12 +74,14 @@ class MyForm(QtGui.QMainWindow):
     def shpExport(self):
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
-                        load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text()))
+                        load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
+                                   self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text()))
 
 
     def excExport(self):
-        make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cMetho.currentText(),"mensual",
-                   self.ui.anio1.text(), self.ui.anio2.text())), self.ui.lRuta.text(), self.ui.lShpName.text())
+        make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
+                                   self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text())),
+                                   self.ui.lRuta.text(), self.ui.lShpName.text())
 
     def rasExport(self):
         make_rast(self.ui.lShpName.text(), self.ui.lRuta.text())

@@ -4,6 +4,9 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 ctable_expresion=""
 
+
+
+
 dict_metodos_mensuales={
 "Thornthwaite":"consulta_evot_mensual_%s.txt"%("tw"),
 "Christiansen":"consulta_evot_mensual_%s.txt"%("cht"),
@@ -30,6 +33,19 @@ dict_metodos_decadales_promedio={
 "Penman-Monteith":"consulta_evot_decadal_pm_consecutivo_prom.txt",
 }
 
+dict_variables_mensuales={
+"Brillo Solar":"BS",
+"Evaporacion":"EV",
+"Humedad Relativa":"HR",
+"Temp.Max":"TMX",
+"Temp.Media":"TMD",
+"Temp.Min":"TMN",
+"Velocidad":"VD"}
+
+dict_variables_menusuales_promedio={"Brillo Solar":"", "Evaporacion":"", "Humedad Relativa":"", "Temp.Max":"", "Temp.Media":"",
+                                     "Temp.Min":"", "Velocidad":""}
+
+
 
 def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
     if tipo=="Resultado":
@@ -40,24 +56,57 @@ def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
                 cursor1 = con1.cursor()
                 try :
                     cursor1.execute("DROP table tmp_query_mensual")
+                    cursor1.execute("DROP table tmp_query_prom")
+                    cursor1.execute("DROP table tmp_query_prom1")
                 except:
                     pass
 
                 if periodo == "Mensual":
                     if agrupacion == "Normal":
                         txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
-                    else:
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+                    else:# promedio
+                        txt = open(r".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+                        cursor1.execute('''CREATE table tmp_query_prom as ('''+ctable_expresion+")")
+
                         txt = open(r".\sql\%s" % (dict_metodos_mensuales_promedio[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_prom1 as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                        ctable_expresion = ctable_expresion
                 else:
                     if agrupacion == "Normal":
                         txt  = open(r".\sql\%s"%(dict_metodos_decadales[str(metodo)]),"r")
-                    else:
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+                    else: # promedio
+                        txt = open(r".\sql\%s" % (dict_metodos_decadales[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+                        cursor1.execute('''CREATE table tmp_query_prom as (''' + ctable_expresion + ")")
+
                         txt = open(r".\sql\%s" % (dict_metodos_decadales_promedio[str(metodo)]), "r")
-                ce='''CREATE table tmp_query_mensual as ('''
-                ctable_e= '''%s''' % (txt.read())
-                cursor1.execute(ce+ctable_e+")")
-                ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
-                ctable_expresion=ctable_expresion + """ where anio = {}""".format(anio1,anio2)
+                        ce = '''CREATE table tmp_query_prom1 as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                        ctable_expresion = ctable_expresion
 
             elif anio2!="" and anio1!="":
                 con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
@@ -66,23 +115,56 @@ def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
                 cursor1 = con1.cursor()
                 try :
                     cursor1.execute("DROP table tmp_query_mensual")
+                    cursor1.execute("DROP table tmp_query_prom")
+                    cursor1.execute("DROP table tmp_query_prom1")
                 except:
                     pass
                 if periodo == "Mensual":
                     if agrupacion == "Normal":
                         txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
-                    else:
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1, anio2)
+                    else:# promedio
+                        txt = open(r".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1,anio2)
+                        cursor1.execute('''CREATE table tmp_query_prom as ('''+ctable_expresion+")")
+
                         txt = open(r".\sql\%s" % (dict_metodos_mensuales_promedio[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_prom1 as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                        ctable_expresion = ctable_expresion
                 else:
                     if agrupacion == "Normal":
                         txt  = open(r".\sql\%s"%(dict_metodos_decadales[str(metodo)]),"r")
-                    else:
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1, anio2)
+                    else: # promedio
+                        txt = open(r".\sql\%s" % (dict_metodos_decadales[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1, anio2)
+                        cursor1.execute('''CREATE table tmp_query_prom as (''' + ctable_expresion + ")")
+
                         txt = open(r".\sql\%s" % (dict_metodos_decadales_promedio[str(metodo)]), "r")
-                ce='''CREATE table tmp_query_mensual as ('''
-                ctable_e= '''%s''' % (txt.read())
-                cursor1.execute(ce+ctable_e+")")
-                ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
-                ctable_expresion=ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1,anio2)
+                        ce = '''CREATE table tmp_query_prom1 as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                        ctable_expresion = ctable_expresion
 
             elif anio2 == "" and anio1 == "":
                 con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
@@ -91,29 +173,200 @@ def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
                 cursor1 = con1.cursor()
                 try:
                     cursor1.execute("DROP table tmp_query_mensual")
+                    cursor1.execute("DROP table tmp_query_prom")
+                    cursor1.execute("DROP table tmp_query_prom1")
                 except:
                     pass
                 if periodo == "Mensual":
                     if agrupacion == "Normal":
-                        print "1"
                         txt  = open(r".\sql\%s"%(dict_metodos_mensuales[str(metodo)]),"r")
-                    else:
-                        print "2"
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion
+                    else:# promedio
+                        txt = open(r".\sql\%s" % (dict_metodos_mensuales[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion
+                        cursor1.execute('''CREATE table tmp_query_prom as ('''+ctable_expresion+")")
+
                         txt = open(r".\sql\%s" % (dict_metodos_mensuales_promedio[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_prom1 as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                        ctable_expresion = ctable_expresion
                 else:
                     if agrupacion == "Normal":
                         txt  = open(r".\sql\%s"%(dict_metodos_decadales[str(metodo)]),"r")
-                    else:
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion
+                    else: # promedio
+                        txt = open(r".\sql\%s" % (dict_metodos_decadales[str(metodo)]), "r")
+                        ce = '''CREATE table tmp_query_mensual as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                        ctable_expresion = ctable_expresion
+                        cursor1.execute('''CREATE table tmp_query_prom as (''' + ctable_expresion + ")")
+
                         txt = open(r".\sql\%s" % (dict_metodos_decadales_promedio[str(metodo)]), "r")
-                ce = '''CREATE table tmp_query_mensual as ('''
-                ctable_e = '''%s''' % (txt.read())
-                cursor1.execute(ce + ctable_e + ")")
-                ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
-                ctable_expresion = ctable_expresion
-    else:
-        #aqui viene si es variable incial
-        pass
+                        ce = '''CREATE table tmp_query_prom1 as ('''
+                        ctable_e = '''%s''' % (txt.read())
+                        cursor1.execute(ce + ctable_e + ")")
+                        ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                        ctable_expresion = ctable_expresion
+    else:############################################### VARIABLES ########################################################################
+        if anio1 != "" and anio2 == "":
+            con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                    port="5432")
+            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            cursor1 = con1.cursor()
+            try:
+                cursor1.execute("DROP table tmp_query_mensual")
+                cursor1.execute("DROP table tmp_query_prom")
+                cursor1.execute("DROP table tmp_query_prom1")
+            except:
+                pass
+
+            if periodo == "Mensual":
+                if agrupacion == "Normal":
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e =ctable_e.replace("&&&",dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+                else:  # promedio
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e =ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual_promedio.txt"), "r")
+                    ce = '''CREATE table tmp_query_prom1 as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                    ctable_expresion = ctable_expresion
+            else:# decadal
+                if agrupacion == "Normal" or agrupacion == "Promedio":
+                    txt = open(r".\sql\%s" % ("consulta_variable_decadal.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ce + ctable_e +")"
+                    ctable_e= ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ctable_e)
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+
+        elif anio2 != "" and anio1 != "":
+            con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                    port="5432")
+            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            cursor1 = con1.cursor()
+            try:
+                cursor1.execute("DROP table tmp_query_mensual")
+                cursor1.execute("DROP table tmp_query_prom")
+                cursor1.execute("DROP table tmp_query_prom1")
+            except:
+                pass
+
+            if periodo == "Mensual":
+                if agrupacion == "Normal":
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion +""" where anio >= {} and anio <=  {}""".format(anio1, anio2)
+                else:  # promedio
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1, anio2)
+
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual_promedio.txt"), "r")
+                    ce = '''CREATE table tmp_query_prom1 as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                    ctable_expresion = ctable_expresion
+            else:  # decadal
+                if agrupacion == "Normal" or agrupacion == "Promedio":
+                    txt = open(r".\sql\%s" % ("consulta_variable_decadal.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ce + ctable_e + ")"
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ctable_e)
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion + """ where anio >= {} and anio <=  {}""".format(anio1, anio2)
+
+        elif anio2 == "" and anio1 == "":
+            con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                                    port="5432")
+            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            cursor1 = con1.cursor()
+            try:
+                cursor1.execute("DROP table tmp_query_mensual")
+                cursor1.execute("DROP table tmp_query_prom")
+                cursor1.execute("DROP table tmp_query_prom1")
+            except:
+                pass
+
+            if periodo == "Mensual":
+                if agrupacion == "Normal":
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion
+                else:  # promedio
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion
+
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual_promedio.txt"), "r")
+                    ce = '''CREATE table tmp_query_prom1 as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                    ctable_expresion = ctable_expresion
+            else:  # decadal
+                if agrupacion == "Normal" or agrupacion == "Promedio":
+                    txt = open(r".\sql\%s" % ("consulta_variable_decadal.txt"), "r")
+                    ce = '''CREATE table tmp_query_mensual as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ce + ctable_e + ")"
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ctable_e)
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion
+
     txt.close()
+
     return ctable_expresion
 
 

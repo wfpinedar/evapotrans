@@ -1,0 +1,38 @@
+SELECT 
+  estacion.codigo cod_estacion, 
+  estacion.tipo, 
+  estacion.clase, 
+  estacion.cat, 
+  estacion.nombre, 
+  estacion.municipio, 
+  estacion.corriente, 
+  estacion.departamento, 
+  estacion.altitud, 
+  estacion.cod_dep, 
+  estacion.cod_muni, 
+  estacion.longitud, 
+  estacion.latitud, 
+  estacion.estado, 
+  estacion.geom,
+  prom_dec.variable,
+   prom_dec.anio, 
+  prom_dec.decada,
+  prom_dec.enero, 
+  prom_dec.febrero, 
+  prom_dec.marzo, 
+  prom_dec.abril, 
+  prom_dec.mayo, 
+  prom_dec.junio, 
+  prom_dec.julio, 
+  prom_dec.agosto, 
+  prom_dec.septiembre, 
+  prom_dec.diciembre, 
+  prom_dec.noviembre, 
+  prom_dec.octubre, 
+  prom_dec.codigo cod_variable 
+FROM 
+  public.prom_dec, 
+  public.estacion
+WHERE 
+  estacion.codigo = prom_dec.codigo AND   prom_dec.variable = '&&&' 
+
