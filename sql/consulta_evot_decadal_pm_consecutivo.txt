@@ -1,4 +1,4 @@
-SELECT 
+select * from (SELECT 
   d1.codigo, 
   d1.tipo, 
   d1.clase, 
@@ -64,4 +64,41 @@ WHERE
   d2.decada = 2 AND 
   d3.decada = 3 AND
   d1.anio = d2.anio AND
-  d2.anio = d3.anio 
+  d2.anio = d3.anio ) as mi
+
+where  d1 is not Null or 
+d2 is not Null or 
+d3 is not Null or 
+d4 is not Null or 
+d5 is not Null or 
+d6 is not Null or 
+d7 is not Null or 
+d8 is not Null or 
+d9 is not Null or 
+d10 is not Null or 
+d11 is not Null or 
+d12 is not Null or 
+d13 is not Null or 
+d14 is not Null or 
+d15 is not Null or 
+d16 is not Null or 
+d17 is not Null or 
+d18 is not Null or 
+d19 is not Null or 
+d20 is not Null or 
+d21 is not Null or 
+d22 is not Null or 
+d23 is not Null or 
+d24 is not Null or 
+d25 is not Null or 
+d26 is not Null or 
+d27 is not Null or 
+d28 is not Null or 
+d29 is not Null or 
+d30 is not Null or 
+d31 is not Null or 
+d32 is not Null or 
+d33 is not Null or 
+d34 is not Null or 
+d35 is not Null or 
+d36 is not Null
