@@ -20,6 +20,7 @@ def main(opcion,ruta):
 
 
 
+
 #
 #
 ##    load_station(r"E:\DOCUMENTOS\TRABAJOS INDEPENDIENTES\PROYECTO_EVAPOTRANS\datos_demo\Estaciones\estaciones.csv",DB,"estacion_fix")
@@ -35,10 +36,6 @@ def main(opcion,ruta):
 ##    load_variable(r"C:\datos_demo\Variables\AJUSTADAS\VELOCIDAD.csv",DB,"variable")
 ##    make_excel(DB, get_table(DB, "variable"))
 ##    make_excel(DB, get_var(DB, "BS"))
-##    add_formulas(r".\sql\formulas_eot_pm.txt")
-##    add_formulas(r".\sql\formulas_eot_tw.txt")
-##    add_formulas(r".\sql\formulas_eot_cht.txt")
-##    add_formulas(r".\sql\formulas_evot_bc.txt")
-##    add_formulas(r".\sql\formulas_evot_gl.txt")
+
 if __name__ == '__main__':
     main()

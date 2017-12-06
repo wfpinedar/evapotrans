@@ -13,16 +13,7 @@ class MyForm(QtGui.QMainWindow):
         self.ui.mdiArea.addSubWindow(self.ui.importtab)
         self.ui.mdiArea.addSubWindow(self.ui.eporttab)
         self.ui.mdiArea.addSubWindow(self.ui.conex)
-        QtCore.QObject.connect(self.ui.bNext, QtCore.SIGNAL('clicked()'), self.displayNext)
-        QtCore.QObject.connect(self.ui.bPrev, QtCore.SIGNAL('clicked()'),self.displayPrevious)
-        QtCore.QObject.connect(self.ui.bClose, QtCore.SIGNAL('clicked()'), self.closeAll)
-        QtCore.QObject.connect(self.ui.bCas, QtCore.SIGNAL('clicked()'), self.cascadeArrage)
-        QtCore.QObject.connect(self.ui.bMos, QtCore.SIGNAL('clicked()'), self.tileArrage)
-        QtCore.QObject.connect(self.ui.bSub, QtCore.SIGNAL('clicked()'), self.SubWindowView)
-        QtCore.QObject.connect(self.ui.bPes, QtCore.SIGNAL('clicked()'), self.TabbedView)
-        self.connect(self.ui.importtab, QtCore.SIGNAL('triggered()'),self.displayNext)
-        self.connect(self.ui.eporttab, QtCore.SIGNAL('triggered()'), self.displayPrevious)
-        self.connect(self.ui.conex, QtCore.SIGNAL('triggered()'), self.displayPrevious)
+
         QtCore.QObject.connect(self.ui.bTest, QtCore.SIGNAL('clicked()'), self.testConnect)
         self.ui.lDb.setText("evot")
         self.ui.lUsr.setText("postgres")
@@ -48,27 +39,6 @@ class MyForm(QtGui.QMainWindow):
             self.ui.lSuccess.setText("Conexion no Funciona")
         else:
             self.ui.lSuccess.setText("Conexion Realizada")
-
-    def displayNext(self):
-        self.ui.mdiArea.activateNextSubWindow()
-
-    def displayPrevious(self):
-        self.ui.mdiArea.activatePreviousSubWindow()
-
-    def closeAll(self):
-        self.ui.mdiArea.closeAllSubWindows()
-
-    def cascadeArrage(self):
-        self.ui.mdiArea.cascadeSubWindows()
-
-    def tileArrage(self):
-        self.ui.mdiArea.tileSubWindows()
-
-    def SubWindowView(self):
-        self.ui.mdiArea.setViewMode(0)
-
-    def TabbedView(self):
-        self.ui.mdiArea.setViewMode(1)
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)

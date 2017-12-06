@@ -54,7 +54,7 @@ CREATE FUNCTION evot_cht_ce(double precision) RETURNS double precision
     RETURNS NULL ON NULL INPUT;
 
 
----Etp (ETP= Evapotranspiración potencial, en mm/mes (mes,tmed mens,Vel viento 2m km/h,humedad relativa,porcentaje de brillo solar medio,elevación de la estación en metros)) todo mensual---
+---Etp (ETP= Evapotranspiracion potencial, en mm/mes (mes,tmed mens,Vel viento 2m km/h,humedad relativa,porcentaje de brillo solar medio,elevacion de la estacion en metros)) todo mensual---
 CREATE FUNCTION evot_cht_evot(character varying, double precision,double precision,double precision,double precision,double precision) RETURNS double precision 
     AS 'select 0.324*evot_cht_rtt($1)*evot_cht_ctt($2)*evot_cht_cwt($3)*evot_cht_cht($4)*evot_cht_cst($5)*evot_cht_ce($6);'
     LANGUAGE SQL

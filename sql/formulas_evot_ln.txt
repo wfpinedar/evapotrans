@@ -5,7 +5,7 @@ CREATE FUNCTION evot_ln_td(integer,character varying) RETURNS double precision
     IMMUTABLE
     RETURNS NULL ON NULL INPUT;
 
---evapotranspiración con un buen suministro de agua y un albedo (tmedia,latitud,altura,codigo, mes)--
+--evapotranspiracion con un buen suministro de agua y un albedo (tmedia,latitud,altura,codigo, mes)--
 CREATE FUNCTION evot_ln_evot(double precision,double precision,double precision,integer,character varying) RETURNS double precision 
     AS 'select (500*($1+0.006*$3)/(100-$2)+15*($1-evot_ln_td($4,$5)))/(80-$1);'
     LANGUAGE SQL

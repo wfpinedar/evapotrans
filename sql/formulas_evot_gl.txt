@@ -5,7 +5,7 @@ CREATE FUNCTION evot_gl_n(double precision) RETURNS double precision
     IMMUTABLE
     RETURNS NULL ON NULL INPUT;
 
- --ETP = evapotranspiración potencial, en mm (tmed diaria,humedad relativa)
+ --ETP = evapotranspiracion potencial, en mm (tmed diaria,humedad relativa)
 CREATE FUNCTION evot_gl_evot(double precision,double precision) RETURNS double precision 
     AS 'select (1.21*10^(evot_gl_n($1))*(1-0.01*$2))+0.21*$1-2.3;'
     LANGUAGE SQL

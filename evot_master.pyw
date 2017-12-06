@@ -5,6 +5,8 @@ from evapot.query_maker import *
 from evapot.query_maker_all import *
 from evapot.export_2_excel import *
 from evapot.export_rast import *
+from evapot.create_load_bd import *
+from evapot.load_formulas import *
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -18,30 +20,44 @@ class MyForm(QtGui.QMainWindow):
         self.ui.mdiArea.addSubWindow(self.ui.eporttab)
         self.ui.mdiArea.addSubWindow(self.ui.conex)
         print self.ui.mdiArea.subWindowList()[0].windowTitle()
-        QtCore.QObject.connect(self.ui.bNext, QtCore.SIGNAL('clicked()'), self.displayNext)
-        QtCore.QObject.connect(self.ui.bPrev, QtCore.SIGNAL('clicked()'),self.displayPrevious)
-        QtCore.QObject.connect(self.ui.bClose, QtCore.SIGNAL('clicked()'), self.closeAll)
-        QtCore.QObject.connect(self.ui.bCas, QtCore.SIGNAL('clicked()'), self.cascadeArrage)
-        QtCore.QObject.connect(self.ui.bMos, QtCore.SIGNAL('clicked()'), self.tileArrage)
-        QtCore.QObject.connect(self.ui.bSub, QtCore.SIGNAL('clicked()'), self.SubWindowView)
-        QtCore.QObject.connect(self.ui.bPes, QtCore.SIGNAL('clicked()'), self.TabbedView)
-        self.connect(self.ui.importtab, QtCore.SIGNAL('triggered()'), self.displayNext)
-        self.connect(self.ui.eporttab, QtCore.SIGNAL('triggered()'), self.displayPrevious)
-        self.connect(self.ui.conex, QtCore.SIGNAL('triggered()'), self.displayPrevious)
+
         QtCore.QObject.connect(self.ui.bTest, QtCore.SIGNAL('clicked()'), self.testConnect)
         self.ui.lDb.setText("evot")
         self.ui.lUsr.setText("postgres")
         self.ui.lPass.setText("postgres")
         self.ui.lHost.setText("localhost")
         self.ui.lPort.setText("5432")
+
+        self.ui.lRuta_impfile.setEnabled(False)
+        self.ui.lRuta_foldsalid.setEnabled(False)
+        self.ui.bRuta_imp.setEnabled(False)
+        self.ui.bRuta_exp.setEnabled(False)
+
         self.connect(self.ui.bRuta, QtCore.SIGNAL('clicked()'), self.onInputFileButtonClicked)
         QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.dataExport)
         self.ui.cTipo.currentIndexChanged.connect(self.change_type_period)
         self.ui.cAgrup.currentIndexChanged.connect(self.change_type_period)
+        QtCore.QObject.connect(self.ui.bBd, QtCore.SIGNAL('clicked()'), self.bd_options)
+        QtCore.QObject.connect(self.ui.bCvar, QtCore.SIGNAL('clicked()'), self.lform)
         self.ui.cPeriodicidad.currentIndexChanged.connect(self.change_type_period)
+        self.ui.cBdop.currentIndexChanged.connect(self.bd_options_changer)
         self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman-Monteith",
                                  "Thornthwaite", "Turc"])
+
+        self.ui.cVariable.addItems(["Brillo Solar", "Estaciones", "Evaporacion", "Humedad Relativa", "Punto de Rocio",
+                                  "Radiacion Extraterrestre","Temperatura Maxima",
+                                 "Temperatura Minima", "Temperatura Media", "Velocidad del Viento"])
         self.ui.mdiArea.setActiveSubWindow(self.ui.mdiArea.subWindowList()[1])
+
+    def lform(self,db,us,host,port,pas):
+        add_formulas(r".\sql\formulas_evot_pm.txt",db,us,host,port,pas)
+        add_formulas(r".\sql\formulas_evot_tw.txt",db,us,host,port,pas)
+        add_formulas(r".\sql\formulas_evot_cht.txt",db,us,host,port,pas)
+        add_formulas(r".\sql\formulas_evot_bc.txt",db,us,host,port,pas)
+        add_formulas(r".\sql\formulas_evot_gl.txt",db,us,host,port,pas)
+        add_formulas(r".\sql\formulas_evot_ln.txt",db,us,host,port,pas)
+        add_formulas(r".\sql\formulas_evot_tur.txt",db,us,host,port,pas)
+        add_formulas(r".\sql\formulas_evot_har.txt",db,us,host,port,pas)
 
     def change_type_period(self):
         self.ui.cMetho.clear()
@@ -62,6 +78,45 @@ class MyForm(QtGui.QMainWindow):
             self.ui.label_8.setText("Variable")
             self.ui.cMetho.addItems(["Brillo Solar", "Evaporacion", "Humedad Relativa", "Temp.Max", "Temp.Media",
                                      "Temp.Min", "Velocidad"])
+    def bd_options_changer(self):
+        opcion_bd=str(self.ui.cBdop.currentText())
+
+        if opcion_bd =='Importar Base de Datos':
+            self.ui.lRuta_impfile.setEnabled(True)
+            self.ui.lRuta_foldsalid.setEnabled(False)
+            self.ui.bRuta_imp.setEnabled(True)
+            self.ui.bRuta_exp.setEnabled(False)
+        elif opcion_bd =='Exportar Base de Datos':
+            self.ui.lRuta_impfile.setEnabled(False)
+            self.ui.lRuta_foldsalid.setEnabled(True)
+            self.ui.bRuta_imp.setEnabled(False)
+            self.ui.bRuta_exp.setEnabled(True)
+
+        else:
+            self.ui.lRuta_impfile.setEnabled(False)
+            self.ui.lRuta_foldsalid.setEnabled(False)
+            self.ui.bRuta_imp.setEnabled(False)
+            self.ui.bRuta_exp.setEnabled(False)
+
+
+    def bd_options(self):
+        opcion_bd = str(self.ui.cBdop.currentText())
+        usr=str(self.ui.lUsr.text())
+        pas=str(self.ui.lPass.text())
+        port=str(self.ui.lPort.text())
+        host=str(self.ui.lHost.text())
+        bd=str(self.ui.lDb.text())
+
+        if opcion_bd == 'Verificar Base de Datos':
+            self.testConnect()
+
+        if opcion_bd == "Crear Base de Datos":
+
+            build_db(bd,usr,host,port,pas)
+            self.lform(bd,usr,host,port,pas)
+            self.alert("la Base Fue creada con exito")
+            self.testConnect()
+
 
 
     def alert(self, msg, icon=QtGui.QMessageBox.Warning):
@@ -125,30 +180,13 @@ class MyForm(QtGui.QMainWindow):
         except:
             not_exists=True
         if not_exists:
-            self.ui.lSuccess.setText("Conexion no Funciona")
+            self.ui.chBbd.setChecked(False)
+            self.alert("La base de Datos no Existe")
         else:
-            self.ui.lSuccess.setText("Conexion Realizada")
+            self.ui.chBbd.setChecked(True)
+            self.alert("La base de Datos Existe")
 
-    def displayNext(self):
-        self.ui.mdiArea.activateNextSubWindow()
 
-    def displayPrevious(self):
-        self.ui.mdiArea.activatePreviousSubWindow()
-
-    def closeAll(self):
-        self.ui.mdiArea.closeAllSubWindows()
-
-    def cascadeArrage(self):
-        self.ui.mdiArea.cascadeSubWindows()
-
-    def tileArrage(self):
-        self.ui.mdiArea.tileSubWindows()
-
-    def SubWindowView(self):
-        self.ui.mdiArea.setViewMode(0)
-
-    def TabbedView(self):
-        self.ui.mdiArea.setViewMode(1)
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
