@@ -18,10 +18,7 @@ class MyForm(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.ui.mdiArea.addSubWindow(self.ui.importtab)
         self.ui.mdiArea.addSubWindow(self.ui.eporttab)
-        self.ui.mdiArea.addSubWindow(self.ui.conex)
         print self.ui.mdiArea.subWindowList()[0].windowTitle()
-
-        QtCore.QObject.connect(self.ui.bTest, QtCore.SIGNAL('clicked()'), self.testConnect)
         self.ui.lDb.setText("evot")
         self.ui.lUsr.setText("postgres")
         self.ui.lPass.setText("postgres")
