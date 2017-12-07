@@ -7,6 +7,7 @@ from evapot.export_2_excel import *
 from evapot.export_rast import *
 from evapot.create_load_bd import *
 from evapot.load_formulas import *
+from evapot .add_geoColum import *
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -31,11 +32,12 @@ class MyForm(QtGui.QMainWindow):
         self.ui.bRuta_exp.setEnabled(False)
 
         self.connect(self.ui.bRuta, QtCore.SIGNAL('clicked()'), self.onInputFileButtonClicked)
+        self.connect(self.ui.bRuta_var, QtCore.SIGNAL('clicked()'), self.abir_archivo)
         QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.dataExport)
         self.ui.cTipo.currentIndexChanged.connect(self.change_type_period)
         self.ui.cAgrup.currentIndexChanged.connect(self.change_type_period)
         QtCore.QObject.connect(self.ui.bBd, QtCore.SIGNAL('clicked()'), self.bd_options)
-        QtCore.QObject.connect(self.ui.bCvar, QtCore.SIGNAL('clicked()'), self.lform)
+        QtCore.QObject.connect(self.ui.bCvar, QtCore.SIGNAL('clicked()'), self.data_options)
         self.ui.cPeriodicidad.currentIndexChanged.connect(self.change_type_period)
         self.ui.cBdop.currentIndexChanged.connect(self.bd_options_changer)
         self.ui.cMetho.addItems(["Blaney-Criddle", "Christiansen", "Hargreaves", "Linacre", "Penman-Monteith",
@@ -107,18 +109,55 @@ class MyForm(QtGui.QMainWindow):
         if opcion_bd == 'Verificar Base de Datos':
             self.testConnect()
 
-        if opcion_bd == "Crear Base de Datos":
-
-            build_db(bd,usr,host,port,pas)
-            self.lform(bd,usr,host,port,pas)
-            self.alert("la Base Fue creada con exito")
+        if opcion_bd ==  "Crear Base de Datos":
+            build_db(bd, usr, host, port, pas)
+            self.lform(bd, usr, host, port, pas)
+            self.alert("la Base fue creada con exito")
             self.testConnect()
+
+
+    def data_options(self):
+        opcion_bd = str(self.ui.cVariable.currentText())
+        usr = str(self.ui.lUsr.text())
+        pas = str(self.ui.lPass.text())
+        port = str(self.ui.lPort.text())
+        host = str(self.ui.lHost.text())
+        bd = str(self.ui.lDb.text())
+
+        if opcion_bd == 'Verificar Base de Datos':
+            self.testConnect()
+
+        if opcion_bd == "Crear Base de Datos":
+            build_db(bd, usr, host, port, pas)
+            self.lform(bd, usr, host, port, pas)
+            self.alert("la Base fue creada con exito")
+            self.testConnect()
+
+        if opcion_bd in ["Evaporacion", "Brillo Solar", "Humedad Relativa", "Temperatura Maxima",
+                         "Temperatura Minima",
+                         "Temperatura Media", "Velocidad del Viento"]:
+
+            load_variable(r"%s" % (str(self.ui.lRuta_var.text())), bd,'variable',usr, host, port, pas)
+            self.alert("Archivo de %s cargado con exito"%(opcion_bd))
+
+        if opcion_bd == "Estaciones":
+            load_station(r"%s" % (str(self.ui.lRuta_var.text())), bd, "estacion")
+            cal_geoColum(bd, "estacion", usr, host, port, pas)
+            self.alert("Archivo de estaciones cargado con exito")
+
+        if opcion_bd in ["Punto de Rocio", "Radiacion Extraterrestre"]:
+            if opcion_bd =="Radiacion Extraterrestre":
+                load_rad_har(r"%s" % (str(self.ui.lRuta_var.text())), bd,'rad_extra_har',usr, host, port, pas)
+                self.alert("Archivo de Radiacion Extraterrestre cargado con exito")
+            else:
+                load_rad_har(r"%s" % (str(self.ui.lRuta_var.text())), bd, 'p_rocio_ln', usr, host, port, pas)
+                self.alert("Archivo de Punto de Rocio cargado con exito")
 
 
 
     def alert(self, msg, icon=QtGui.QMessageBox.Warning):
         d = QtGui.QMessageBox()
-        d.setWindowTitle('Warning valid options')
+        d.setWindowTitle('Mensaje de Alerta')
         d.setText(msg)
         d.setIcon(icon)
         d.exec_()
@@ -162,6 +201,9 @@ class MyForm(QtGui.QMainWindow):
     def onInputFileButtonClicked(self):
         self.ui.lRuta.setText(QtGui.QFileDialog.getExistingDirectory(None, 'Open Folder'))
 
+    def abir_archivo(self):
+        self.ui.lRuta_var.setText(QtGui.QFileDialog.getOpenFileNameAndFilter(self,"Abrir Archivo", "",'', '*.csv')[0])
+
     def testConnect(self):
         try:
             con = psycopg2.connect(database=self.ui.lDb.text(),
@@ -178,10 +220,13 @@ class MyForm(QtGui.QMainWindow):
             not_exists=True
         if not_exists:
             self.ui.chBbd.setChecked(False)
-            self.alert("La base de Datos no Existe")
+            self.alert("La base de datos no Existe")
         else:
             self.ui.chBbd.setChecked(True)
-            self.alert("La base de Datos Existe")
+            self.alert("La base de datos Existe")
+
+    def test_data(self,opcion):
+        pass
 
 
 

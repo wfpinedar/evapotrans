@@ -18,6 +18,19 @@ def main(opcion,ruta):
     if str(opcion) =="Crear Base de Datos":
         build_db()
 
+    if str(opcion) in ["Evaporacion","Brillo Solar","Humedad Relativa","Temperatura Maxima","Temperatura Minima",
+                       "Temperatura Media", "Velocidad del Viento"]:
+
+        pass
+
+    if str(opcion) == "Estaciones":
+        load_station(r"E:\DOCUMENTOS\TRABAJOS INDEPENDIENTES\PROYECTO_EVAPOTRANS\datos_demo\Estaciones\estaciones.csv",
+                     DB, "estacion_fix")
+        pass
+
+    if str(opcion) in ["Punto de Rocio","Radiacion Extraterrestre"]:
+        pass
+
 
 
 

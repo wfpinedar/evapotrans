@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\Fercho\Desktop\EVAPOTRANS\EVAPOTRANS\evapotrans\evotui\evotgui.ui'
+# Form implementation generated from reading ui file 'E:\DOCUMENTOS\GitHub\evapotrans\evotui\evotgui.ui'
 #
-# Created by: PyQt4 UI code generator 4.11.4
+# Created: Thu Dec 07 03:23:10 2017
+#      by: PyQt4 UI code generator 4.11
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -27,7 +28,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setWindowModality(QtCore.Qt.WindowModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(762, 616)
+        MainWindow.resize(728, 563)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/img/tux.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -35,7 +36,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.mdiArea = QtGui.QMdiArea(self.centralwidget)
         self.mdiArea.setEnabled(True)
-        self.mdiArea.setGeometry(QtCore.QRect(-10, 0, 910, 495))
+        self.mdiArea.setGeometry(QtCore.QRect(-10, 0, 910, 541))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(5)
@@ -136,7 +137,7 @@ class Ui_MainWindow(object):
         self.label_39.setGeometry(QtCore.QRect(30, 110, 81, 20))
         self.label_39.setObjectName(_fromUtf8("label_39"))
         self.groupBox_3 = QtGui.QGroupBox(self.importtab)
-        self.groupBox_3.setGeometry(QtCore.QRect(20, 250, 681, 251))
+        self.groupBox_3.setGeometry(QtCore.QRect(20, 250, 681, 241))
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
         self.lRuta_var = QtGui.QLineEdit(self.groupBox_3)
         self.lRuta_var.setGeometry(QtCore.QRect(89, 102, 245, 20))
@@ -243,6 +244,7 @@ class Ui_MainWindow(object):
         self.layoutWidget.setGeometry(QtCore.QRect(10, 20, 101, 111))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.layoutWidget)
+        self.verticalLayout_5.setMargin(0)
         self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
         self.rAnio = QtGui.QRadioButton(self.layoutWidget)
         self.rAnio.setObjectName(_fromUtf8("rAnio"))
@@ -311,17 +313,18 @@ class Ui_MainWindow(object):
         self.cShp = QtGui.QCheckBox(self.eporttab)
         self.cShp.setGeometry(QtCore.QRect(144, 270, 67, 17))
         self.cShp.setObjectName(_fromUtf8("cShp"))
-        self.widget = QtGui.QWidget(self.eporttab)
-        self.widget.setGeometry(QtCore.QRect(143, 44, 301, 71))
-        self.widget.setObjectName(_fromUtf8("widget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.widget)
+        self.layoutWidget1 = QtGui.QWidget(self.eporttab)
+        self.layoutWidget1.setGeometry(QtCore.QRect(143, 44, 301, 71))
+        self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget1)
+        self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.horizontalLayout_5 = QtGui.QHBoxLayout()
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
-        self.lRuta = QtGui.QLineEdit(self.widget)
+        self.lRuta = QtGui.QLineEdit(self.layoutWidget1)
         self.lRuta.setObjectName(_fromUtf8("lRuta"))
         self.horizontalLayout_5.addWidget(self.lRuta)
-        self.bRuta = QtGui.QPushButton(self.widget)
+        self.bRuta = QtGui.QPushButton(self.layoutWidget1)
         self.bRuta.setText(_fromUtf8(""))
         self.bRuta.setIcon(icon1)
         self.bRuta.setAutoDefault(False)
@@ -330,12 +333,12 @@ class Ui_MainWindow(object):
         self.bRuta.setObjectName(_fromUtf8("bRuta"))
         self.horizontalLayout_5.addWidget(self.bRuta)
         self.verticalLayout.addLayout(self.horizontalLayout_5)
-        self.lShpName = QtGui.QLineEdit(self.widget)
+        self.lShpName = QtGui.QLineEdit(self.layoutWidget1)
         self.lShpName.setObjectName(_fromUtf8("lShpName"))
         self.verticalLayout.addWidget(self.lShpName)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 762, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 728, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuWindows = QtGui.QMenu(self.menubar)
         self.menuWindows.setObjectName(_fromUtf8("menuWindows"))

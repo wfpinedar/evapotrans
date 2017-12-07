@@ -16,6 +16,7 @@ CREATE TABLE estacion(
     CONSTRAINT pk_estacion PRIMARY KEY (codigo)
 );
 
+ALTER TABLE estacion ADD COLUMN geom geometry(POINT,4326);
 
 CREATE TABLE public.prom_dec(
     codigo integer,
