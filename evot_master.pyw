@@ -7,7 +7,9 @@ from evapot.export_2_excel import *
 from evapot.export_rast import *
 from evapot.create_load_bd import *
 from evapot.load_formulas import *
-from evapot .add_geoColum import *
+from evapot.add_geoColum import *
+from evapot.build_db import bkp_db
+from evapot.build_db import res_db
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -19,7 +21,6 @@ class MyForm(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.ui.mdiArea.addSubWindow(self.ui.importtab)
         self.ui.mdiArea.addSubWindow(self.ui.eporttab)
-        print self.ui.mdiArea.subWindowList()[0].windowTitle()
         self.ui.lDb.setText("evot")
         self.ui.lUsr.setText("postgres")
         self.ui.lPass.setText("postgres")
@@ -32,6 +33,8 @@ class MyForm(QtGui.QMainWindow):
         self.ui.bRuta_exp.setEnabled(False)
 
         self.connect(self.ui.bRuta, QtCore.SIGNAL('clicked()'), self.onInputFileButtonClicked)
+        self.connect(self.ui.bRuta_exp, QtCore.SIGNAL('clicked()'), self.exportdir)
+        self.connect(self.ui.bRuta_imp, QtCore.SIGNAL('clicked()'), self.importdir)
         self.connect(self.ui.bRuta_var, QtCore.SIGNAL('clicked()'), self.abir_archivo)
         QtCore.QObject.connect(self.ui.bExport, QtCore.SIGNAL('clicked()'), self.dataExport)
         self.ui.cTipo.currentIndexChanged.connect(self.change_type_period)
@@ -114,6 +117,20 @@ class MyForm(QtGui.QMainWindow):
             self.lform(bd, usr, host, port, pas)
             self.alert("la Base fue creada con exito")
             self.testConnect()
+
+        if opcion_bd == "Exportar Base de Datos":
+            try:
+                bkp_db(usr, pas, host, self.ui.lRuta_foldsalid.text(), bd)
+                self.alert("Base de datos Exportada OK!")
+            except:
+                self.alert("Base de datos Export NOT FOUND!!!")
+
+        if opcion_bd == "Importar Base de Datos":
+            try:
+                res = res_db(usr, host, self.ui.lRuta_impfile.text(), bd, pas, port)
+                self.alert("%s" %(res))
+            except:
+                self.alert("Base de datos Import NOT FOUND!!!")
 
 
     def data_options(self):
@@ -201,6 +218,12 @@ class MyForm(QtGui.QMainWindow):
 
     def onInputFileButtonClicked(self):
         self.ui.lRuta.setText(QtGui.QFileDialog.getExistingDirectory(None, 'Open Folder'))
+
+    def exportdir(self):
+        self.ui.lRuta_foldsalid.setText(QtGui.QFileDialog.getExistingDirectory(self, 'Open Folder'))
+
+    def importdir(self):
+        self.ui.lRuta_impfile.setText(QtGui.QFileDialog.getOpenFileNameAndFilter(self, "Abrir Archivo", "", '', '*.bkp')[0])
 
     def abir_archivo(self):
         self.ui.lRuta_var.setText(QtGui.QFileDialog.getOpenFileNameAndFilter(self,"Abrir Archivo", "",'', '*.csv')[0])
