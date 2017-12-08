@@ -38,6 +38,23 @@ def get_table(db, query):
     print "Excel export OK!"
     return val
 
+def get_table_shp(db, query):
+    con = psycopg2.connect(database=db, user="postgres", password="postgres", host="localhost", port="5432")
+    val = []
+    con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    with con:
+        cur = con.cursor()
+        cur.execute(str(query))
+        rows = cur.fetchall()
+        p = [n.name for n in cur.description].index("geom")
+        ro = [n.name for n in cur.description]
+        val.append(ro)
+        for row in rows:
+            ri = list(row)
+            nrow = ri
+            val.append(nrow)
+    print "Excel export OK!"
+    return val
 
 def make_excel(table,export_path,pgtable_name):
     #save_file = easygui.filesavebox("Excel Estaciones", "Open File", '.xlsx',

@@ -20,7 +20,7 @@ def make_rast(mtd, ruta, period):
             gdal.Grid(r"%s//%s_%s.tif" % (ruta_raster, mtd, i), r"%s" % (ruta_shp),
                   layers="%s"%(mtd),
                   zfield='%s'%(i),
-                  outputBounds=[-82.7039, -4.99386, -66.9317, 14.35],
+                  outputBounds=[-81.755,-4.3, -66.776,13.425],
                   algorithm='invdist:power=4.0:max_points=25:min_points=1:radius=0.0001:nodata=100.0',
                   format='GTiff',
                   width=500, height=500)
@@ -29,8 +29,11 @@ def make_rast(mtd, ruta, period):
             gdal.Grid(r"%s//%s_%s.tif" % (ruta_raster, mtd, i), r"%s" % (ruta_shp),
                   layers="%s"%(mtd),
                   zfield='%s'%(i),
-                  outputBounds=[-82.7039, -4.99386, -66.9317, 14.35],
+                  outputBounds=[-81.755,-4.3, -66.776,13.425],
                   algorithm='invdist:power=4.0:max_points=25:min_points=1:radius=0.0001:nodata=60.0',
                   format='GTiff',
                   width=500, height=500)
     print "Raster export OK!!!"
+    #-82.7039, -4.99386, -66.9317, 14.35
+    #-81,70388,-4,193861, -67,931694,13,350000
+    #13,350000 -4,193861

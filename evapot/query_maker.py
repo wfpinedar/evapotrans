@@ -41,7 +41,7 @@ def query(anio, db="evot", method='gl'):
                 print i
     return val
 
-def export_pg_table(export_path, pgtable_name, host, username, password, db, pg_sql_select):
+def export_pg_table1(export_path, pgtable_name, host, username, password, db, pg_sql_select):
     print "Exporting shapefile ..."
     cmd = '''pgsql2shp -f {export_path}\{pgtable_name}.shp -h {host} -u {username} -P {password} {db} "{pg_sql_select}"'''.format(
         pgtable_name=pgtable_name, export_path=export_path, host=host, username=username, db=db, password=password,
