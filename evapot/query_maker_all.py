@@ -378,14 +378,6 @@ def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
      #   cursor.execute("create table evot1_temp from "+ ctable_expresion)
 
 def export_pg_table(export_path, pgtable_name, host, username, password, db, agrupacion,periodo,pg_sql_select):
-    con1 = psycopg2.connect(database=db, user=username, password=password, host=host,
-                            port="5432")
-    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    cursor1 = con1.cursor()
-    txt = open(r"E:\Escritorio\textttttt\heyhey.txt", "w")
-    txt.write(pg_sql_select)
-    txt.close
-
     ruta_shapes= export_path + "\%s_shapes" % (pgtable_name)
     try:
         os.stat(ruta_shapes)
