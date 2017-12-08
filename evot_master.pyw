@@ -166,7 +166,7 @@ class MyForm(QtGui.QMainWindow):
         #get_table_shp
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
-                        load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
+                        self.ui.cAgrup.currentText(),self.ui.cPeriodicidad.currentText(),load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
                                    self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text()))
 
 

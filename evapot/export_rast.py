@@ -3,8 +3,8 @@ from osgeo import gdal
 
 
 def make_rast(mtd, ruta, period):
-    ruta_shp = ruta + r"\%s.shp" % (mtd)
-    ruta_raster = ruta+"\%s" % (mtd)
+
+    ruta_raster = ruta+"\%s_rasters" % (mtd)
     meses = ["evt_enero", "evt_febrer", "evt_marzo", "evt_abril", "evt_mayo", "evt_junio", "evt_julio",
              "evt_agosto", "evt_septie", "evt_octubr", "evt_noviem", "evt_diciem", "anual"]
     decadas = ["d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10",
@@ -26,8 +26,9 @@ def make_rast(mtd, ruta, period):
                   width=500, height=500)
     elif period == 'Decadal':
         for i in decadas:
+            ruta_shp = ruta + r"\%s_shapes\%s_%s.shp" % (mtd,mtd,i)
             gdal.Grid(r"%s//%s_%s.tif" % (ruta_raster, mtd, i), r"%s" % (ruta_shp),
-                  layers="%s"%(mtd),
+                  layers="%s_%s"%(mtd,i),
                   zfield='%s'%(i),
                   outputBounds=[-81.755,-4.3, -66.776,13.425],
                   algorithm='invdist:power=4.0:max_points=25:min_points=1:radius=0.0001:nodata=60.0',

@@ -370,20 +370,45 @@ def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
     return ctable_expresion
 
 
-def query(db="evot"):
-    con = psycopg2.connect (database=db, user="postgres", password="postgres", host="localhost", port="5432")
-    val = []
-    with con:
-        cursor = con.cursor()
-        cursor.execute("create table evot1_temp from "+ ctable_expresion)
+#def query(db="evot"):
+ #   con = psycopg2.connect (database=db, user="postgres", password="postgres", host="localhost", port="5432")
+  #  val = []
+   # with con:
+    #    cursor = con.cursor()
+     #   cursor.execute("create table evot1_temp from "+ ctable_expresion)
 
-def export_pg_table(export_path, pgtable_name, host, username, password, db, pg_sql_select):
-    print "Exporting shapefile ..."
-    cmd = '''pgsql2shp -f {export_path}\{pgtable_name}.shp -h {host} -u {username} -P {password} {db} "{pg_sql_select}"'''.format(
-        pgtable_name=pgtable_name, export_path=export_path, host=host, username=username, db=db, password=password,
-        pg_sql_select=pg_sql_select)
+def export_pg_table(export_path, pgtable_name, host, username, password, db, agrupacion,periodo,pg_sql_select):
+    con1 = psycopg2.connect(database=db, user=username, password=password, host=host,
+                            port="5432")
+    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    cursor1 = con1.cursor()
+    txt = open(r"E:\Escritorio\textttttt\heyhey.txt", "w")
+    txt.write(pg_sql_select)
+    txt.close
+
+    ruta_shapes= export_path + "\%s_shapes" % (pgtable_name)
+    try:
+        os.stat(ruta_shapes)
+    except:
+        os.mkdir(ruta_shapes)
+
+    if agrupacion == "Promedio" and periodo == "Decadal":
+
+        for x in xrange(36):
+            campos = '''codigo ,tipo ,clase ,cat ,nombre ,municipio ,corriente ,departamento ,altitud , cod_dep ,cod_muni ,longitud ,latitud ,estado ,geom ,d%s'''%(x+1)
+            pg_sql_select='''select %s as d%s from tmp_query_prom1 where d%s > 0'''%(campos,x+1,x+1)
+            print "Exporting shapefile ..."
+            cmd = '''pgsql2shp -f {export_path}\{pgtable_name}.shp -h {host} -u {username} -P {password} {db} "{pg_sql_select}"'''.format(
+                pgtable_name=pgtable_name+"_d%s"%(x+1), export_path=ruta_shapes, host=host, username=username, db=db,
+                password=password,
+                pg_sql_select=pg_sql_select)
+            process = os.system(cmd)
+    else:
+        pass
+
+
     #print cmd
-    process = os.system(cmd)
+
 
 #load_query("Thornthwaite","")
 
