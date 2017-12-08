@@ -194,16 +194,26 @@ class MyForm(QtGui.QMainWindow):
         d.exec_()
 
     def shpExport(self):
+        usr = str(self.ui.lUsr.text())
+        pas = str(self.ui.lPass.text())
+        port = str(self.ui.lPort.text())
+        host = str(self.ui.lHost.text())
+        bd = str(self.ui.lDb.text())
         #get_table_shp
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
-                        self.ui.cAgrup.currentText(),self.ui.cPeriodicidad.currentText(),load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
-                                   self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text()))
+                        self.ui.cAgrup.currentText(),self.ui.cPeriodicidad.currentText(),self.ui.cTipo.currentText(),load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
+                                   self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text(),bd,usr, host, port, pas))
 
 
     def excExport(self):
+        usr = str(self.ui.lUsr.text())
+        pas = str(self.ui.lPass.text())
+        port = str(self.ui.lPort.text())
+        host = str(self.ui.lHost.text())
+        bd = str(self.ui.lDb.text())
         make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
-                                   self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text())),
+                                   self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text(),bd,usr, host, port, pas)),
                                    self.ui.lRuta.text(), self.ui.lShpName.text())
 
     def rasExport(self):
