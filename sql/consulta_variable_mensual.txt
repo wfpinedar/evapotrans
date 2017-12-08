@@ -34,4 +34,4 @@ FROM
   public.prom_men, 
   public.estacion
 WHERE 
-  estacion.codigo = prom_men.codigo AND   prom_men.variable = 'BS' 
+  estacion.codigo = prom_men.codigo AND   prom_men.variable = '&&&' 

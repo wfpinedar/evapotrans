@@ -65,3 +65,15 @@ def make_excel(table,export_path,pgtable_name):
     for row,data in enumerate(table):
         worksheet.write_row(row,0,data)
     workbook.close()
+
+    con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+                            port="5432")
+    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    cursor1 = con1.cursor()
+
+    try:
+        cursor1.execute("DROP table tmp_query_mensual")
+        cursor1.execute("DROP table tmp_query_prom")
+        cursor1.execute("DROP table tmp_query_prom1")
+    except:
+        pass

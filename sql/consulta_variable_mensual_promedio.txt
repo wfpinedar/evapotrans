@@ -30,17 +30,17 @@ SELECT
   avg(tmp_query_mensual.diciembre) diciembre, 
   avg(tmp_query_mensual.noviembre) noviembre, 
   avg(tmp_query_mensual.octubre) octubre, 
-  tmp_query_mensual.codigo 
+  tmp_query_mensual.cod_estacion
   
 FROM 
   public.tmp_query_mensual, 
   public.estacion
 WHERE 
-  estacion.codigo = tmp_query_mensual.codigo AND   tmp_query_mensual.variable = '&&&' 
+  estacion.codigo = tmp_query_mensual.cod_estacion AND   tmp_query_mensual.variable = '&&&' 
 
 GROUP BY 
   estacion.codigo,
-   tmp_query_mensual.codigo,  
+   tmp_query_mensual.cod_estacion,    
   estacion.tipo, 
   estacion.clase, 
   estacion.cat, 
@@ -50,4 +50,5 @@ GROUP BY
   estacion.departamento, 
   estacion.altitud, 
   estacion.cod_dep, 
-  estacion.cod_muni
+  estacion.cod_muni,
+  tmp_query_mensual.variable

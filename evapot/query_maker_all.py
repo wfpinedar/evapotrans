@@ -262,14 +262,28 @@ def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
                     ctable_expresion = ctable_expresion
             else:# decadal
                 if agrupacion == "Normal" or agrupacion == "Promedio":
-                    txt = open(r".\sql\%s" % ("consulta_variable_decadal.txt"), "r")
+                    # txt = open(r".\sql\%s" % ("consulta_variable_decadal.txt"), "r")
+                    # ce = '''CREATE table tmp_query_mensual as ('''
+                    # ctable_e = '''%s''' % (txt.read())
+                    # ctable_e = ce + ctable_e +")"
+                    # ctable_e= ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    # cursor1.execute(ctable_e)
+                    # ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    # ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual.txt"), "r")
                     ce = '''CREATE table tmp_query_mensual as ('''
                     ctable_e = '''%s''' % (txt.read())
-                    ctable_e = ce + ctable_e +")"
-                    ctable_e= ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
-                    cursor1.execute(ctable_e)
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ce + ctable_e + ")")
                     ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
                     ctable_expresion = ctable_expresion + """ where anio = {}""".format(anio1)
+
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual_promedio.txt"), "r")
+                    ce = '''CREATE table tmp_query_prom1 as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
+                    ctable_expresion = ctable_expresion
 
         elif anio2 != "" and anio1 != "":
             con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
@@ -351,18 +365,34 @@ def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
                     txt = open(r".\sql\%s" % ("consulta_variable_mensual_promedio.txt"), "r")
                     ce = '''CREATE table tmp_query_prom1 as ('''
                     ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
                     cursor1.execute(ce + ctable_e + ")")
                     ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
                     ctable_expresion = ctable_expresion
             else:  # decadal
                 if agrupacion == "Normal" or agrupacion == "Promedio":
-                    txt = open(r".\sql\%s" % ("consulta_variable_decadal.txt"), "r")
+                    # txt = open(r".\sql\%s" % ("consulta_variable_decadal.txt"), "r")
+                    # ce = '''CREATE table tmp_query_mensual as ('''
+                    # ctable_e = '''%s''' % (txt.read())
+                    # ctable_e = ce + ctable_e + ")"
+                    # ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    # cursor1.execute(ctable_e)
+                    # ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    # ctable_expresion = ctable_expresion
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual.txt"), "r")
                     ce = '''CREATE table tmp_query_mensual as ('''
                     ctable_e = '''%s''' % (txt.read())
-                    ctable_e = ce + ctable_e + ")"
                     ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
-                    cursor1.execute(ctable_e)
+                    cursor1.execute(ce + ctable_e + ")")
                     ctable_expresion = '''%s''' % ("select * from tmp_query_mensual ")
+                    ctable_expresion = ctable_expresion
+
+                    txt = open(r".\sql\%s" % ("consulta_variable_mensual_promedio.txt"), "r")
+                    ce = '''CREATE table tmp_query_prom1 as ('''
+                    ctable_e = '''%s''' % (txt.read())
+                    ctable_e = ctable_e.replace("&&&", dict_variables_mensuales[str(metodo)])
+                    cursor1.execute(ce + ctable_e + ")")
+                    ctable_expresion = '''%s''' % ("select * from tmp_query_prom1 ")
                     ctable_expresion = ctable_expresion
 
     txt.close()
@@ -370,21 +400,15 @@ def load_query (tipo,agrupacion,metodo,periodo,anio1,anio2):
     return ctable_expresion
 
 
-#def query(db="evot"):
- #   con = psycopg2.connect (database=db, user="postgres", password="postgres", host="localhost", port="5432")
-  #  val = []
-   # with con:
-    #    cursor = con.cursor()
-     #   cursor.execute("create table evot1_temp from "+ ctable_expresion)
 
-def export_pg_table(export_path, pgtable_name, host, username, password, db, agrupacion,periodo,pg_sql_select):
+def export_pg_table(export_path, pgtable_name, host, username, password, db, agrupacion,periodo,tipo,pg_sql_select):
     ruta_shapes= export_path + "\%s_shapes" % (pgtable_name)
     try:
         os.stat(ruta_shapes)
     except:
         os.mkdir(ruta_shapes)
 
-    if agrupacion == "Promedio" and periodo == "Decadal":
+    if agrupacion == "Promedio" and periodo == "Decadal" and tipo=="Resultado":
 
         for x in xrange(36):
             campos = '''codigo ,tipo ,clase ,cat ,nombre ,municipio ,corriente ,departamento ,altitud , cod_dep ,cod_muni ,longitud ,latitud ,estado ,geom ,d%s'''%(x+1)
@@ -395,13 +419,6 @@ def export_pg_table(export_path, pgtable_name, host, username, password, db, agr
                 password=password,
                 pg_sql_select=pg_sql_select)
             process = os.system(cmd)
-    else:
+
+    elif agrupacion == "Promedio" and periodo == "Decadal" and tipo == "Variable":
         pass
-
-
-    #print cmd
-
-
-#load_query("Thornthwaite","")
-
-#export_pg_table(r"C:\export_data\\", 'tmp_evot_gl', 'localhost', 'postgres', 'postgres', 'evot', gl.format(2000))
