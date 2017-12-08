@@ -180,17 +180,20 @@ class MyForm(QtGui.QMainWindow):
         d.exec_()
 
     def shpExport(self):
-        #get_table_shp
+        # get_table_shp
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
-                        self.ui.cAgrup.currentText(),self.ui.cPeriodicidad.currentText(),load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
+                        self.ui.cAgrup.currentText(), self.ui.cPeriodicidad.currentText(), self.ui.cTipo.currentText(),
+                        load_query(self.ui.cTipo.currentText(), self.ui.cAgrup.currentText(),
+                                   self.ui.cMetho.currentText(),
                                    self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text()))
 
-
     def excExport(self):
-        make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
-                                   self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text())),
-                                   self.ui.lRuta.text(), self.ui.lShpName.text())
+        make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(), self.ui.cAgrup.currentText(),
+                                                            self.ui.cMetho.currentText(),
+                                                            self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(),
+                                                            self.ui.anio2.text())),
+                   self.ui.lRuta.text(), self.ui.lShpName.text())
 
     def rasExport(self):
         make_rast(self.ui.lShpName.text(), self.ui.lRuta.text(), self.ui.cPeriodicidad.currentText())
