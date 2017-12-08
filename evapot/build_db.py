@@ -27,10 +27,26 @@ def build_db(db,us,host,port,pas):
     txt.close()
     cursor1.execute(ctable_expresion)
 
-def drop_db():
-    pass
-    ##    cursor.execute(open("schema.sql", "r").read())
+def drop_db(db,us,host,port,pas):
+    con = psycopg2.connect(database=db, user=us, password=pas, host=host, port=port)
 
+    con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)  # <-- ADD THIS LINE
+    cursor = con.cursor()
+    cursor.execute("SELECT COUNT(*) = 0 FROM pg_catalog.pg_database WHERE datname = '%s'"%(db))
+    not_exists_row = cursor.fetchone()
+    not_exists = not_exists_row[0]
+
+    cursor.execute(
+        "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE pid <> pg_backend_pid() AND datname = '%s';"%db
+    )
+    con.close()
+    if not not_exists:
+        droper = """dropdb -h %s -p %s -U %s %s  """
+        command = droper % (host, port, us, db)
+        print command
+        os.system(command)
+    else:
+        print "DB evot exist"
 
 def bkp_db(user,key,host,directorio,db):
     USER = user

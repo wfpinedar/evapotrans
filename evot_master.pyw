@@ -10,6 +10,7 @@ from evapot.load_formulas import *
 from evapot.add_geoColum import *
 from evapot.build_db import bkp_db
 from evapot.build_db import res_db
+from evapot.build_db import drop_db
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -132,6 +133,19 @@ class MyForm(QtGui.QMainWindow):
             except:
                 self.alert("Base de datos Import NOT FOUND!!!")
 
+        if opcion_bd == "Borrar Base de Datos":
+            self.testConnect()
+            if self.ui.chBbd.isChecked():
+                #drop_db(bd, usr, host, port, pas)
+                try:
+                    drop_db(bd, usr, host, port, pas)
+                    self.alert("Borrada base de datos %s  OK!!!"%bd)
+                except:
+                    self.alert("Base de datos Delete NOT FOUND!!!")
+            else:
+                self.alert("No existe la Base de datos.")
+
+
 
     def data_options(self):
         opcion_bd = str(self.ui.cVariable.currentText())
@@ -180,20 +194,17 @@ class MyForm(QtGui.QMainWindow):
         d.exec_()
 
     def shpExport(self):
-        # get_table_shp
+        #get_table_shp
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
-                        self.ui.cAgrup.currentText(), self.ui.cPeriodicidad.currentText(), self.ui.cTipo.currentText(),
-                        load_query(self.ui.cTipo.currentText(), self.ui.cAgrup.currentText(),
-                                   self.ui.cMetho.currentText(),
+                        self.ui.cAgrup.currentText(),self.ui.cPeriodicidad.currentText(),load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
                                    self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text()))
 
+
     def excExport(self):
-        make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(), self.ui.cAgrup.currentText(),
-                                                            self.ui.cMetho.currentText(),
-                                                            self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(),
-                                                            self.ui.anio2.text())),
-                   self.ui.lRuta.text(), self.ui.lShpName.text())
+        make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
+                                   self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text())),
+                                   self.ui.lRuta.text(), self.ui.lShpName.text())
 
     def rasExport(self):
         make_rast(self.ui.lShpName.text(), self.ui.lRuta.text(), self.ui.cPeriodicidad.currentText())

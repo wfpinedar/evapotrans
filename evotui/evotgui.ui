@@ -183,6 +183,11 @@
        </item>
        <item>
         <property name="text">
+         <string>Borrar Base de Datos</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Exportar Base de Datos</string>
         </property>
        </item>
@@ -1093,12 +1098,6 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuWindows">
-    <property name="title">
-     <string>Windows</string>
-    </property>
-   </widget>
-   <addaction name="menuWindows"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

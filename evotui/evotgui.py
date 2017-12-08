@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:\DOCUMENTOS\GitHub\evapotrans\evotui\evotgui.ui'
+# Form implementation generated from reading ui file 'C:\Users\Fercho\Desktop\EVAPOTRANS\EVAPOTRANS\evapotrans\evotui\evotgui.ui'
 #
-# Created: Thu Dec 07 03:23:10 2017
-#      by: PyQt4 UI code generator 4.11
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -83,6 +82,7 @@ class Ui_MainWindow(object):
         self.cBdop = QtGui.QComboBox(self.groupBox_2)
         self.cBdop.setGeometry(QtCore.QRect(120, 37, 181, 22))
         self.cBdop.setObjectName(_fromUtf8("cBdop"))
+        self.cBdop.addItem(_fromUtf8(""))
         self.cBdop.addItem(_fromUtf8(""))
         self.cBdop.addItem(_fromUtf8(""))
         self.cBdop.addItem(_fromUtf8(""))
@@ -244,7 +244,6 @@ class Ui_MainWindow(object):
         self.layoutWidget.setGeometry(QtCore.QRect(10, 20, 101, 111))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.layoutWidget)
-        self.verticalLayout_5.setMargin(0)
         self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
         self.rAnio = QtGui.QRadioButton(self.layoutWidget)
         self.rAnio.setObjectName(_fromUtf8("rAnio"))
@@ -317,7 +316,6 @@ class Ui_MainWindow(object):
         self.layoutWidget1.setGeometry(QtCore.QRect(143, 44, 301, 71))
         self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
         self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget1)
-        self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.horizontalLayout_5 = QtGui.QHBoxLayout()
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
@@ -340,13 +338,10 @@ class Ui_MainWindow(object):
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 728, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
-        self.menuWindows = QtGui.QMenu(self.menubar)
-        self.menuWindows.setObjectName(_fromUtf8("menuWindows"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
-        self.menubar.addAction(self.menuWindows.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.rAnio, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.anio2.setEnabled)
@@ -376,9 +371,10 @@ class Ui_MainWindow(object):
         self.label_37.setText(_translate("MainWindow", "Archivo a Importar", None))
         self.label_38.setText(_translate("MainWindow", "Operación", None))
         self.cBdop.setItemText(0, _translate("MainWindow", "Crear Base de Datos", None))
-        self.cBdop.setItemText(1, _translate("MainWindow", "Exportar Base de Datos", None))
-        self.cBdop.setItemText(2, _translate("MainWindow", "Importar Base de Datos", None))
-        self.cBdop.setItemText(3, _translate("MainWindow", "Verificar Base de Datos", None))
+        self.cBdop.setItemText(1, _translate("MainWindow", "Borrar Base de Datos", None))
+        self.cBdop.setItemText(2, _translate("MainWindow", "Exportar Base de Datos", None))
+        self.cBdop.setItemText(3, _translate("MainWindow", "Importar Base de Datos", None))
+        self.cBdop.setItemText(4, _translate("MainWindow", "Verificar Base de Datos", None))
         self.groupBox_4.setTitle(_translate("MainWindow", "Parámetros de Conexión", None))
         self.label_32.setText(_translate("MainWindow", "Contraseña", None))
         self.label_33.setText(_translate("MainWindow", "Base de Datos", None))
@@ -429,6 +425,5 @@ class Ui_MainWindow(object):
         self.bExport.setText(_translate("MainWindow", "Ejecutar Consulta", None))
         self.cExcl.setText(_translate("MainWindow", "Excel", None))
         self.cShp.setText(_translate("MainWindow", "Shapefile", None))
-        self.menuWindows.setTitle(_translate("MainWindow", "Windows", None))
 
 import ofolder_rc
