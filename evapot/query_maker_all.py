@@ -458,5 +458,29 @@ def export_pg_table(export_path, pgtable_name, host, username, password, db, agr
                 pg_sql_select=pg_sql_select)
             process = os.system(cmd)
 
+    if agrupacion == "Normal" and periodo == "Mensual" and tipo == "Resultado":
+        campos_val = ["evt_enero", "evt_febrero", "evt_marzo", "evt_abril", "evt_mayo", "evt_junio", "evt_julio",
+                      "evt_agosto", "evt_septiembre", "evt_octubre", "evt_noviembre", "evt_diciembre", "anual"]
+        for x in campos_val:
+            campos = '''codigo ,tipo ,clase ,cat ,nombre ,municipio ,corriente ,departamento ,altitud , cod_dep ,cod_muni ,longitud ,latitud ,estado ,geom , %s''' % (x)
+            pg_sql_select = '''select %s as %s from tmp_query_mensual where %s > 0''' % (campos, x, x)
+            print "Exporting shapefile ..."
+            cmd = '''pgsql2shp -f {export_path}\{pgtable_name}.shp -h {host} -u {username} -P {password} {db} "{pg_sql_select}"'''.format(
+                pgtable_name=pgtable_name + "_%s" % (x), export_path=ruta_shapes, host=host, username=username, db=db,
+                password=password,
+                pg_sql_select=pg_sql_select)
+            process = os.system(cmd)
+    ############################################################## VARIABLES #############################################################################################
     elif agrupacion == "Promedio" and periodo == "Decadal" and tipo == "Variable":
-        pass
+        campos_val = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+                      "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+        for x in campos_val:
+            campos = '''cod_estacion ,tipo ,clase ,cat ,nombre ,municipio ,corriente ,departamento ,altitud , cod_dep ,cod_muni ,longitud ,latitud ,estado , variable,geom , %s''' % (
+            x)
+            pg_sql_select = '''select %s as %s from tmp_query_mensual where %s > 0''' % (campos, x, x)
+            print "Exporting shapefile ..."
+            cmd = '''pgsql2shp -f {export_path}\{pgtable_name}.shp -h {host} -u {username} -P {password} {db} "{pg_sql_select}"'''.format(
+                pgtable_name=pgtable_name + "_%s" % (x), export_path=ruta_shapes, host=host, username=username, db=db,
+                password=password,
+                pg_sql_select=pg_sql_select)
+            process = os.system(cmd)

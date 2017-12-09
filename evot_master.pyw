@@ -199,6 +199,23 @@ class MyForm(QtGui.QMainWindow):
         port = str(self.ui.lPort.text())
         host = str(self.ui.lHost.text())
         bd = str(self.ui.lDb.text())
+        con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host, port=port)
+        con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        cursor1 = con1.cursor()
+
+        try:
+            cursor1.execute("DROP table tmp_query_mensual")
+        except:
+            pass
+        try:
+            cursor1.execute("DROP table tmp_query_prom")
+
+        except:
+            pass
+        try:
+            cursor1.execute("DROP table tmp_query_prom1")
+        except:
+            pass
         #get_table_shp
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
@@ -212,12 +229,29 @@ class MyForm(QtGui.QMainWindow):
         port = str(self.ui.lPort.text())
         host = str(self.ui.lHost.text())
         bd = str(self.ui.lDb.text())
+        con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host,port=port)
+        con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        cursor1 = con1.cursor()
+
+        try:
+            cursor1.execute("DROP table tmp_query_mensual")
+        except:
+            pass
+        try:
+            cursor1.execute("DROP table tmp_query_prom")
+
+        except:
+            pass
+        try:
+            cursor1.execute("DROP table tmp_query_prom1")
+        except:
+            pass
         make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
                                    self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text(),bd,usr, host, port, pas)),
                                    self.ui.lRuta.text(), self.ui.lShpName.text())
 
     def rasExport(self):
-        make_rast(self.ui.lShpName.text(), self.ui.lRuta.text(), self.ui.cPeriodicidad.currentText())
+        make_rast(self.ui.lShpName.text(), self.ui.lRuta.text(), self.ui.cPeriodicidad.currentText(),self.ui.cTipo.currentText())
 
     def dataExport(self):
         if self.ui.cShp.isChecked() and self.ui.cExcl.isChecked() and self.ui.cExcl_2.isChecked():

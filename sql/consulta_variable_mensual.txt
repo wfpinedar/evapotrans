@@ -26,9 +26,9 @@ SELECT
   prom_men.julio, 
   prom_men.agosto, 
   prom_men.septiembre, 
-  prom_men.diciembre, 
-  prom_men.noviembre, 
   prom_men.octubre, 
+  prom_men.noviembre, 
+  prom_men.diciembre,  
   prom_men.codigo cod_variable
 FROM 
   public.prom_men, 
