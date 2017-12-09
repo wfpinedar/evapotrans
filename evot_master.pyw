@@ -156,10 +156,10 @@ class MyForm(QtGui.QMainWindow):
         host = str(self.ui.lHost.text())
         bd = str(self.ui.lDb.text())
 
-        if opcion_bd == 'Verificar Base de Datos':
-            self.testConnect()
+        if opcion_data == 'Verificar Datos':
+            self.test_data(nombre_dato)
 
-        if opcion_bd == "Crear Base de Datos":
+        if opcion_data == "Crear Base de Datos":
             build_db(bd, usr, host, port, pas)
             self.lform(bd, usr, host, port, pas)
             self.alert("la Base fue creada con exito")
@@ -171,7 +171,7 @@ class MyForm(QtGui.QMainWindow):
                              "Temperatura Media", "Velocidad del Viento"]:
 
                 load_variable(r"%s" % (str(self.ui.lRuta_var.text())), bd,'variable',usr, host, port, pas)
-                self.alert("Archivo de %s cargado con exito"%(opcion_bd))
+                self.alert("Archivo de %s cargado con exito"%(nombre_dato))
 
             if nombre_dato == "Estaciones":
                 load_station(r"%s" % (str(self.ui.lRuta_var.text())), bd, "estacion")
@@ -307,50 +307,62 @@ class MyForm(QtGui.QMainWindow):
             self.alert("La base de datos Existe")
 
     def test_data(self,nombre_dato):
-        nombre_dato=str(self.ui.cVariable.currentText())
+        # nombre_dato=str(self.ui.cVariable.currentText())
 
         dict_valores_datos = {
             "Brillo Solar": "BS",
             "Evaporacion": "EV",
             "Humedad Relativa": "HR",
-            "Temp.Max": "TMX",
-            "Temp.Media": "TMD",
-            "Temp.Min": "TMN",
-            "Velocidad": "VD",
-            "Estaciones":"est",
-            "Punto de Rocio":"pr",
-            "Radiacion Extraterrestre":"rad"}
+            "Temperatura Maxima": "TMX",
+            "Temperatura Media": "TMD",
+            "Temperatura Minima": "TMN",
+            "Velocidad del Viento": "VD"}
 
         dict_nombres_checks = {
             "Brillo Solar": "bs",
             "Evaporacion": "ev",
             "Humedad Relativa": "hr",
-            "Temp.Max": "tx",
-            "Temp.Media": "tm",
-            "Temp.Min": "tn",
-            "Velocidad": "ve",
+            "Temperatura Maxima": "tx",
+            "Temperatura Media": "tm",
+            "Temperatura Minima": "tn",
+            "Velocidad del Viento": "ve",
             "Estaciones": "est",
             "Punto de Rocio": "pr",
             "Radiacion Extraterrestre": "rad"}
-        try:
-            con = psycopg2.connect(database=self.ui.lDb.text(),
-                                   user=self.ui.lUsr.text(),
-                                   password=self.ui.lPass.text(),
-                                   host=self.ui.lHost.text(),
-                                   port=self.ui.lPort.text())
-            con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)  # <-- ADD THIS LINE
-            cursor = con.cursor()
-            cursor.execute("SELECT COUNT(*) = 0 FROM public.variable WHERE variable = '%s'"%(dict_variables_mensuales[nombre_dato]))
-            not_exists_row = cursor.fetchone()
-            not_exists = not_exists_row[0]
-        except:
-            not_exists = True
-        if not_exists:
-            self.ui.chBbd.setChecked(False)
-            self.alert("La base de datos no Existe")
-        else:
-            self.ui.chBbd.setChecked(True)
-            self.alert("La base de datos Existe")
+        for nombre_dato in ["Brillo Solar", "Estaciones", "Evaporacion", "Humedad Relativa", "Punto de Rocio",
+                            "Radiacion Extraterrestre", "Temperatura Maxima",
+                            "Temperatura Minima", "Temperatura Media", "Velocidad del Viento"]:
+            try:
+                con = psycopg2.connect(database=self.ui.lDb.text(),
+                                       user=self.ui.lUsr.text(),
+                                       password=self.ui.lPass.text(),
+                                       host=self.ui.lHost.text(),
+                                       port=self.ui.lPort.text())
+                con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)  # <-- ADD THIS LINE
+                cursor = con.cursor()
+                if nombre_dato in ["Brillo Solar", "Evaporacion", "Humedad Relativa", "Temperatura Maxima",
+                                   "Temperatura Media","Temperatura Minima","Velocidad del Viento"]:
+                    cursor.execute("SELECT COUNT(*) = 0 FROM public.variable WHERE variable = '%s'" % (
+                        dict_valores_datos[nombre_dato]))
+                elif nombre_dato == "Estaciones":
+                    cursor.execute("SELECT COUNT(*) = 0 FROM public.estacion")
+                elif nombre_dato == "Punto de Rocio":
+                    cursor.execute("SELECT COUNT(*) = 0 FROM public.p_rocio_ln")
+                elif nombre_dato == "Radiacion Extraterrestre":
+                    cursor.execute("SELECT COUNT(*) = 0 FROM public.rad_extra_har")
+                not_exists_row = cursor.fetchone()
+                not_exists = not_exists_row[0]
+            except:
+                not_exists = True
+            if not_exists:
+                expr="self.ui.cB_%s.setChecked(False)"%(dict_nombres_checks[nombre_dato])
+                exec(expr)
+                # self.alert("Los datos de no %s estan cargados"%(nombre_dato))
+            else:
+                expr = "self.ui.cB_%s.setChecked(True)" % (dict_nombres_checks[nombre_dato])
+                exec (expr)
+                # self.alert("Los datos de %s estan cargados" % (nombre_dato))
+
 
 
 

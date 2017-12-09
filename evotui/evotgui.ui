@@ -183,6 +183,11 @@
        </item>
        <item>
         <property name="text">
+         <string>Borrar Base de Datos</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Exportar Base de Datos</string>
         </property>
        </item>
@@ -547,7 +552,7 @@
          <string>Humedad Relativa</string>
         </property>
         <property name="checkable">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QCheckBox" name="cB_ve">
@@ -566,7 +571,7 @@
          <string>Velocidad del Viento</string>
         </property>
         <property name="checkable">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QCheckBox" name="cB_bs">
@@ -585,7 +590,7 @@
          <string>Brillo Solar</string>
         </property>
         <property name="checkable">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QCheckBox" name="cB_tx">
@@ -604,7 +609,7 @@
          <string>Temperatura Máxima</string>
         </property>
         <property name="checkable">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QCheckBox" name="cB_tm">
@@ -623,7 +628,7 @@
          <string>Temperatura Media</string>
         </property>
         <property name="checkable">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QCheckBox" name="cB_ev">
@@ -642,7 +647,7 @@
          <string>Evaporación</string>
         </property>
         <property name="checkable">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QCheckBox" name="cB_tn">
@@ -661,7 +666,7 @@
          <string>Temperatura Mínima</string>
         </property>
         <property name="checkable">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
       </widget>
