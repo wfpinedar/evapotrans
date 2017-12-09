@@ -2,8 +2,13 @@
 rem
 rem Launch EVOT MASTER
 rem
-IF EXIST C:\Python27\ArcGIS10.3 SET PATH=%PATH%;C:\Python27\ArcGIS10.3;C:\Python27\ArcGIS10.3\Scripts;C:\Python27\ArcGIS10.3\Lib\site-packages
-C:\Python27\ArcGIS10.3\pythonw.exe evot_master.pyw > run.log %*
+setlocal
+where python > tmp.txt
+set /p  pa= < tmp.txt
+SET py=%pa:~0,22%
+del tmp.txt
+IF EXIST %py% SET PATH=%PATH%;%py%;%py%\Scripts;%py%\Lib\site-packages
+%pa% evot_master.pyw > run.log %*
 rem
 rem Pause on error
 rem
