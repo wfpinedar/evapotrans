@@ -8,9 +8,6 @@ def make_rast(mtd, ruta, period,tipo):
         meses = ["evt_enero", "evt_febrero", "evt_marzo", "evt_abril", "evt_mayo", "evt_junio", "evt_julio",
                  "evt_agosto", "evt_septiembre", "evt_octubre", "evt_noviembre", "evt_diciembre", "anual"]
 
-        meses_var = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
-                 "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
-
         decadas = ["d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10",
                    "d11", "d12", "d13", "d14", "d15", "d16", "d17", "d18", "d19", "d20",
                    "d21", "d22", "d23", "d24", "d25", "d26", "d27", "d28", "d29", "d30",
@@ -40,6 +37,8 @@ def make_rast(mtd, ruta, period,tipo):
                       format='GTiff',
                       width=500, height=500)
         print "Raster export OK!!!"
-        
+
     else: #variables
-        pass
+        meses_var = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+                     "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+
