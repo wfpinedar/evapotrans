@@ -41,12 +41,12 @@ def get_table(db, query):
     con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cursor1 = con1.cursor()
 
-    try:
-        cursor1.execute("DROP table tmp_query_mensual")
-        cursor1.execute("DROP table tmp_query_prom")
-        cursor1.execute("DROP table tmp_query_prom1")
-    except:
-        pass
+    # try:
+    #     cursor1.execute("DROP table tmp_query_mensual")
+    #     cursor1.execute("DROP table tmp_query_prom")
+    #     cursor1.execute("DROP table tmp_query_prom1")
+    # except:
+    #     pass
 
     return val
 
@@ -71,12 +71,12 @@ def get_table_shp(db, query):
     con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cursor1 = con1.cursor()
 
-    try:
-        cursor1.execute("DROP table tmp_query_mensual")
-        cursor1.execute("DROP table tmp_query_prom")
-        cursor1.execute("DROP table tmp_query_prom1")
-    except:
-        pass
+    # try:
+    #     cursor1.execute("DROP table tmp_query_mensual")
+    #     cursor1.execute("DROP table tmp_query_prom")
+    #     cursor1.execute("DROP table tmp_query_prom1")
+    # except:
+    #     pass
     return val
 
 def make_excel(table,export_path,pgtable_name):
@@ -89,21 +89,21 @@ def make_excel(table,export_path,pgtable_name):
         worksheet.write_row(row,0,data)
     workbook.close()
 
-    con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
-                            port="5432")
-    con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    cursor1 = con1.cursor()
-
-    try:
-        cursor1.execute("DROP table tmp_query_mensual")
-    except:
-        pass
-    try:
-        cursor1.execute("DROP table tmp_query_prom")
-
-    except:
-        pass
-    try:
-        cursor1.execute("DROP table tmp_query_prom1")
-    except:
-        pass
+    # con1 = psycopg2.connect(database="evot", user="postgres", password="postgres", host="localhost",
+    #                         port="5432")
+    # con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    # cursor1 = con1.cursor()
+    #
+    # try:
+    #     cursor1.execute("DROP table tmp_query_mensual")
+    # except:
+    #     pass
+    # try:
+    #     cursor1.execute("DROP table tmp_query_prom")
+    #
+    # except:
+    #     pass
+    # try:
+    #     cursor1.execute("DROP table tmp_query_prom1")
+    # except:
+    #     pass
