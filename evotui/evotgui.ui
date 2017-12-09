@@ -183,11 +183,6 @@
        </item>
        <item>
         <property name="text">
-         <string>Borrar Base de Datos</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
          <string>Exportar Base de Datos</string>
         </property>
        </item>
@@ -682,7 +677,7 @@
        <property name="title">
         <string>Otros Datos</string>
        </property>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="cB_est">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -698,7 +693,7 @@
          <string>Estaciones</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="checkBox_2">
+       <widget class="QCheckBox" name="cB_pr">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -714,7 +709,7 @@
          <string>Tabla Punto de Rocio</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="checkBox_3">
+       <widget class="QCheckBox" name="cB_rad">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -1098,6 +1093,12 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuWindows">
+    <property name="title">
+     <string>Windows</string>
+    </property>
+   </widget>
+   <addaction name="menuWindows"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

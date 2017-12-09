@@ -148,7 +148,8 @@ class MyForm(QtGui.QMainWindow):
 
 
     def data_options(self):
-        opcion_bd = str(self.ui.cVariable.currentText())
+        opcion_data= str(self.ui.cBvar.currentText())
+        nombre_dato=str(self.ui.cVariable.currentText())
         usr = str(self.ui.lUsr.text())
         pas = str(self.ui.lPass.text())
         port = str(self.ui.lPort.text())
@@ -164,25 +165,29 @@ class MyForm(QtGui.QMainWindow):
             self.alert("la Base fue creada con exito")
             self.testConnect()
 
-        if opcion_bd in ["Evaporacion", "Brillo Solar", "Humedad Relativa", "Temperatura Maxima",
-                         "Temperatura Minima",
-                         "Temperatura Media", "Velocidad del Viento"]:
+        if opcion_data == "Cargar Datos":
+            if nombre_dato in ["Evaporacion", "Brillo Solar", "Humedad Relativa", "Temperatura Maxima",
+                             "Temperatura Minima",
+                             "Temperatura Media", "Velocidad del Viento"]:
 
-            load_variable(r"%s" % (str(self.ui.lRuta_var.text())), bd,'variable',usr, host, port, pas)
-            self.alert("Archivo de %s cargado con exito"%(opcion_bd))
+                load_variable(r"%s" % (str(self.ui.lRuta_var.text())), bd,'variable',usr, host, port, pas)
+                self.alert("Archivo de %s cargado con exito"%(opcion_bd))
 
-        if opcion_bd == "Estaciones":
-            load_station(r"%s" % (str(self.ui.lRuta_var.text())), bd, "estacion")
-            cal_geoColum(bd, "estacion", usr, host, port, pas)
-            self.alert("Archivo de estaciones cargado con exito")
+            if nombre_dato == "Estaciones":
+                load_station(r"%s" % (str(self.ui.lRuta_var.text())), bd, "estacion")
+                cal_geoColum(bd, "estacion", usr, host, port, pas)
+                self.alert("Archivo de estaciones cargado con exito")
 
-        if opcion_bd in ["Punto de Rocio", "Radiacion Extraterrestre"]:
-            if opcion_bd =="Radiacion Extraterrestre":
-                load_rad_har(r"%s" % (str(self.ui.lRuta_var.text())), bd,'rad_extra_har',usr, host, port, pas)
-                self.alert("Archivo de Radiacion Extraterrestre cargado con exito")
-            else:
-                load_rad_har(r"%s" % (str(self.ui.lRuta_var.text())), bd, 'p_rocio_ln', usr, host, port, pas)
-                self.alert("Archivo de Punto de Rocio cargado con exito")
+            if nombre_dato in ["Punto de Rocio", "Radiacion Extraterrestre"]:
+                if nombre_dato =="Radiacion Extraterrestre":
+                    load_rad_har(r"%s" % (str(self.ui.lRuta_var.text())), bd,'rad_extra_har',usr, host, port, pas)
+                    self.alert("Archivo de Radiacion Extraterrestre cargado con exito")
+                else:
+                    load_rad_har(r"%s" % (str(self.ui.lRuta_var.text())), bd, 'p_rocio_ln', usr, host, port, pas)
+                    self.alert("Archivo de Punto de Rocio cargado con exito")
+
+        elif opcion_data == "Verificar Datos":
+            pass
 
 
 
@@ -199,24 +204,7 @@ class MyForm(QtGui.QMainWindow):
         port = str(self.ui.lPort.text())
         host = str(self.ui.lHost.text())
         bd = str(self.ui.lDb.text())
-        # con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host, port=port)
-        # con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-        # cursor1 = con1.cursor()
 
-        # try:
-        #     cursor1.execute("DROP table tmp_query_mensual")
-        # except:
-        #     pass
-        # try:
-        #     cursor1.execute("DROP table tmp_query_prom")
-        #
-        # except:
-        #     pass
-        # try:
-        #     cursor1.execute("DROP table tmp_query_prom1")
-        # except:
-        #     pass
-        #get_table_shp
         export_pg_table(self.ui.lRuta.text(), self.ui.lShpName.text(),
                         self.ui.lHost.text(), self.ui.lUsr.text(), self.ui.lPass.text(), self.ui.lDb.text(),
                         self.ui.cAgrup.currentText(),self.ui.cPeriodicidad.currentText(),self.ui.cTipo.currentText(),load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
@@ -229,23 +217,7 @@ class MyForm(QtGui.QMainWindow):
         port = str(self.ui.lPort.text())
         host = str(self.ui.lHost.text())
         bd = str(self.ui.lDb.text())
-        # con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host,port=port)
-        # con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-        # cursor1 = con1.cursor()
-        #
-        # try:
-        #     cursor1.execute("DROP table tmp_query_mensual")
-        # except:
-        #     pass
-        # try:
-        #     cursor1.execute("DROP table tmp_query_prom")
-        #
-        # except:
-        #     pass
-        # try:
-        #     cursor1.execute("DROP table tmp_query_prom1")
-        # except:
-        #     pass
+
         make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
                                    self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text(),bd,usr, host, port, pas)),
                                    self.ui.lRuta.text(), self.ui.lShpName.text())
@@ -260,42 +232,46 @@ class MyForm(QtGui.QMainWindow):
         host = str(self.ui.lHost.text())
         bd = str(self.ui.lDb.text())
 
-        con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host, port=port)
-        con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-        cursor1 = con1.cursor()
-        try:
-            cursor1.execute("DROP table tmp_query_mensual")
-        except:
-            pass
-        try:
-            cursor1.execute("DROP table tmp_query_prom")
+        if self.ui.cAgrup.currentText() == "Promedio" and self.ui.cPeriodicidad.currentText() == "Decadal" and self.ui.cTipo.currentText() == "Variable":
+            self.alert("El Promedio Decadal para Variables es igual al mensual, por favor ejecute el mensual")
 
-        except:
-            pass
-        try:
-            cursor1.execute("DROP table tmp_query_prom1")
-        except:
-            pass
-
-        if self.ui.cShp.isChecked() and self.ui.cExcl.isChecked() and self.ui.cExcl_2.isChecked():
-            self.shpExport()
-            self.excExport()
-            self.rasExport()
-        elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked():
-            self.shpExport()
-            self.excExport()
-        elif self.ui.cShp.isChecked() and self.ui.cExcl_2.isChecked():
-            self.shpExport()
-            self.rasExport()
-        elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked()is not True:
-            self.shpExport()
-        elif self.ui.cShp.isChecked() is not True and self.ui.cExcl.isChecked():
-            self.excExport()
         else:
-            self.alert("Seleccione el formato de salida del Archivo")
+            con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host, port=port)
+            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            cursor1 = con1.cursor()
+            try:
+                cursor1.execute("DROP table tmp_query_mensual")
+            except:
+                pass
+            try:
+                cursor1.execute("DROP table tmp_query_prom")
 
-        #self.ui.lRuta.clear()
-        #self.ui.lShpName.clear()
+            except:
+                pass
+            try:
+                cursor1.execute("DROP table tmp_query_prom1")
+            except:
+                pass
+
+            if self.ui.cShp.isChecked() and self.ui.cExcl.isChecked() and self.ui.cExcl_2.isChecked():
+                self.shpExport()
+                self.excExport()
+                self.rasExport()
+            elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked():
+                self.shpExport()
+                self.excExport()
+            elif self.ui.cShp.isChecked() and self.ui.cExcl_2.isChecked():
+                self.shpExport()
+                self.rasExport()
+            elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked()is not True:
+                self.shpExport()
+            elif self.ui.cShp.isChecked() is not True and self.ui.cExcl.isChecked():
+                self.excExport()
+            else:
+                self.alert("Seleccione el formato de salida del Archivo")
+
+            #self.ui.lRuta.clear()
+            #self.ui.lShpName.clear()
 
     def onInputFileButtonClicked(self):
         self.ui.lRuta.setText(QtGui.QFileDialog.getExistingDirectory(None, 'Open Folder'))
@@ -330,8 +306,51 @@ class MyForm(QtGui.QMainWindow):
             self.ui.chBbd.setChecked(True)
             self.alert("La base de datos Existe")
 
-    def test_data(self,opcion):
-        pass
+    def test_data(self,nombre_dato):
+        nombre_dato=str(self.ui.cVariable.currentText())
+
+        dict_valores_datos = {
+            "Brillo Solar": "BS",
+            "Evaporacion": "EV",
+            "Humedad Relativa": "HR",
+            "Temp.Max": "TMX",
+            "Temp.Media": "TMD",
+            "Temp.Min": "TMN",
+            "Velocidad": "VD",
+            "Estaciones":"est",
+            "Punto de Rocio":"pr",
+            "Radiacion Extraterrestre":"rad"}
+
+        dict_nombres_checks = {
+            "Brillo Solar": "bs",
+            "Evaporacion": "ev",
+            "Humedad Relativa": "hr",
+            "Temp.Max": "tx",
+            "Temp.Media": "tm",
+            "Temp.Min": "tn",
+            "Velocidad": "ve",
+            "Estaciones": "est",
+            "Punto de Rocio": "pr",
+            "Radiacion Extraterrestre": "rad"}
+        try:
+            con = psycopg2.connect(database=self.ui.lDb.text(),
+                                   user=self.ui.lUsr.text(),
+                                   password=self.ui.lPass.text(),
+                                   host=self.ui.lHost.text(),
+                                   port=self.ui.lPort.text())
+            con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)  # <-- ADD THIS LINE
+            cursor = con.cursor()
+            cursor.execute("SELECT COUNT(*) = 0 FROM public.variable WHERE variable = '%s'"%(dict_variables_mensuales[nombre_dato]))
+            not_exists_row = cursor.fetchone()
+            not_exists = not_exists_row[0]
+        except:
+            not_exists = True
+        if not_exists:
+            self.ui.chBbd.setChecked(False)
+            self.alert("La base de datos no Existe")
+        else:
+            self.ui.chBbd.setChecked(True)
+            self.alert("La base de datos Existe")
 
 
 

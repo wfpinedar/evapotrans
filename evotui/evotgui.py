@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\Fercho\Desktop\EVAPOTRANS\EVAPOTRANS\evapotrans\evotui\evotgui.ui'
+# Form implementation generated from reading ui file 'E:\DOCUMENTOS\GitHub\evapotrans\evotui\evotgui.ui'
 #
-# Created by: PyQt4 UI code generator 4.11.4
+# Created: Sat Dec 09 10:20:16 2017
+#      by: PyQt4 UI code generator 4.11
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -82,7 +83,6 @@ class Ui_MainWindow(object):
         self.cBdop = QtGui.QComboBox(self.groupBox_2)
         self.cBdop.setGeometry(QtCore.QRect(120, 37, 181, 22))
         self.cBdop.setObjectName(_fromUtf8("cBdop"))
-        self.cBdop.addItem(_fromUtf8(""))
         self.cBdop.addItem(_fromUtf8(""))
         self.cBdop.addItem(_fromUtf8(""))
         self.cBdop.addItem(_fromUtf8(""))
@@ -213,18 +213,18 @@ class Ui_MainWindow(object):
         self.groupBox_6 = QtGui.QGroupBox(self.groupBox_3)
         self.groupBox_6.setGeometry(QtCore.QRect(380, 150, 291, 71))
         self.groupBox_6.setObjectName(_fromUtf8("groupBox_6"))
-        self.checkBox = QtGui.QCheckBox(self.groupBox_6)
-        self.checkBox.setEnabled(False)
-        self.checkBox.setGeometry(QtCore.QRect(20, 19, 70, 17))
-        self.checkBox.setObjectName(_fromUtf8("checkBox"))
-        self.checkBox_2 = QtGui.QCheckBox(self.groupBox_6)
-        self.checkBox_2.setEnabled(False)
-        self.checkBox_2.setGeometry(QtCore.QRect(140, 20, 121, 17))
-        self.checkBox_2.setObjectName(_fromUtf8("checkBox_2"))
-        self.checkBox_3 = QtGui.QCheckBox(self.groupBox_6)
-        self.checkBox_3.setEnabled(False)
-        self.checkBox_3.setGeometry(QtCore.QRect(140, 40, 151, 17))
-        self.checkBox_3.setObjectName(_fromUtf8("checkBox_3"))
+        self.cB_est = QtGui.QCheckBox(self.groupBox_6)
+        self.cB_est.setEnabled(False)
+        self.cB_est.setGeometry(QtCore.QRect(20, 19, 70, 17))
+        self.cB_est.setObjectName(_fromUtf8("cB_est"))
+        self.cB_pr = QtGui.QCheckBox(self.groupBox_6)
+        self.cB_pr.setEnabled(False)
+        self.cB_pr.setGeometry(QtCore.QRect(140, 20, 121, 17))
+        self.cB_pr.setObjectName(_fromUtf8("cB_pr"))
+        self.cB_rad = QtGui.QCheckBox(self.groupBox_6)
+        self.cB_rad.setEnabled(False)
+        self.cB_rad.setGeometry(QtCore.QRect(140, 40, 151, 17))
+        self.cB_rad.setObjectName(_fromUtf8("cB_rad"))
         self.eporttab = QtGui.QWidget()
         self.eporttab.setObjectName(_fromUtf8("eporttab"))
         self.label_9 = QtGui.QLabel(self.eporttab)
@@ -244,6 +244,7 @@ class Ui_MainWindow(object):
         self.layoutWidget.setGeometry(QtCore.QRect(10, 20, 101, 111))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.verticalLayout_5 = QtGui.QVBoxLayout(self.layoutWidget)
+        self.verticalLayout_5.setMargin(0)
         self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
         self.rAnio = QtGui.QRadioButton(self.layoutWidget)
         self.rAnio.setObjectName(_fromUtf8("rAnio"))
@@ -316,6 +317,7 @@ class Ui_MainWindow(object):
         self.layoutWidget1.setGeometry(QtCore.QRect(143, 44, 301, 71))
         self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
         self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget1)
+        self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.horizontalLayout_5 = QtGui.QHBoxLayout()
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
@@ -338,10 +340,13 @@ class Ui_MainWindow(object):
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 728, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
+        self.menuWindows = QtGui.QMenu(self.menubar)
+        self.menuWindows.setObjectName(_fromUtf8("menuWindows"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
+        self.menubar.addAction(self.menuWindows.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.rAnio, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.anio2.setEnabled)
@@ -371,10 +376,9 @@ class Ui_MainWindow(object):
         self.label_37.setText(_translate("MainWindow", "Archivo a Importar", None))
         self.label_38.setText(_translate("MainWindow", "Operación", None))
         self.cBdop.setItemText(0, _translate("MainWindow", "Crear Base de Datos", None))
-        self.cBdop.setItemText(1, _translate("MainWindow", "Borrar Base de Datos", None))
-        self.cBdop.setItemText(2, _translate("MainWindow", "Exportar Base de Datos", None))
-        self.cBdop.setItemText(3, _translate("MainWindow", "Importar Base de Datos", None))
-        self.cBdop.setItemText(4, _translate("MainWindow", "Verificar Base de Datos", None))
+        self.cBdop.setItemText(1, _translate("MainWindow", "Exportar Base de Datos", None))
+        self.cBdop.setItemText(2, _translate("MainWindow", "Importar Base de Datos", None))
+        self.cBdop.setItemText(3, _translate("MainWindow", "Verificar Base de Datos", None))
         self.groupBox_4.setTitle(_translate("MainWindow", "Parámetros de Conexión", None))
         self.label_32.setText(_translate("MainWindow", "Contraseña", None))
         self.label_33.setText(_translate("MainWindow", "Base de Datos", None))
@@ -399,9 +403,9 @@ class Ui_MainWindow(object):
         self.cB_ev.setText(_translate("MainWindow", "Evaporación", None))
         self.cB_tn.setText(_translate("MainWindow", "Temperatura Mínima", None))
         self.groupBox_6.setTitle(_translate("MainWindow", "Otros Datos", None))
-        self.checkBox.setText(_translate("MainWindow", "Estaciones", None))
-        self.checkBox_2.setText(_translate("MainWindow", "Tabla Punto de Rocio", None))
-        self.checkBox_3.setText(_translate("MainWindow", "Tabla Rad. Estraterrestre", None))
+        self.cB_est.setText(_translate("MainWindow", "Estaciones", None))
+        self.cB_pr.setText(_translate("MainWindow", "Tabla Punto de Rocio", None))
+        self.cB_rad.setText(_translate("MainWindow", "Tabla Rad. Estraterrestre", None))
         self.eporttab.setWindowTitle(_translate("MainWindow", "Consulta de Datos", None))
         self.label_9.setText(_translate("MainWindow", "Año Inicial:", None))
         self.label_10.setText(_translate("MainWindow", "Año Final:", None))
@@ -425,5 +429,6 @@ class Ui_MainWindow(object):
         self.bExport.setText(_translate("MainWindow", "Ejecutar Consulta", None))
         self.cExcl.setText(_translate("MainWindow", "Excel", None))
         self.cShp.setText(_translate("MainWindow", "Shapefile", None))
+        self.menuWindows.setTitle(_translate("MainWindow", "Windows", None))
 
 import ofolder_rc
