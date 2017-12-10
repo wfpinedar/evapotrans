@@ -731,6 +731,22 @@
         </property>
        </widget>
       </widget>
+      <widget class="QCheckBox" name="cB_datos">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>150</y>
+         <width>101</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Datos Cargados</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="eporttab">

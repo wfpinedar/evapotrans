@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'E:\DOCUMENTOS\GitHub\evapotrans\evotui\evotgui.ui'
 #
-# Created: Sat Dec 09 11:14:30 2017
+# Created: Sat Dec 09 17:56:31 2017
 #      by: PyQt4 UI code generator 4.11
 #
 # WARNING! All changes made in this file will be lost!
@@ -226,6 +226,10 @@ class Ui_MainWindow(object):
         self.cB_rad.setEnabled(False)
         self.cB_rad.setGeometry(QtCore.QRect(140, 40, 151, 17))
         self.cB_rad.setObjectName(_fromUtf8("cB_rad"))
+        self.cB_datos = QtGui.QCheckBox(self.groupBox_3)
+        self.cB_datos.setEnabled(False)
+        self.cB_datos.setGeometry(QtCore.QRect(230, 150, 101, 17))
+        self.cB_datos.setObjectName(_fromUtf8("cB_datos"))
         self.eporttab = QtGui.QWidget()
         self.eporttab.setObjectName(_fromUtf8("eporttab"))
         self.label_9 = QtGui.QLabel(self.eporttab)
@@ -408,6 +412,7 @@ class Ui_MainWindow(object):
         self.cB_est.setText(_translate("MainWindow", "Estaciones", None))
         self.cB_pr.setText(_translate("MainWindow", "Tabla Punto de Rocio", None))
         self.cB_rad.setText(_translate("MainWindow", "Tabla Rad. Estraterrestre", None))
+        self.cB_datos.setText(_translate("MainWindow", "Datos Cargados", None))
         self.eporttab.setWindowTitle(_translate("MainWindow", "Consulta de Datos", None))
         self.label_9.setText(_translate("MainWindow", "Año Inicial:", None))
         self.label_10.setText(_translate("MainWindow", "Año Final:", None))
