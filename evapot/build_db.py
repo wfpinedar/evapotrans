@@ -17,7 +17,7 @@ def build_db(db,us,host,port,pas):
     else:
         print "DB evot exist"
     ### conexion a Evot
-    con1 = psycopg2.connect (database = "evot", user="postgres", password="postgres", host="localhost", port="5432")
+    con1 = psycopg2.connect(database="postgres", user=us, password=pas, host=host, port=port)
     con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cursor1 = con1.cursor()
     cursor1.execute('''CREATE EXTENSION postgis ;''')

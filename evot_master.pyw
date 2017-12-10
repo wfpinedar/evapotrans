@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 import sys
 from evotui.evotgui import *
-from evapot.query_maker import *
 from evapot.query_maker_all import *
 from evapot.export_2_excel import *
 from evapot.export_rast import *
-from evapot.create_load_bd import *
 from evapot.load_formulas import *
 from evapot.add_geoColum import *
-from evapot.build_db import bkp_db
-from evapot.build_db import res_db
-from evapot.build_db import drop_db
 from evapot.tmp_dec_pm import *
+from evapot.build_db import *
+from evapot.load_station import *
+from evapot.load_variable import *
+from evapot.load_rad_har import *
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -191,7 +190,7 @@ class MyForm(QtGui.QMainWindow):
                     self.alert("Archivo de %s ha sido cargado con exito"%(nombre_dato))
 
                 if nombre_dato == "Estaciones":
-                    load_station(r"%s" % (str(self.ui.lRuta_var.text())), bd, "estacion")
+                    load_station(r"%s" % (str(self.ui.lRuta_var.text())), bd, usr, pas, host, port, "estacion")
                     cal_geoColum(bd, "estacion", usr, host, port, pas)
                     self.alert("Archivo de estaciones ha sido cargado con exito")
 
@@ -299,12 +298,24 @@ class MyForm(QtGui.QMainWindow):
         host = str(self.ui.lHost.text())
         bd = str(self.ui.lDb.text())
 
-        make_excel(get_table(self.ui.lDb.text(), load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
+        make_excel(get_table(self.ui.lDb.text(),usr,pas,host,port, load_query(self.ui.cTipo.currentText(),self.ui.cAgrup.currentText(),self.ui.cMetho.currentText(),
                                    self.ui.cPeriodicidad.currentText(), self.ui.anio1.text(), self.ui.anio2.text(),bd,usr, host, port, pas)),
                                    self.ui.lRuta.text(), self.ui.lShpName.text())
 
     def rasExport(self):
-        make_rast(self.ui.lShpName.text(), self.ui.lRuta.text(), self.ui.cPeriodicidad.currentText(),self.ui.cTipo.currentText())
+        pow=self.ui.sBpow.value()
+        max=self.ui.sBmaxp.value()
+        min=self.ui.sBminp.value()
+        rad=self.ui.dSBradio.value()
+        nodata=self.ui.dSBnodata.value()
+        left=self.ui.dSB_left.value()
+        bot=self.ui.dSB_bot.value()
+        right=self.ui.dSB_right.value()
+        top=self.ui.dSB_top.value()
+        alto=self.ui.sBhei.value()
+        ancho=self.ui.sBwid.value()
+
+        make_rast(self.ui.lShpName.text(), self.ui.lRuta.text(), self.ui.cPeriodicidad.currentText(),self.ui.cTipo.currentText(),pow,max,min,rad,nodata,left,bot,right,top,alto,ancho)
 
     def dataExport(self):
         usr = str(self.ui.lUsr.text())
