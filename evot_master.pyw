@@ -11,6 +11,7 @@ from evapot.add_geoColum import *
 from evapot.build_db import bkp_db
 from evapot.build_db import res_db
 from evapot.build_db import drop_db
+from evapot.tmp_dec_pm import *
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT # <-- ADD THIS LINE
 
@@ -187,20 +188,21 @@ class MyForm(QtGui.QMainWindow):
                                  "Temperatura Media", "Velocidad del Viento"]:
 
                     load_variable(r"%s" % (str(self.ui.lRuta_var.text())), bd,'variable',usr, host, port, pas)
-                    self.alert("Archivo de %s cargado con exito"%(nombre_dato))
+                    self.alert("Archivo de %s ha sido cargado con exito"%(nombre_dato))
 
                 if nombre_dato == "Estaciones":
                     load_station(r"%s" % (str(self.ui.lRuta_var.text())), bd, "estacion")
                     cal_geoColum(bd, "estacion", usr, host, port, pas)
-                    self.alert("Archivo de estaciones cargado con exito")
+                    self.alert("Archivo de estaciones ha sido cargado con exito")
 
                 if nombre_dato in ["Punto de Rocio", "Radiacion Extraterrestre"]:
                     if nombre_dato =="Radiacion Extraterrestre":
                         load_rad_har(r"%s" % (str(self.ui.lRuta_var.text())), bd,'rad_extra_har',usr, host, port, pas)
-                        self.alert("Archivo de Radiacion Extraterrestre cargado con exito")
+                        self.alert("Archivo de Radiacion Extraterrestre ha sido cargado con exito")
                     else:
                         load_rad_har(r"%s" % (str(self.ui.lRuta_var.text())), bd, 'p_rocio_ln', usr, host, port, pas)
-                        self.alert("Archivo de Punto de Rocio cargado con exito")
+                        self.alert("Archivo de Punto de Rocio ha sido cargado con exito")
+                self.test_data()
 
             elif opcion_data == "Eliminar Datos":
                 opcion=str(self.ui.cVariable.currentText())
@@ -239,6 +241,36 @@ class MyForm(QtGui.QMainWindow):
 
         self.alert("La Tabla %s ha sido borrada con exito"%(opcion))
         self.test_data()
+
+    def aditional_tables(self):
+        usr = str(self.ui.lUsr.text())
+        pas = str(self.ui.lPass.text())
+        port = str(self.ui.lPort.text())
+        host = str(self.ui.lHost.text())
+        bd = str(self.ui.lDb.text())
+
+        con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host, port=port)
+        con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        cursor1 = con1.cursor()
+        try:
+            cursor1.execute("DROP prom_dec")
+        except:
+            pass
+        try:
+            cursor1.execute("DROP table prom_men")
+
+        except:
+            pass
+        try:
+            cursor1.execute("DROP table prom_anio")
+        except:
+            pass
+        try:
+            cursor1.execute("DROP table tmp_dec_pm")
+        except:
+            pass
+
+
 
     def alert(self, msg, icon=QtGui.QMessageBox.Warning):
         d = QtGui.QMessageBox()
@@ -281,44 +313,63 @@ class MyForm(QtGui.QMainWindow):
         host = str(self.ui.lHost.text())
         bd = str(self.ui.lDb.text())
 
-        if self.ui.cAgrup.currentText() == "Promedio" and self.ui.cPeriodicidad.currentText() == "Decadal" and self.ui.cTipo.currentText() == "Variable":
-            self.alert("El Promedio Decadal para Variables es igual al mensual, por favor ejecute el mensual")
+        con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host, port=port)
+        con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        cursor1 = con1.cursor()
 
-        else:
-            con1 = psycopg2.connect(database=bd, user=usr, password=pas, host=host, port=port)
-            con1.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-            cursor1 = con1.cursor()
+        if self.ui.cB_datos.isChecked():
             try:
-                cursor1.execute("DROP table tmp_query_mensual")
+                cursor1.execute("TRUNCATE table prom_dec")
             except:
                 pass
             try:
-                cursor1.execute("DROP table tmp_query_prom")
+                cursor1.execute("TRUNCATE table prom_men")
 
             except:
                 pass
             try:
-                cursor1.execute("DROP table tmp_query_prom1")
+                cursor1.execute("DROP table tmp_dec_pm")
             except:
                 pass
+            try:
+                cursor1.execute("TRUNCATE table prom_anio")
+            except:
+                pass
+            # creando las tablas de promedios anuales mensuales y decadales
+            txt = open(r".\sql\tablas_decadales_mensuales_anuales.txt", "r")
+            ctable_e = '''%s''' % (txt.read())
+            cursor1.execute(ctable_e)
+            txt.close()
+            tmp_prom_dec(usr,pas,port,host,bd) # creacion de la tabla tmp_dec_pm
 
-            if self.ui.cShp.isChecked() and self.ui.cExcl.isChecked() and self.ui.cExcl_2.isChecked():
-                self.shpExport()
-                self.excExport()
-                self.rasExport()
-            elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked():
-                self.shpExport()
-                self.excExport()
-            elif self.ui.cShp.isChecked() and self.ui.cExcl_2.isChecked():
-                self.shpExport()
-                self.rasExport()
-            elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked()is not True:
-                self.shpExport()
-            elif self.ui.cShp.isChecked() is not True and self.ui.cExcl.isChecked():
-                self.excExport()
+            self.alert("Tablas auxiliares creadas con exito")
+
+
+
+
+            if self.ui.cAgrup.currentText() == "Promedio" and self.ui.cPeriodicidad.currentText() == "Decadal" and self.ui.cTipo.currentText() == "Variable":
+                self.alert("El Promedio Decadal para Variables es igual al mensual, por favor ejecute el mensual")
+
             else:
-                self.alert("Seleccione el formato de salida del Archivo")
 
+                if self.ui.cShp.isChecked() and self.ui.cExcl.isChecked() and self.ui.cExcl_2.isChecked():
+                    self.shpExport()
+                    self.excExport()
+                    self.rasExport()
+                elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked():
+                    self.shpExport()
+                    self.excExport()
+                elif self.ui.cShp.isChecked() and self.ui.cExcl_2.isChecked():
+                    self.shpExport()
+                    self.rasExport()
+                elif self.ui.cShp.isChecked() and self.ui.cExcl.isChecked()is not True:
+                    self.shpExport()
+                elif self.ui.cShp.isChecked() is not True and self.ui.cExcl.isChecked():
+                    self.excExport()
+                else:
+                    self.alert("Seleccione el formato de salida del Archivo")
+        else:
+            self.alert("Por favor primero valide el cargue de los datos")
             #self.ui.lRuta.clear()
             #self.ui.lShpName.clear()
 
